@@ -8,8 +8,16 @@
     });
 
   /** @ngInject */
-  function deviceDetailComponent() {
+  function deviceDetailComponent($stateParams, Category, Device, toastr) {
     var vm = this;
-
+    vm.$onInit = function () {
+      Category.getCategories()
+        .then(function (response) {
+          vm.categories = response.data;
+        })
+        .catch(function () {
+          toastr.error('Error on load categories', 'Error');
+        });
+    }
   }
 })();

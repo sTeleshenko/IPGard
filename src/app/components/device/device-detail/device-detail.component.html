@@ -2,8 +2,10 @@
   <div class="col-xs-12"></div>
   <div class="col-md-3">
     <div class="list-group">
-      <a href="#" class="list-group-item">
-        Cras justo odio
+      <a href="#"
+         class="list-group-item"
+         ng-repeat="category in vm.categories">
+          {{category.title}}
       </a>
     </div>
   </div>

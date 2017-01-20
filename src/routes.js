@@ -45,7 +45,7 @@ function routesConfig($stateProvider, $urlRouterProvider, $locationProvider) {
       parent: 'main',
       component: 'fieldsComponent',
       data: {
-        roles: allRoles
+        roles: ['admin']
       }
     })
     .state('device', {
@@ -53,7 +53,7 @@ function routesConfig($stateProvider, $urlRouterProvider, $locationProvider) {
       parent: 'main',
       component: 'deviceDetailComponent',
       data: {
-        roles: ['admin']
+        roles: allRoles
       }
     })
     .state('login', {

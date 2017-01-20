@@ -16,7 +16,7 @@
           vm.categories = response.data;
         })
         .catch(function () {
-          toastr.error('Something went wrong', 'Error');
+          toastr.error('Error on load categories', 'Error');
         })
     };
     vm.openCategoryModal = function (category, index) {
