@@ -1,0 +1,46 @@
+<form ng-submit="vm.save()" name="vm.form">
+  <div class="modal-header">
+    <h4>Category details</h4>
+  </div>
+  <div class="modal-body">
+    <div class="form-group">
+      <label for="categoryName">Name</label>
+      <input type="text"
+             ng-model="vm.category.title"
+             id="categoryName"
+             name="categoryName"
+             class="form-control"
+             required
+             placeholder="category name">
+    </div>
+    <div class="form-group">
+      <div class="checkbox">
+        <label>
+          <input type="checkbox" ng-model="vm.category.production">
+          Production
+        </label>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="checkbox">
+        <label>
+          <input type="checkbox" ng-model="vm.category.sales">
+          Sales
+        </label>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="checkbox">
+        <label>
+          <input type="checkbox" ng-model="vm.category.published">
+          Published
+        </label>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="submit" class="btn btn-primary" ng-disabled="vm.form.$invalid">Save</button>
+    <button type="button" class="btn btn-warning" ng-click="vm.cancel()">Cancel</button>
+  </div>
+
+</form>
