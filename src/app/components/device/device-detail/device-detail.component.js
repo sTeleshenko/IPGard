@@ -18,6 +18,13 @@
         .catch(function () {
           toastr.error('Error on load categories', 'Error');
         });
+      Device.getDevice($stateParams.id)
+        .then(function (response) {
+          vm.device = response.data;
+        })
+        .catch(function () {
+          toastr.error('Error on load this device', 'Error');
+        })
     }
   }
 })();

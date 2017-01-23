@@ -1,0 +1,41 @@
+<form ng-submit="vm.save()" name="vm.form">
+  <div class="modal-header">
+    <h4>Document details</h4>
+  </div>
+  <div class="modal-body">
+    <div ng-repeat="obj in vm.document.fields">
+      <div class="form-group" ng-if="obj.field.type.value === 'number'">
+        <label for="{{obj.field.title}}">{{obj.field.title}}</label>
+        <input type="number"
+               ng-model="obj.value"
+               id="{{obj.field.title}}"
+               name="{{obj.field.title}}"
+               class="form-control"
+               ng-required="obj.field.required">
+      </div>
+      <div class="form-group" ng-if="obj.field.type.value === 'text'">
+        <label for="{{obj.field.title}}">{{obj.field.title}}</label>
+        <input type="text"
+               ng-model="obj.value"
+               id="{{obj.field.title}}"
+               name="{{obj.field.title}}"
+               class="form-control"
+               ng-required="obj.field.required">
+      </div>
+      <div class="form-group" ng-if="obj.field.type.value === 'longText'">
+        <label for="{{obj.field.title}}">{{obj.field.title}}</label>
+        <textarea
+                ng-model="obj.value"
+                id="{{obj.field.title}}"
+                name="{{obj.field.title}}"
+                class="form-control"
+                ng-required="obj.field.required"></textarea>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="submit" class="btn btn-primary" ng-disabled="vm.form.$invalid">Save</button>
+    <button type="button" class="btn btn-warning" ng-click="vm.cancel()">Cancel</button>
+  </div>
+
+</form>

@@ -12,8 +12,8 @@
       </div>
       <div class="collapse navbar-collapse" uib-collapse="vm.isNavCollapsed">
         <ul class="nav navbar-nav">
-          <li has-role="['admin', 'productionAdmin', 'salesAdmin']"><a ui-sref="users">Users</a></li>
-          <li has-role="['admin']"><a ui-sref="categories">Categories</a></li>
+          <li has-role="['admin', 'productionAdmin', 'salesAdmin']" ui-sref-active="active"><a ui-sref="users">Users</a></li>
+          <li has-role="['admin']" ui-sref-active="active"><a ui-sref="categories">Categories</a></li>
         </ul>
         <p class="navbar-text navbar-right visible-xs">{{vm.user.name}}</p>
         <ul class="nav navbar-nav navbar-right">

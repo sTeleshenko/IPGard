@@ -56,6 +56,14 @@ function routesConfig($stateProvider, $urlRouterProvider, $locationProvider) {
         roles: allRoles
       }
     })
+    .state('device.category', {
+      url: '/:categoryId',
+      parent: 'device',
+      component: 'deviceCategoryComponent',
+      data: {
+        roles: allRoles
+      }
+    })
     .state('login', {
       url: '/login',
       component: 'loginComponent'
