@@ -1,5 +1,5 @@
 angular
-  .module('app', ['ui.router', 'ui.bootstrap', 'ngMessages', 'LocalStorageModule', 'toastr', 'ngAnimate'])
+  .module('app', ['ui.router', 'ui.bootstrap', 'ngMessages', 'LocalStorageModule', 'toastr', 'ngAnimate', 'angular.chips','ngFileUpload'])
   .config(function ($httpProvider) {
     $httpProvider.interceptors.push('AuthInterceptor');
   })

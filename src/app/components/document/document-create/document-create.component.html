@@ -25,11 +25,42 @@
       <div class="form-group" ng-if="obj.field.type.value === 'longText'">
         <label for="{{obj.field.title}}">{{obj.field.title}}</label>
         <textarea
-                ng-model="obj.value"
+          ng-model="obj.value"
+          id="{{obj.field.title}}"
+          name="{{obj.field.title}}"
+          class="form-control"
+          ng-required="obj.field.required"></textarea>
+      </div>
+      <div class="form-group" ng-if="obj.field.type.value === 'select'">
+        <label for="{{obj.field.title}}">{{obj.field.title}}</label>
+        <select ng-model="obj.value"
                 id="{{obj.field.title}}"
                 name="{{obj.field.title}}"
                 class="form-control"
-                ng-required="obj.field.required"></textarea>
+                ng-required="obj.field.required"
+                ng-options="option as option for option in obj.field.options">
+        </select>
+      </div>
+      <div class="form-group" ng-if="obj.field.type.value === 'file'">
+        <label for="{{obj.field.title}}">{{obj.field.title}}</label>
+        <div class="load-progress">
+          <uib-progressbar max="100" value="obj.progress" ng-if="obj.progress >= 0">
+            <span style="color:white; white-space:nowrap;">{{obj.progress}} / 100</span>
+          </uib-progressbar>
+        </div>
+        <div class="clearfix"></div>
+        <div class="input-group" ngf-select="vm.upload($file, obj)">
+          <span class="input-group-btn">
+            <button class="btn btn-default" type="button">Go!</button>
+          </span>
+          <input type="text"
+                 id="{{obj.field.title}}"
+                 name="{{obj.field.title}}"
+                 ng-model="obj.value.originalname"
+                 class="form-control"
+                 ng-required="obj.field.required"
+                 readonly>
+        </div>
       </div>
     </div>
   </div>

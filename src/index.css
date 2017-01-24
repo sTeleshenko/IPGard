@@ -6,3 +6,10 @@ login-component{
   width: 150px;
   text-align: center;
 }
+.load-progress{
+  float: right;
+  width: 150px;
+}
+.load-progress>.progress{
+  margin-bottom: 0;
+}

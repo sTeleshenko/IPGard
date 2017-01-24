@@ -27,16 +27,8 @@
 
     // var fields = [
     //   {
-    //     label: 'Number',
-    //     value: 'number'
-    //   },
-    //   {
-    //     label: 'String',
-    //     value: 'text'
-    //   },
-    //   {
-    //     label: 'Long text',
-    //     value: 'longText'
+    //     label: 'File',
+    //     value: 'file'
     //   }
     // ]
     // fields.forEach(function (item) {
