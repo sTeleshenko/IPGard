@@ -14,7 +14,7 @@
     }
 
     self.login = function (data) {
-      return $http.post('http://localhost:8080/api/auth/local', data)
+      return $http.post('/api/auth/local', data)
         .then(function (response) {
           localStorageService.set('token', response.data.token);
           self.isLoggedin = true;
@@ -34,7 +34,7 @@
     };
 
     function me() {
-      return $http.get('http://localhost:8080/api/users/me')
+      return $http.get('/api/users/me')
         .then(function (response) {
           return response.data;
         });

@@ -11,7 +11,7 @@
       return $http.get('http://localhost:8080/api/documents?product=' + deviceId + '&category=' + categoryId);
     };
     // self.getDevice = function (id) {
-    //   return $http.get('http://localhost:8080/api/products/' + id);
+    //   return $http.get('/api/products/' + id);
     // };
     self.createDocument = function (document) {
       return $http.post('http://localhost:8080/api/documents', document)

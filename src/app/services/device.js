@@ -47,7 +47,7 @@
     //     }
     //   ];
     //   products.forEach(function (product) {
-    //     return $http.post('http://localhost:8080/api/products', product);
+    //     return $http.post('/api/products', product);
     //   })
     // }
   }

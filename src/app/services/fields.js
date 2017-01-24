@@ -8,21 +8,21 @@
     var self = this;
 
     self.getFields = function (categoryId) {
-      return $http.get('http://localhost:8080/api/fields?category=' + categoryId);
+      return $http.get('/api/fields?category=' + categoryId);
     };
 
     self.createField = function (field) {
-      return $http.post('http://localhost:8080/api/fields', field)
+      return $http.post('/api/fields', field)
     };
 
     self.updateField  = function (field) {
-      return $http.put('http://localhost:8080/api/fields/' + field._id, field)
+      return $http.put('/api/fields/' + field._id, field)
     };
     self.deleteField = function (field) {
-      return $http.delete('http://localhost:8080/api/fields/' + field._id)
+      return $http.delete('/api/fields/' + field._id)
     };
     self.loadTypes = function () {
-      return $http.get('http://localhost:8080/api/types')
+      return $http.get('/api/types')
     };
 
     // var fields = [
@@ -32,7 +32,7 @@
     //   }
     // ]
     // fields.forEach(function (item) {
-    //   $http.post('http://localhost:8080/api/types', item)
+    //   $http.post('/api/types', item)
     // })
   }
 

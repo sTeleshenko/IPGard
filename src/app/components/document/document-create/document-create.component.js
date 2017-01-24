@@ -55,7 +55,7 @@
 
     vm.upload = function (file, obj) {
       Upload.upload({
-        url: 'http://localhost:8080/api/uploads',
+        url: '/api/upload',
         data: {
           file: file
         }
