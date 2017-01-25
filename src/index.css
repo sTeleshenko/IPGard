@@ -13,3 +13,9 @@ login-component{
 .load-progress>.progress{
   margin-bottom: 0;
 }
+/*.form-group label{*/
+  /*display: none;*/
+/*}*/
+/*.input-group input{*/
+  /*padding-left: 10px!important;*/
+/*}*/

@@ -1,10 +1,18 @@
 <div class="row">
-  <div class="col-sm-12 table-responsive">
-    <p>
-      <button class="btn btn-primary"
-              has-role="['admin', 'productionAdmin', 'salesAdmin']"
-              ng-click="vm.openDocumentModal({})">Create</button>
-    </p>
+  <p class="col-sm-12">
+    <button class="btn btn-primary"
+            ng-if="vm.category.type !== 'Form' || vm.category.type === 'Form' && vm.documents.length === 0"
+            has-role="['admin', 'productionAdmin', 'salesAdmin']"
+            ng-click="vm.openDocumentModal({})">Create
+    </button>
+    <button type="button"
+            ng-click="vm.openDocumentModal(vm.documents[0], 0)"
+            ng-if="vm.category.type === 'Form' && vm.documents.length >=1"
+            class="btn btn-primary">
+      Edit
+    </button>
+  </p>
+  <div class="col-sm-12 table-responsive" ng-if="vm.category.type === 'Table'">
     <table class="table table-bordered">
       <thead>
       <th ng-repeat="field in vm.fields | orderBy : '_id'">{{field.title}}</th>
@@ -13,8 +21,9 @@
       <tbody>
       <tr ng-repeat="document in vm.documents">
         <td ng-repeat="field in document.fields | orderBy : 'field._id'">
-          <a href="/api/uploads/{{field.value.filename}}" ng-if="field.field.type.value === 'file'" target="_blank">{{field.value.originalname}}</a>
-          <span ng-if="field.field.type.value !== 'file'">{{field.value}}</span>
+          <a href="/api/uploads/{{field.value.filename}}"
+             ng-if="field.field.type.value === 'file' || field.field.type.value === 'img'" target="_blank">{{field.value.originalname}}</a>
+          <span ng-if="field.field.type.value !== 'file' && field.field.type.value !== 'img'">{{field.value}}</span>
         </td>
         <td class="col-actions" has-role="['admin', 'productionAdmin', 'salesAdmin']">
           <button type="button"
@@ -31,7 +40,45 @@
       </tr>
       </tbody>
     </table>
-
+  </div>
+  <div class="col-md-8 col-md-offset-2" ng-if="vm.category.type === 'Form'">
+    <div class="well well-sm">
+      <div class="form-horizontal">
+        <div class="form-group" ng-repeat="field in vm.documents[0].fields">
+          <label class="col-sm-4 control-label">{{field.field.title}}</label>
+          <div class="col-sm-8">
+            <p class="form-control-static">
+              <a href="/api/uploads/{{field.value.filename}}"
+                 ng-if="field.field.type.value === 'file'" target="_blank">{{field.value.originalname}}</a>
+              <a href="/api/uploads/{{field.value.filename}}" target="_blank" ng-if="field.field.type.value === 'img'">
+                <img ng-src="/api/uploads/{{field.value.filename}}" style="width: 150px;">
+              </a>
+              <span ng-if="field.field.type.value !== 'file' && field.field.type.value !== 'img'">{{field.value}}</span>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-12" ng-if="vm.category.type === 'Gallery'">
+    <div uib-carousel active="vm.active" interval="0">
+      <div uib-slide ng-repeat="document in vm.documents track by $index" index="$index">
+        <img ng-src="/api/uploads/{{document.fields[0].value.filename}}" style="margin:auto; max-height: 450px">
+        <div class="carousel-caption" has-role="['admin', 'productionAdmin', 'salesAdmin']">
+          <p>
+            <a href="/api/uploads/{{document.fields[0].value.filename}}"
+               class="btn btn-sm btn-success"
+               download="{{document.fields[0].value.originalname}}"
+               target="_blank">Download</a>
+            <button type="button"
+                    ng-click="vm.delete(document, $index)"
+                    class="btn btn-danger btn-sm">
+              Delete
+            </button>
+          </p>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 

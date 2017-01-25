@@ -9,6 +9,7 @@
       <th>Production</th>
       <th>Sales</th>
       <th>Published</th>
+      <th>Type</th>
       <th>Date create</th>
       <th class="col-actions">Actions</th>
       </thead>
@@ -18,6 +19,7 @@
         <td>{{category.production}}</td>
         <td>{{category.sales}}</td>
         <td>{{category.published}}</td>
+        <td>{{category.type}}</td>
         <td>{{category.dateCreate | date : 'dd.MM.yyyy HH:mm'}}</td>
         <td class="col-actions">
           <a ui-sref="fields({id: category._id})" class="btn btn-success btn-sm">

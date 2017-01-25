@@ -29,6 +29,7 @@
 
     self.logOut = function () {
       localStorageService.remove('token');
+      localStorageService.remove('deviceFilters');
       self.isLoggedin = false;
       currentUser = {};
     };

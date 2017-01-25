@@ -1,7 +1,9 @@
 angular
-  .module('app', ['ui.router', 'ui.bootstrap', 'ngMessages', 'LocalStorageModule', 'toastr', 'ngAnimate', 'angular.chips','ngFileUpload'])
-  .config(function ($httpProvider) {
+  .module('app', ['ui.router', 'ui.bootstrap', 'ngMessages', 'angular-loading-bar', 'LocalStorageModule', 'toastr', 'ngAnimate', 'angular.chips','ngFileUpload'])
+  .config(function ($httpProvider, $compileProvider) {
     $httpProvider.interceptors.push('AuthInterceptor');
+    $httpProvider.useApplyAsync(true);
+    $compileProvider.debugInfoEnabled(false);
   })
   .run(function ($transitions, $q) {
     var match = {

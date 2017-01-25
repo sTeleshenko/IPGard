@@ -8,12 +8,16 @@
     });
 
   /** @ngInject */
-  function deviceCategoryComponent($stateParams, Documents, Fields, $uibModal) {
+  function deviceCategoryComponent($stateParams, Documents, Fields, $uibModal, Category) {
     var vm = this;
     vm.$onInit = function () {
       Documents.getAll($stateParams.id, $stateParams.categoryId)
         .then(function (response) {
           vm.documents = response.data;
+        });
+      Category.getCategory($stateParams.categoryId)
+        .then(function (response) {
+          vm.category = response.data;
         });
       Fields.getFields($stateParams.categoryId)
         .then(function (response) {

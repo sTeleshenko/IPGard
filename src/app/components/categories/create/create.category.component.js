@@ -17,6 +17,8 @@
     var vm = this;
     vm.$onInit = function () {
       vm.category = vm.resolve.category;
+
+      vm.categoryType = ['Table', 'Form', 'Gallery'];
     };
     vm.cancel = function () {
       vm.dismiss({$value: 'cancel'});
