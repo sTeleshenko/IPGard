@@ -4,7 +4,7 @@
     <p ng-if="vm.category.type !== 'Gallery'">
       <button class="btn btn-primary" ng-click="vm.openFieldModal({})">Create</button>
     </p>
-    <table class="table table-bordered">
+    <table class="table table-bordered" ng-if="vm.fields.length > 0">
       <thead>
       <th>Field name</th>
       <th>Field type</th>
@@ -31,6 +31,10 @@
       </tr>
       </tbody>
     </table>
-
+  </div>
+  <div class="col-xs-12" ng-if="vm.fields.length === 0">
+    <div class="jumbotron text-center">
+      <h4>Selected category don't has any field.</h4>
+    </div>
   </div>
 </div>

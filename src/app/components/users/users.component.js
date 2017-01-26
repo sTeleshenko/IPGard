@@ -37,8 +37,6 @@
       });
 
       modalInstance.result.then(function (result) {
-        // // vm.selected = selectedItem;
-        // console.log(result)
         if(user._id === result._id) {
           vm.users[index] = result;
         } else {

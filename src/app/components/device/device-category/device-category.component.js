@@ -11,6 +11,7 @@
   function deviceCategoryComponent($stateParams, Documents, Fields, $uibModal, Category) {
     var vm = this;
     vm.$onInit = function () {
+      vm.categoryId = $stateParams.categoryId;
       Documents.getAll($stateParams.id, $stateParams.categoryId)
         .then(function (response) {
           vm.documents = response.data;

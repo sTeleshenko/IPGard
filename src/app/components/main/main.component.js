@@ -9,5 +9,9 @@
 
   /** @ngInject */
   function MainController() {
+    var vm = this;
+    vm.$onInit = function () {
+      vm.currentDate = new Date();
+    };
   }
 })();

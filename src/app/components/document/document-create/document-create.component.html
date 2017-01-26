@@ -24,6 +24,17 @@
                class="form-control"
                ng-required="obj.field.required">
       </div>
+      <div class="form-group" ng-if="obj.field.type.value === 'link'">
+        <label for="{{obj.field.title}}">{{obj.field.title}}</label>
+        <input type="text"
+               ng-model="obj.value"
+               placeholder="http://{{obj.field.title}}"
+               id="{{obj.field.title}}"
+               name="{{obj.field.title}}"
+               ng-pattern="/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/"
+               class="form-control"
+               ng-required="obj.field.required">
+      </div>
       <div class="form-group" ng-if="obj.field.type.value === 'longText'">
         <label for="{{obj.field.title}}">{{obj.field.title}}</label>
         <textarea
@@ -87,6 +98,25 @@
                  ng-required="obj.field.required"
                  readonly>
         </div>
+      </div>
+      <div class="form-group" ng-if="obj.field.type.value === 'date'">
+        <label for="{{obj.field.title}}">{{obj.field.title}}</label>
+        <p class="input-group" ng-init="vm.convertDate(obj)">
+          <input type="text"
+                 class="form-control"
+                 uib-datepicker-popup="dd.MM.yyyy"
+                 ng-model="obj.value"
+                 popup-placement="auto"
+                 is-open="obj.open"
+                 ng-required="obj.required"
+                 close-text="Close"  />
+          <span class="input-group-btn">
+            <button type="button"
+                    class="btn btn-default"
+                    ng-click="obj.open = !obj.open">
+              <i class="glyphicon glyphicon-calendar"></i></button>
+          </span>
+        </p>
       </div>
     </div>
   </div>

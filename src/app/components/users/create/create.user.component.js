@@ -33,6 +33,10 @@
         {
           label: 'Sales user',
           value: 'salesUser'
+        },
+        {
+          label: 'Super Admin',
+          value: 'admin'
         }
       ];
       Auth.getCurrentUser()
