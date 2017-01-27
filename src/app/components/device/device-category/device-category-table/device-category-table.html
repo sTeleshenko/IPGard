@@ -5,7 +5,7 @@
     <th class="col-actions" has-role="['admin', 'productionAdmin', 'salesAdmin']">Actions</th>
     </thead>
     <tbody>
-    <tr ng-repeat="document in vm.documents">
+    <tr ng-repeat="document in vm.documents track by document._id">
       <td ng-repeat="field in document.fields | orderBy : 'field._id'">
         <a href="/api/uploads/{{field.value.filename}}"
            ng-if="field.field.type.value === 'file' || field.field.type.value === 'img'"

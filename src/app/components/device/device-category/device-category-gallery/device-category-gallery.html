@@ -1,6 +1,6 @@
 <div class="col-sm-12">
   <div uib-carousel active="vm.active" interval="0">
-    <div uib-slide ng-repeat="document in vm.documents track by $index" index="$index">
+    <div uib-slide ng-repeat="document in vm.documents track by document._id" index="$index">
       <img ng-src="/api/uploads/{{document.fields[0].value.filename}}" style="margin:auto; max-height: 450px; min-height: 100px">
       <div class="carousel-caption" has-role="['admin', 'productionAdmin', 'salesAdmin']">
         <p>

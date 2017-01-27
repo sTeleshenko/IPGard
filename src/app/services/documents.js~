@@ -8,7 +8,7 @@
     var self = this;
 
     self.getAll = function (deviceId, categoryId) {
-      return $http.get('/documents?product=' + deviceId + '&category=' + categoryId);
+      return $http.get('/api/documents?product=' + deviceId + '&category=' + categoryId);
     };
     // self.getDevice = function (id) {
     //   return $http.get('/api/products/' + id);
