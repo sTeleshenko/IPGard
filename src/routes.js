@@ -40,6 +40,22 @@ function routesConfig($stateProvider, $urlRouterProvider, $locationProvider) {
         roles: ['admin']
       }
     })
+    .state('about', {
+      url: '/about',
+      parent: 'main',
+      component: 'aboutComponent',
+      data: {
+        roles: allRoles
+      }
+    })
+    .state('help', {
+      url: '/help',
+      parent: 'main',
+      component: 'helpComponent',
+      data: {
+        roles: allRoles
+      }
+    })
     .state('fields', {
       url: '/categories/:id',
       parent: 'main',
