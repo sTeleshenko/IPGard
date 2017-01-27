@@ -24,6 +24,16 @@
     self.loadTypes = function () {
       return $http.get('/api/types')
     };
+
+    // var fields = [
+    //   {
+    //     label: 'File',
+    //     value: 'file'
+    //   }
+    // ]
+    // fields.forEach(function (item) {
+    //   $http.post('/api/types', item)
+    // })
   }
 
 })();
