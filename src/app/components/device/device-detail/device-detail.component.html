@@ -16,6 +16,10 @@
           {{category.title}}
         </a>
       </li>
+      <li ui-sref-active="active"
+          has-role="['admin', 'salesAdmin', 'salesUser']">
+        <a ui-sref="device.serialNumbers">Serial Number Information</a>
+      </li>
     </ul>
   </div>
   <div class="col-md-9">
