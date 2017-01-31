@@ -16,7 +16,7 @@ body>ui-view>main-component{
   display: flex;
   flex-direction: column;
 }
-body>ui-view>main-component>.container{
+body>ui-view>main-component>.main-states{
   flex-grow: 1;
 }
 login-component{
