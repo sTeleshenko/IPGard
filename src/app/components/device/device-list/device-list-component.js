@@ -8,7 +8,9 @@
       bindings: {
         devices: '<',
         openDeviceModal: '&',
-        delete: '&'
+        delete: '&',
+        sortFilters: '<',
+        onSortFiltersChanged: '&'
       }
     });
 

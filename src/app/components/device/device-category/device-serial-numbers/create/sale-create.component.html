@@ -1,0 +1,62 @@
+<form ng-submit="vm.save()" name="vm.form">
+  <div class="modal-header">
+    <h4>Sale details</h4>
+  </div>
+  <div class="modal-body">
+    <div class="form-group">
+      <label for="salesOrder">Sales Order:</label>
+      <input type="text"
+             ng-model="vm.sale.salesOrder"
+             id="salesOrder"
+             class="form-control"
+             placeholder="Sales Order"
+             required
+             name="salesOrder">
+    </div>
+    <div class="form-group">
+      <label for="clientName">Customer Name:</label>
+      <input type="text"
+             ng-model="vm.sale.clientName"
+             id="clientName"
+             class="form-control"
+             required
+             placeholder="Customer Name"
+             name="clientName">
+    </div>
+    <div class="form-group">
+      <label for="date">Date:</label>
+      <p class="input-group">
+        <input type="text"
+               id="date"
+               class="form-control"
+               uib-datepicker-popup="dd.MM.yyyy"
+               ng-model="vm.sale.date"
+               popup-placement="auto"
+               is-open="open"
+               required
+               close-text="Close"  />
+        <span class="input-group-btn">
+            <button type="button"
+                    class="btn btn-default"
+                    ng-click="open = !open">
+              <i class="glyphicon glyphicon-calendar"></i></button>
+          </span>
+      </p>
+    </div>
+    <div class="form-group">
+      <label for="serialNumber">Serial number:</label>
+      <input type="text"
+             ng-model="vm.sale.serialNumber"
+             id="serialNumber"
+             name="serialNumber"
+             class="form-control"
+             required
+             placeholder="Serial number">
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="submit" class="btn btn-primary" ng-disabled="vm.form.$invalid">Save</button>
+    <button type="button" class="btn btn-warning" ng-click="vm.cancel()">Cancel</button>
+  </div>
+
+</form>

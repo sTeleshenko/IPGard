@@ -1,10 +1,30 @@
 <div class="table-responsive">
   <table class="table table-bordered">
     <thead>
-    <th>Model name</th>
-    <th>Part number</th>
-    <th>UPC</th>
-    <th>Description</th>
+    <th ng-click="vm.onSortFiltersChanged({key: 'model'})">
+      Model name
+      <span class="glyphicon glyphicon-triangle-bottom"
+            ng-class="{reverse: vm.sortFilters.order}"
+            ng-show="vm.sortFilters.sort === 'model'"></span>
+    </th>
+    <th ng-click="vm.onSortFiltersChanged({key: 'partNumber'})">
+      Part number
+      <span class="glyphicon glyphicon-triangle-bottom"
+            ng-class="{reverse: vm.sortFilters.order}"
+            ng-show="vm.sortFilters.sort === 'partNumber'"></span>
+    </th>
+    <th ng-click="vm.onSortFiltersChanged({key: 'upc'})">
+      UPC
+      <span class="glyphicon glyphicon-triangle-bottom"
+            ng-class="{reverse: vm.sortFilters.order}"
+            ng-show="vm.sortFilters.sort === 'upc'"></span>
+    </th>
+    <th ng-click="vm.onSortFiltersChanged({key: 'description'})">
+      Description
+      <span class="glyphicon glyphicon-triangle-bottom"
+            ng-class="{reverse: vm.sortFilters.order}"
+            ng-show="vm.sortFilters.sort === 'description'"></span>
+    </th>
     <th class="col-actions">Actions</th>
     </thead>
     <tbody>

@@ -73,6 +73,14 @@ function routesConfig($stateProvider, $urlRouterProvider, $locationProvider) {
         roles: allRoles
       }
     })
+    .state('device.serialNumbers', {
+      url: '/serialNumber',
+      parent: 'device',
+      component: 'deviceSerialNumbersComponent',
+      data: {
+        roles: sales
+      }
+    })
     .state('device.category', {
       url: '/:categoryId',
       parent: 'device',
@@ -81,14 +89,6 @@ function routesConfig($stateProvider, $urlRouterProvider, $locationProvider) {
         roles: allRoles
       }
 
-    })
-    .state('device.serialNumbers', {
-      url: '/device/serialNumber',
-      parent: 'device',
-      component: 'deviceSerialNumbersComponent',
-      data: {
-        roles: sales
-      }
     })
     .state('login', {
       url: '/login',

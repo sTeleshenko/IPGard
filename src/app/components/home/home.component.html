@@ -6,6 +6,17 @@
     <p><button class="btn btn-primary" has-role="['admin']" ng-click="vm.openDeviceModal({})">Create</button></p>
     <device-list-component devices="vm.devices"
                            delete="vm.delete(device, index)"
+                           sort-filters="vm.sortFilters"
+                           on-sort-filters-changed="vm.onSortFiltersChanged(key)"
                            open-device-modal="vm.openDeviceModal(device, index)"></device-list-component>
+
+    <ul uib-pagination
+        total-items="vm.pagination.total"
+        ng-model="vm.pagination.page"
+        ng-change="vm.loadDevices()"
+        max-size="6"
+        items-per-page="vm.pagination.limit"
+        class="pagination-sm pull-left"
+        boundary-link-numbers="true"></ul>
   </div>
 </div>

@@ -14,26 +14,56 @@
     vm.$onInit = function () {
       // Device.generate();
       vm.devices = [];
+      vm.sortFilters = localStorageService.get('deviceSortFilters') || {
+        sort: 'model',
+        order: true
+      };
+      vm.pagination = {
+        page: 1,
+        limit: 3
+      };
       vm.filters = localStorageService.get('deviceFilters') || {};
-      vm.onFiltersChanged(vm.filters);
+      vm.loadDevices();
     };
 
     vm.onFiltersChanged  = function (filters) {
       localStorageService.set('deviceFilters', filters);
+      vm.filters = filters;
+      vm.loadDevices();
+    };
+
+    vm.onSortFiltersChanged = function (key) {
+      if(vm.sortFilters.sort === key){
+        vm.sortFilters.order = !vm.sortFilters.order;
+      } else {
+        vm.sortFilters.sort = key;
+        vm.sortFilters.order = true;
+      }
+      localStorageService.set('deviceSortFilters', vm.sortFilters);
+      vm.loadDevices();
+    };
+
+    vm.loadDevices = function () {
       var query = '?';
-      for(var key in filters) {
-        if(filters[key]){
-          query = query + key + '=' + filters[key] + '&'
+      for(var key in vm.filters) {
+        if(vm.filters[key]){
+          query = query + key + '=' + vm.filters[key] + '&'
         }
       }
+      query = query + 'sort=' + (vm.sortFilters.order ? '' : '-') + vm.sortFilters.sort + '&';
+      query = query + 'page=' + vm.pagination.page + '&';
+      query = query + 'limit=' + vm.pagination.limit;
       Device.getAll(query)
         .then(function (response) {
-          vm.devices = response.data;
+          vm.devices = response.data.docs;
+          vm.pagination.total = response.data.total;
+          vm.pagination.page = response.data.page;
         })
         .catch(function () {
           toastr.error('Something went wrong', 'Error');
         });
     };
+
     vm.openDeviceModal = function (device, index) {
       var modalInstance = $uibModal.open({
         animation: true,

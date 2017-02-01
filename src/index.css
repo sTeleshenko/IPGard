@@ -60,3 +60,11 @@ device-category-gallery .carousel-caption .btn {
 device-category-gallery .carousel-caption .btn:hover{
   opacity: 1;
 }
+th[ng-click]{
+  user-select: none;
+  cursor: pointer;
+}
+
+.glyphicon.reverse{
+  transform: rotate(-180deg);
+}
