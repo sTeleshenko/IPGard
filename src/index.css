@@ -68,3 +68,6 @@ th[ng-click]{
 .glyphicon.reverse{
   transform: rotate(-180deg);
 }
+.sm-spacer{
+  margin-bottom: 20px;
+}

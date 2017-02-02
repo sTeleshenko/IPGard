@@ -8,19 +8,26 @@
     });
 
   /** @ngInject */
-  function deviceSerialNumbersComponent($stateParams, Sales, toastr, $uibModal) {
+  function deviceSerialNumbersComponent($stateParams, Sales, toastr, $uibModal, localStorageService, $scope, $httpParamSerializer) {
     var vm = this;
     vm.$onInit = function () {
+      vm.modelOptions = {
+        debounce: 300
+      };
+      vm.sortFilters = localStorageService.get('salesSortFilters') || {
+          sort: 'salesOrder',
+          order: true
+        };
+      vm.searchFilters = {};
+      $scope.$watch('vm.searchFilters', function () {
+        vm.loadSales();
+      }, true);
       vm.loadSales();
     };
     vm.loadSales = function () {
-      var query = '?';
-      query = query + 'product=' + $stateParams.id;
-      // for(var key in vm.filters) {
-      //   if (vm.filters[key]) {
-      //     query = query + key + '=' + vm.filters[key] + '&'
-      //   }
-      // }
+      var query = '?product=' + $stateParams.id + '&';
+      query += $httpParamSerializer(vm.searchFilters) + '&';
+      query += 'sort=' + (vm.sortFilters.order ? '' : '-') + vm.sortFilters.sort;
       Sales.getAll(query)
         .then(function (response) {
           vm.sales = response.data.docs;
@@ -29,6 +36,22 @@
           toastr.error('Something went wrong', 'Error');
         });
 
+    };
+
+    vm.reset = function () {
+      vm.searchFilters = {};
+      vm.loadSales();
+    };
+
+    vm.onSortFiltersChanged = function (key) {
+      if(vm.sortFilters.sort === key){
+        vm.sortFilters.order = !vm.sortFilters.order;
+      } else {
+        vm.sortFilters.sort = key;
+        vm.sortFilters.order = true;
+      }
+      localStorageService.set('salesSortFilters', vm.sortFilters);
+      vm.loadSales();
     };
     vm.openCreateModal = function (sale, index) {
       sale.product = $stateParams.id;
@@ -43,13 +66,12 @@
       });
 
       modalInstance.result.then(function (result) {
-        // // vm.selected = selectedItem;
-        // console.log(result)
-        if(sale._id === result._id) {
-          vm.sales[index] = result;
-        } else if (applyByFilters(result)){
-          vm.sales.push(result);
-        }
+        // if(sale._id === result._id) {
+        //   vm.sales[index] = result;
+        // } else if (applyByFilters(result)){
+        //   vm.sales.push(result);
+        // }
+        vm.loadSales();
       });
     };
     vm.delete = function (sale, index) {
@@ -65,7 +87,8 @@
       }).result.then(function () {
         Sales.deleteSale(sale)
           .then(function () {
-            vm.sales.splice(index, 1);
+            // vm.sales.splice(index, 1);
+            vm.loadSales();
           })
           .catch(function () {
             toastr.error('Something went wrong', 'Error');

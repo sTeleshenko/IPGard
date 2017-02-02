@@ -76,13 +76,12 @@
       });
 
       modalInstance.result.then(function (result) {
-        // // vm.selected = selectedItem;
-        // console.log(result)
-        if(device._id === result._id) {
-          vm.devices[index] = result;
-        } else if (applyByFilters(result)){
-          vm.devices.push(result);
-        }
+        // if(device._id === result._id) {
+        //   vm.devices[index] = result;
+        // } else if (applyByFilters(result)){
+        //   vm.devices.push(result);
+        // }
+        vm.loadDevices();
       });
     };
     vm.delete = function (device, index) {
@@ -98,7 +97,8 @@
       }).result.then(function () {
         Device.deleteDevice(device)
           .then(function () {
-            vm.devices.splice(index, 1);
+            // vm.devices.splice(index, 1);
+            vm.loadDevices();
           })
           .catch(function () {
             toastr.error('Something went wrong', 'Error');
