@@ -123,6 +123,15 @@
           </tr>
           </tbody>
         </table>
+
+        <ul uib-pagination
+            total-items="vm.pagination.total"
+            ng-model="vm.pagination.page"
+            ng-change="vm.loadSales()"
+            max-size="6"
+            items-per-page="vm.pagination.limit"
+            class="pagination-sm pull-left"
+            boundary-link-numbers="true"></ul>
       </div>
     </div>
   </div>

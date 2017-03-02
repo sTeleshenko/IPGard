@@ -14,6 +14,11 @@
       vm.modelOptions = {
         debounce: 300
       };
+      vm.pagination = {
+        page: 1,
+        limit: 10,
+        total: 0
+      };
       vm.sortFilters = localStorageService.get('salesSortFilters') || {
           sort: 'salesOrder',
           order: true
@@ -27,10 +32,14 @@
     vm.loadSales = function () {
       var query = '?product=' + $stateParams.id + '&';
       query += $httpParamSerializer(vm.searchFilters) + '&';
-      query += 'sort=' + (vm.sortFilters.order ? '' : '-') + vm.sortFilters.sort;
+      query += 'sort=' + (vm.sortFilters.order ? '' : '-') + vm.sortFilters.sort + '&';
+      query = query + 'page=' + vm.pagination.page + '&';
+      query = query + 'limit=' + vm.pagination.limit;
       Sales.getAll(query)
         .then(function (response) {
           vm.sales = response.data.docs;
+          vm.pagination.total = response.data.total;
+          vm.pagination.page = response.data.page;
         })
         .catch(function () {
           toastr.error('Something went wrong', 'Error');
