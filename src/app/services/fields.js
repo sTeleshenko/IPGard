@@ -11,6 +11,10 @@
       return $http.get('/api/fields?category=' + categoryId);
     };
 
+    self.getField = function (id) {
+      return $http.get('/api/fields/' + id);
+    };
+
     self.createField = function (field) {
       return $http.post('/api/fields', field)
     };

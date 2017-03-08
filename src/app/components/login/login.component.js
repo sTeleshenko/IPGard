@@ -16,8 +16,11 @@
     };
     vm.login = function () {
       Auth.login(vm.data)
-        .then(function () {
-          $state.go('home')
+        .then(function (currentUser) {
+          if(currentUser.role === 'salesAdmin'){
+            $state.go('about')
+          }
+          else $state.go('home')
         })
         .catch(function (error) {
           var message;

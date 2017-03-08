@@ -11,11 +11,9 @@
   function deviceCategoryComponent($stateParams, Documents, Fields, $uibModal, Category) {
     var vm = this;
     vm.$onInit = function () {
+      vm.deviceId = $stateParams.id;
       vm.categoryId = $stateParams.categoryId;
-      Documents.getAll($stateParams.id, $stateParams.categoryId)
-        .then(function (response) {
-          vm.documents = response.data;
-        });
+      vm.loadDocuments();
       Category.getCategory($stateParams.categoryId)
         .then(function (response) {
           vm.category = response.data;
@@ -25,7 +23,13 @@
           vm.fields = response.data;
         })
     };
-    vm.openDocumentModal = function (document, index) {
+    vm.loadDocuments = function () {
+      Documents.getAll($stateParams.id, $stateParams.categoryId)
+        .then(function (response) {
+          vm.documents = response.data;
+        });
+    };
+    vm.openDocumentModal = function (document) {
       if (!document._id) {
         document.category = $stateParams.categoryId;
         document.product = $stateParams.id;
@@ -45,17 +49,11 @@
         }
       });
 
-      modalInstance.result.then(function (result) {
-        // // vm.selected = selectedItem;
-        // console.log(result)
-        if (document._id === result._id) {
-          vm.documents[index] = result;
-        } else {
-          vm.documents.push(result);
-        }
+      modalInstance.result.then(function () {
+        vm.loadDocuments();
       });
-    }
-    vm.delete = function (document, index) {
+    };
+    vm.delete = function (document) {
       $uibModal.open({
         animation: true,
         component: 'confirmComponent',
@@ -68,7 +66,7 @@
       }).result.then(function () {
         Documents.deleteDocument(document)
           .then(function () {
-            vm.documents.splice(index, 1);
+            vm.loadDocuments();
           })
           .catch(function () {
             toastr.error('Something went wrong', 'Error');

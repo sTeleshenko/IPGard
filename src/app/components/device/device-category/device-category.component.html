@@ -2,7 +2,7 @@
   <p class="col-sm-12">
     <button class="btn btn-primary"
             ng-if="(vm.category.type !== 'Form' || vm.category.type === 'Form' && vm.documents.length === 0) &&
-                    vm.fields.length > 0"
+                    vm.fields.length > 0 && vm.category.type !== 'Table with subcategory'"
             has-role="['admin', 'productionAdmin', 'salesAdmin']"
             ng-click="vm.openDocumentModal({})">Create
     </button>
@@ -15,17 +15,25 @@
   </p>
   <device-category-table
       ng-if="vm.category.type === 'Table' && vm.fields.length > 0 && vm.documents.length > 0"
-      open-document-modal="vm.openDocumentModal(document, index)"
-      delete="vm.delete(document, index)"
+      open-document-modal="vm.openDocumentModal(document)"
+      delete="vm.delete(document)"
       fields="vm.fields"
       documents="vm.documents"></device-category-table>
   <device-category-gallery
       ng-if="vm.category.type === 'Gallery'"
-      delete="vm.delete(document, index)"
+      delete="vm.delete(document)"
       documents="vm.documents"></device-category-gallery>
   <device-category-form
       ng-if="vm.category.type === 'Form' && vm.documents[0]"
       documents="vm.documents"></device-category-form>
+  <device-subcategories
+      ng-if="vm.category.type === 'Table with subcategory'"
+      documents="vm.documents"
+      fields="vm.fields"
+      device-id="vm.deviceId"
+      delete="vm.delete(document)"
+      open-document-modal="vm.openDocumentModal(document)"
+      category="vm.category"></device-subcategories>
   <div class="col-xs-12" ng-if="vm.fields.length === 0">
     <div class="jumbotron col-xs-12 text-center">
       <h4>
@@ -36,7 +44,10 @@
          has-role="['admin']">Add fields</a>
     </div>
   </div>
-  <div class="col-xs-12" ng-if="vm.fields.length > 0 && vm.documents.length === 0">
+  <div class="col-xs-12"
+       ng-if="vm.fields.length > 0 &&
+              vm.documents.length === 0 &&
+              vm.category.type != 'Table with subcategory'">
     <div class="jumbotron text-center">
       <h4>Selected device don't has any info in this category.</h4>
     </div>

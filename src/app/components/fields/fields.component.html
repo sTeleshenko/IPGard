@@ -9,6 +9,7 @@
       <th>Field name</th>
       <th>Field type</th>
       <th>Required</th>
+      <th>Use as subcategory</th>
       <th class="col-actions" ng-if="vm.category.type !== 'Gallery'">Actions</th>
       </thead>
       <tbody>
@@ -16,6 +17,7 @@
         <td>{{field.title}}</td>
         <td>{{field.type.label}}</td>
         <td>{{field.required}}</td>
+        <td>{{field.useAsSubcategory}}</td>
         <td class="col-actions" ng-if="vm.category.type !== 'Gallery'">
           <button type="button"
                   ng-click="vm.openFieldModal(field, $index)"

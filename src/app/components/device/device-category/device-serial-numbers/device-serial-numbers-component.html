@@ -95,6 +95,13 @@
                   ng-show="vm.sortFilters.sort === 'date'"></span>
           </th>
           <th
+            ng-click="vm.onSortFiltersChanged('serialNumber')">
+            Serial Number
+            <span class="glyphicon glyphicon-triangle-bottom"
+                  ng-class="{reverse: vm.sortFilters.order}"
+                  ng-show="vm.sortFilters.sort === 'serialNumber'"></span>
+          </th>
+          <th
             ng-click="vm.onSortFiltersChanged('clientName')">
             Customer Name
             <span class="glyphicon glyphicon-triangle-bottom"
@@ -107,6 +114,7 @@
           <tr ng-repeat="sale in vm.sales">
             <td>{{sale.salesOrder}}</td>
             <td>{{sale.date | date: 'dd.MM.yyyy'}}</td>
+            <td>{{sale.serialNumber}}</td>
             <td>{{sale.clientName}}</td>
             <td class="col-actions" has-role="['admin', 'salesAdmin']">
               <button type="button"

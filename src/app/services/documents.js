@@ -10,6 +10,9 @@
     self.getAll = function (deviceId, categoryId) {
       return $http.get('/api/documents?product=' + deviceId + '&category=' + categoryId);
     };
+    // self.getByDeviceAndField = function (deviceId, fieldId) {
+    //   return $http.get('/api/documents?product=' + deviceId + '&field=' + fieldId);
+    // };
     // self.getDevice = function (id) {
     //   return $http.get('/api/products/' + id);
     // };

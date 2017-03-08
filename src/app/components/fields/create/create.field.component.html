@@ -26,6 +26,7 @@
       <select name="field-type"
               id="field-type"
               ng-model="vm.field.type"
+              ng-change="vm.field.useAsSubcategory = false"
               class="form-control"
               required
               ng-options="type as type.label for type in vm.types track by type._id">
@@ -40,6 +41,14 @@
       </chip-tmpl>
       <input chip-control placeholder="Enter an options"></input>
     </chips>
+    <div ng-if="vm.field.type.value === 'text'" class="form-group">
+      <div class="checkbox">
+        <label>
+          <input type="checkbox" ng-model="vm.field.useAsSubcategory">
+          Can be used as subcategory
+        </label>
+      </div>
+    </div>
   </div>
   <div class="modal-footer">
     <button type="submit" class="btn btn-primary" ng-disabled="vm.form.$invalid">Save</button>

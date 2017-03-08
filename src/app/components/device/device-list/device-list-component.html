@@ -28,15 +28,12 @@
     <th class="col-actions">Actions</th>
     </thead>
     <tbody>
-    <tr ng-repeat="device in vm.devices">
+    <tr ng-repeat="device in vm.devices" ui-sref="device({id: device._id})">
       <td>{{device.model}}</td>
       <td>{{device.partNumber}}</td>
       <td>{{device.upc}}</td>
       <td>{{device.description}}</td>
       <td class="col-actions">
-        <a ui-sref="device({id: device._id})" class="btn btn-success btn-sm">
-          <span class="glyphicon glyphicon-eye-open"></span>
-        </a>
         <button type="button"
                 has-role="['admin']"
                 ng-click="vm.openDeviceModal({device: device, index: $index})"

@@ -13,6 +13,9 @@
     self.getCategory = function (id) {
       return $http.get('/api/categories/' + id);
     };
+    self.getCategoriesForSub = function () {
+      return $http.get('/api/categories/relation/fields')
+    };
     self.createCategory = function (category) {
       return $http.post('/api/categories', category)
     };

@@ -37,14 +37,39 @@
         </label>
       </div>
     </div>
-    <div class="form-group" ng-if="!vm.category._id">
+    <div class="form-group">
       <label for="category-type">Category type</label>
       <select name="category-type"
               id="category-type"
               ng-model="vm.category.type"
+              ng-disabled="vm.category._id"
               class="form-control"
+              ng-change="vm.clearRelatedCategory()"
               required
               ng-options="type as type for type in vm.categoryType">
+      </select>
+    </div>
+    <div class="form-group" ng-if="vm.category.type === 'Table with subcategory'">
+      <label for="relatedCategory">Please select related category</label>
+      <select name="relatedCategory"
+              id="relatedCategory"
+              ng-model="vm.category.relatedCategory"
+              class="form-control"
+              ng-disabled="vm.category._id"
+              ng-change="vm.clearRelatedField()"
+              required
+              ng-options="category as category.title for category in vm.relationCategories">
+      </select>
+    </div>
+    <div class="form-group" ng-if="vm.category.relatedCategory">
+      <label for="subcategoryField">Please select related field</label>
+      <select name="subcategoryField"
+              id="subcategoryField"
+              ng-disabled="vm.category._id"
+              ng-model="vm.category.subcategoryField"
+              class="form-control"
+              required
+              ng-options="field as field.title for field in vm.category.relatedCategory.fields">
       </select>
     </div>
   </div>
