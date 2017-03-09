@@ -45,11 +45,11 @@
             vm.roles = allRoles;
           } else if (user.role === 'productionAdmin'){
             vm.roles = allRoles.filter(function (role) {
-              return role.value.indexOf('production') !== -1;
+              return role.value.indexOf('productionUser') !== -1;
             });
           } else if (user.role === 'salesAdmin'){
             vm.roles = allRoles.filter(function (role) {
-              return role.value.indexOf('sales') !== -1;
+              return role.value.indexOf('salesUser') !== -1;
             });
           } else {
             vm.roles = [];

@@ -64,9 +64,6 @@ th[ng-click]{
   user-select: none;
   cursor: pointer;
 }
-device-list-component tr{
-  cursor: pointer;
-}
 
 .glyphicon.reverse{
   transform: rotate(-180deg);

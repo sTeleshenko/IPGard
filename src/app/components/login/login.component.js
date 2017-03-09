@@ -17,8 +17,8 @@
     vm.login = function () {
       Auth.login(vm.data)
         .then(function (currentUser) {
-          if(currentUser.role === 'salesAdmin'){
-            $state.go('about')
+          if(currentUser.role === 'salesAdmin' || currentUser.role === 'salesUser'){
+            $state.go('serials')
           }
           else $state.go('home')
         })

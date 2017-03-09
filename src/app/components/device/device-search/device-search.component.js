@@ -5,7 +5,8 @@
       templateUrl: 'app/components/device/device-search/device-search.component.html',
       bindings: {
         onFiltersChanged: '&',
-        filters: '<'
+        filters: '<',
+        openDeviceModal: '&'
       },
       controller: DeviceSearchController,
       controllerAs: 'vm'

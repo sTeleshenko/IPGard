@@ -4,11 +4,25 @@ angular
 
 /** @ngInject */
 function routesConfig($stateProvider, $urlRouterProvider, $locationProvider) {
-  $locationProvider.html5Mode(true).hashPrefix('!');
-  $urlRouterProvider.otherwise('/');
   var allRoles = ['admin', 'productionAdmin', 'productionUser', 'salesAdmin', 'salesUser'];
   var admins = ['admin', 'productionAdmin', 'salesAdmin'];
   var sales = ['admin', 'salesAdmin', 'salesUser'];
+  var productions = ['admin', 'productionAdmin', 'productionUser'];
+  $locationProvider.html5Mode(true).hashPrefix('!');
+  $urlRouterProvider.otherwise(function ($injector) {
+    var auth = $injector.get('Auth');
+    var state = $injector.get('$state');
+    auth.getCurrentUser()
+      .then(function (user) {
+        if(productions.indexOf(user.role) !== -1){
+          state.go('home');
+        } else if(sales.indexOf(user.role) !== -1) {
+          state.go('serials')
+        } else {
+          state.go('login');
+        }
+      })
+  });
   $stateProvider
     .state('main', {
       abstract: true,
@@ -18,11 +32,19 @@ function routesConfig($stateProvider, $urlRouterProvider, $locationProvider) {
       }
     })
     .state('home', {
-      url: '/',
+      url: '/home',
       parent: 'main',
       component: 'homeComponent',
       data: {
-        roles: allRoles
+        roles: productions
+      }
+    })
+    .state('serials', {
+      url: '/serials',
+      parent: 'main',
+      component: 'homeComponent',
+      data: {
+        roles: sales
       }
     })
     .state('users', {

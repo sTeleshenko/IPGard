@@ -46,6 +46,7 @@
            placeholder="Serial number">
   </div>
   <div class="text-right">
+    <button class="btn btn-primary" has-role="['admin']" ng-click="vm.openDeviceModal({device: {}})">New</button>
     <button type="button" class="btn btn-warning" ng-click="vm.reset()">Reset</button>
     <button type="submit" class="btn btn-success">Search</button></div>
 </form>

@@ -9,11 +9,14 @@
         {{sub.value}}
       </uib-accordion-heading>
 
-      <device-category-table
-        open-document-modal="vm.create(document)"
-        delete="vm.onDelelte(document)"
-        fields="vm.fields"
-        documents="sub.documents"></device-category-table>
+      <div class="row">
+        <device-category-table
+          open-document-modal="vm.create(document)"
+          delete="vm.onDelelte(document)"
+          fields="vm.fields"
+          documents="sub.documents">
+        </device-category-table>
+      </div>
     </div>
   </uib-accordion>
 </div>

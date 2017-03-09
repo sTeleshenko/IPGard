@@ -1,9 +1,10 @@
 <div class="row">
   <div class="col-md-3">
-    <device-search-component filters="vm.filters" on-filters-changed="vm.onFiltersChanged(filters)"></device-search-component>
+    <device-search-component filters="vm.filters"
+                             open-device-modal="vm.openDeviceModal(device)"
+                             on-filters-changed="vm.onFiltersChanged(filters)"></device-search-component>
   </div>
   <div class="col-md-9">
-    <p><button class="btn btn-primary" has-role="['admin']" ng-click="vm.openDeviceModal({})">Create</button></p>
     <device-list-component devices="vm.devices"
                            delete="vm.delete(device, index)"
                            sort-filters="vm.sortFilters"

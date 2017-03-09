@@ -28,8 +28,8 @@
     <th class="col-actions">Actions</th>
     </thead>
     <tbody>
-    <tr ng-repeat="device in vm.devices" ui-sref="device({id: device._id})">
-      <td>{{device.model}}</td>
+    <tr ng-repeat="device in vm.devices">
+      <td><a ui-sref="device({id: device._id})">{{device.model}}</a></td>
       <td>{{device.partNumber}}</td>
       <td>{{device.upc}}</td>
       <td>{{device.description}}</td>
