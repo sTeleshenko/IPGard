@@ -1,21 +1,21 @@
 <div class="row">
   <div class="col-sm-12">
-    <p>
-      <button class="btn btn-primary" ng-click="vm.openUserModal({})">Create</button>
+    <p class="no-print">
+      <button class="btn btn-primary btn-sm" ng-click="vm.openUserModal({})">New</button>
     </p>
     <table class="table table-bordered">
       <thead>
       <th>Name</th>
       <th>Email</th>
       <th>Role</th>
-      <th class="col-actions">Actions</th>
+      <th class="col-actions no-print">Actions</th>
       </thead>
       <tbody>
       <tr ng-repeat="user in vm.users">
         <td>{{user.name}}</td>
         <td>{{user.email}}</td>
         <td>{{user.role}}</td>
-        <td class="col-actions">
+        <td class="col-actions no-print">
           <button type="button"
                   ng-click="vm.openUserModal(user, $index)"
                   class="btn btn-primary btn-sm">

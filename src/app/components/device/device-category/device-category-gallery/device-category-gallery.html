@@ -1,12 +1,16 @@
 <div class="col-sm-12">
-  <div uib-carousel active="vm.active" interval="0">
+  <div uib-carousel active="vm.active" interval="0" class="gallery">
     <div uib-slide ng-repeat="document in vm.documents track by document._id" index="$index">
-      <img ng-src="/api/uploads/{{document.fields[0].value.filename}}" style="margin:auto; max-height: 450px; min-height: 100px">
-      <div class="carousel-caption" has-role="['admin', 'productionAdmin', 'salesAdmin']">
+      <img ng-src="/api/uploads/{{field.value.filename}}"
+           ng-repeat="field in document.fields | filter: {field: {type: {value:'img'}}}"
+           style="margin:auto; max-height: 450px; min-height: 100px">
+      <div has-role="['admin', 'productionAdmin', 'salesAdmin']">
+        <h4 ng-repeat="field in document.fields | filter: {field: {type: {value:'text'}}}">{{field.value}}</h4>
         <p>
           <a href="/api/uploads/{{document.fields[0].value.filename}}"
              class="btn btn-sm btn-success"
-             download="{{document.fields[0].value.originalname}}"
+             ng-repeat="field in document.fields | filter: {field: {type: {value:'img'}}}"
+             download="{{field.value.originalname}}"
              target="_blank">Download</a>
           <button type="button"
                   ng-click="vm.delete({document: document})"

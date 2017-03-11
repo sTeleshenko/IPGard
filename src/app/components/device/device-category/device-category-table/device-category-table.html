@@ -2,7 +2,7 @@
   <table class="table table-bordered">
     <thead>
     <th ng-repeat="field in vm.fields | orderBy : '_id'">{{field.title}}</th>
-    <th class="col-actions" has-role="['admin', 'productionAdmin', 'salesAdmin']">Actions</th>
+    <th class="col-actions no-print" has-role="['admin', 'productionAdmin', 'salesAdmin']">Actions</th>
     </thead>
     <tbody>
     <tr ng-repeat="document in vm.documents track by document._id">
@@ -19,7 +19,7 @@
            ng-if="field.field.type.value === 'link'"
            target="_blank">{{field.value}}</a>
       </td>
-      <td class="col-actions" has-role="['admin', 'productionAdmin', 'salesAdmin']">
+      <td class="col-actions no-print" has-role="['admin', 'productionAdmin', 'salesAdmin']">
         <button type="button"
                 ng-click="vm.openDocumentModal({document: document})"
                 class="btn btn-primary btn-sm">

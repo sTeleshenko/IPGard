@@ -1,34 +1,38 @@
 (function () {
   angular
     .module('app')
-    .component('createSaleComponent', {
-      templateUrl: 'app/components/device/device-category/device-serial-numbers/create/sale-create.component.html',
+    .component('createStaticFieldComponent', {
+      templateUrl: 'app/components/categories/static/create/create.static-field.component.html',
       bindings: {
         resolve: '<',
         close: '&',
         dismiss: '&'
       },
-      controller: createSalesComponent,
+      controller: createStaticFieldComponent,
       controllerAs: 'vm'
     });
 
   /** @ngInject */
-  function createSalesComponent(Sales, toastr, Upload) {
+  function createStaticFieldComponent(StaticFields, toastr) {
     var vm = this;
     vm.$onInit = function () {
-      vm.sale = vm.resolve.sale;
-      if(vm.sale.date){
-        vm.sale.date = new Date(vm.sale.date);
-      }
+      vm.field = vm.resolve.field;
+      StaticFields.loadTypes()
+        .then(function (response) {
+          vm.types = response.data;
+        })
+        .catch(function () {
+          toastr.error('Error on load types', 'Error');
+        })
     };
     vm.cancel = function () {
       vm.dismiss({$value: 'cancel'});
     };
     vm.save = function () {
-      if(vm.sale._id){
-        Sales.updateSale(vm.sale)
+      if(vm.field._id){
+        StaticFields.updateField(vm.field)
           .then(function () {
-            vm.close({$value: vm.sale});
+            vm.close({$value: vm.field});
           })
           .catch(function (error) {
             var message;
@@ -40,7 +44,7 @@
             toastr.error(message, 'Error');
           });
       } else {
-        Sales.createSale(vm.sale)
+        StaticFields.createField(vm.field)
           .then(function (response) {
             vm.close({$value: response.data});
           })
@@ -54,28 +58,6 @@
             toastr.error(message, 'Error');
           });
       }
-    };
-
-    vm.convertDate = function (obj) {
-      if(obj.value){
-        obj.value = new Date(obj.value);
-      }
-    };
-
-    vm.upload = function (file, obj) {
-      Upload.upload({
-        url: '/api/upload',
-        data: {
-          file: file
-        }
-      })
-        .then(function (response) {
-          obj.value = response.data;
-        }, function (resp) {
-          console.log('Error status: ' + resp.status);
-        }, function (evt) {
-          obj.progress = parseInt(100.0 * evt.loaded / evt.total);
-        })
     }
   }
 })();

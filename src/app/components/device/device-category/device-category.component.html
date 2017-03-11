@@ -1,18 +1,18 @@
 <div class="row">
-  <p class="col-sm-12">
-    <button class="btn btn-primary"
-            ng-if="(vm.category.type !== 'Form' || vm.category.type === 'Form' && vm.documents.length === 0) &&
-                    vm.fields.length > 0 && vm.category.type !== 'Table with subcategory'"
+  <p class="col-sm-12 no-print"
+     ng-if="vm.fields.length > 0 && vm.category.type !== 'Table with subcategory'">
+    <button class="btn btn-primary btn-sm"
             has-role="['admin', 'productionAdmin', 'salesAdmin']"
-            ng-click="vm.openDocumentModal({})">Create
-    </button>
-    <button type="button"
-            ng-click="vm.openDocumentModal(vm.documents[0], 0)"
-            ng-if="vm.category.type === 'Form' && vm.documents.length >=1"
-            class="btn btn-primary">
-      Edit
+            ng-click="vm.openDocumentModal({})">New
     </button>
   </p>
+  <!--<p ng-if="vm.category.type === 'Form' && vm.documents.length >=1">-->
+    <!--<button type="button"-->
+            <!--ng-click="vm.openDocumentModal(vm.documents[0], 0)"-->
+            <!--class="btn btn-primary btn-sm">-->
+      <!--Edit-->
+    <!--</button>-->
+  <!--</p>-->
   <device-category-table
       ng-if="vm.category.type === 'Table' && vm.fields.length > 0 && vm.documents.length > 0"
       open-document-modal="vm.openDocumentModal(document)"
@@ -24,7 +24,9 @@
       delete="vm.delete(document)"
       documents="vm.documents"></device-category-gallery>
   <device-category-form
-      ng-if="vm.category.type === 'Form' && vm.documents[0]"
+      ng-if="vm.category.type === 'Attachments' && vm.documents[0]"
+      open-document-modal="vm.openDocumentModal(document)"
+      delete="vm.delete(document)"
       documents="vm.documents"></device-category-form>
   <device-subcategories
       ng-if="vm.category.type === 'Table with subcategory'"

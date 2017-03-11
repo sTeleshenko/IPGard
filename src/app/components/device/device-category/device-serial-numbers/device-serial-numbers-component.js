@@ -8,9 +8,10 @@
     });
 
   /** @ngInject */
-  function deviceSerialNumbersComponent($stateParams, Sales, toastr, $uibModal, localStorageService, $scope, $httpParamSerializer) {
+  function deviceSerialNumbersComponent($stateParams, Sales, toastr, $uibModal, localStorageService, $scope, $httpParamSerializer, StaticFields) {
     var vm = this;
     vm.$onInit = function () {
+      vm.model = 'Sale';
       vm.modelOptions = {
         debounce: 300
       };
@@ -24,9 +25,20 @@
           order: true
         };
       vm.searchFilters = {};
+      if($stateParams.serialNumber) {
+        vm.searchFilters.serialNumber = $stateParams.serialNumber;
+      }
       $scope.$watch('vm.searchFilters', function () {
         vm.loadSales();
       }, true);
+      StaticFields.getFields(vm.model)
+        .then(function (response) {
+          vm.fields = response.data;
+        })
+        .catch(function () {
+          toastr.error('Something went wrong', 'Error');
+        });
+
       vm.loadSales();
     };
     vm.loadSales = function () {
@@ -62,8 +74,15 @@
       localStorageService.set('salesSortFilters', vm.sortFilters);
       vm.loadSales();
     };
-    vm.openCreateModal = function (sale, index) {
-      sale.product = $stateParams.id;
+    vm.openCreateModal = function (sale) {
+      if(!sale._id) {
+        sale.product = $stateParams.id;
+        sale.fields = vm.fields.map(function (item) {
+          return {
+            field: item
+          }
+        });
+      }
       var modalInstance = $uibModal.open({
         animation: true,
         component: 'createSaleComponent',
@@ -74,12 +93,7 @@
         }
       });
 
-      modalInstance.result.then(function (result) {
-        // if(sale._id === result._id) {
-        //   vm.sales[index] = result;
-        // } else if (applyByFilters(result)){
-        //   vm.sales.push(result);
-        // }
+      modalInstance.result.then(function () {
         vm.loadSales();
       });
     };

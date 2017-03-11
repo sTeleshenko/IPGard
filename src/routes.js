@@ -32,7 +32,7 @@ function routesConfig($stateProvider, $urlRouterProvider, $locationProvider) {
       }
     })
     .state('home', {
-      url: '/home',
+      url: '/devices',
       parent: 'main',
       component: 'homeComponent',
       data: {
@@ -42,7 +42,7 @@ function routesConfig($stateProvider, $urlRouterProvider, $locationProvider) {
     .state('serials', {
       url: '/serials',
       parent: 'main',
-      component: 'homeComponent',
+      component: 'serialsComponent',
       data: {
         roles: sales
       }
@@ -79,6 +79,14 @@ function routesConfig($stateProvider, $urlRouterProvider, $locationProvider) {
         roles: allRoles
       }
     })
+    .state('static', {
+      url: '/categories/static/:model',
+      parent: 'main',
+      component: 'staticComponent',
+      data: {
+        roles: ['admin']
+      }
+    })
     .state('fields', {
       url: '/categories/:id',
       parent: 'main',
@@ -96,7 +104,7 @@ function routesConfig($stateProvider, $urlRouterProvider, $locationProvider) {
       }
     })
     .state('device.serialNumbers', {
-      url: '/serialNumber',
+      url: '/serialNumber?serialNumber',
       parent: 'device',
       component: 'deviceSerialNumbersComponent',
       data: {

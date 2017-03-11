@@ -39,7 +39,7 @@
           toastr.error('Something went wrong', 'Error');
         });
 
-      vm.categoryType = ['Table', 'Form', 'Gallery', 'Table with subcategory'];
+      vm.categoryType = ['Table', 'Attachments', 'Gallery', 'Table with subcategory'];
     };
 
     vm.clearRelatedCategory =function () {

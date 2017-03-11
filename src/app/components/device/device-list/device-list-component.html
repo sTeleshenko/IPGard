@@ -25,7 +25,8 @@
             ng-class="{reverse: vm.sortFilters.order}"
             ng-show="vm.sortFilters.sort === 'description'"></span>
     </th>
-    <th class="col-actions">Actions</th>
+    <th class="col-actions no-print"
+        has-role="['admin']">Actions</th>
     </thead>
     <tbody>
     <tr ng-repeat="device in vm.devices">
@@ -33,15 +34,14 @@
       <td>{{device.partNumber}}</td>
       <td>{{device.upc}}</td>
       <td>{{device.description}}</td>
-      <td class="col-actions">
+      <td class="col-actions no-print"
+          has-role="['admin']">
         <button type="button"
-                has-role="['admin']"
                 ng-click="vm.openDeviceModal({device: device, index: $index})"
                 class="btn btn-primary btn-sm">
           <span class="glyphicon glyphicon-edit"></span>
         </button>
         <button type="button"
-                has-role="['admin']"
                 ng-click="vm.delete({device: device, index: $index})"
                 class="btn btn-danger btn-sm">
           <span class="glyphicon glyphicon-trash"></span>

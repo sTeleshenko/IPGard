@@ -1,7 +1,7 @@
 <div class="row">
   <div class="col-sm-12 table-responsive">
-    <p>
-      <button class="btn btn-primary" ng-click="vm.openCategoryModal({})">Create</button>
+    <p class="no-print">
+      <button class="btn btn-primary btn-sm" ng-click="vm.openCategoryModal({})">New</button>
     </p>
     <table class="table table-bordered" ng-if="vm.categories.length > 0">
       <thead>
@@ -11,7 +11,7 @@
       <th>Published</th>
       <th>Type</th>
       <th>Date create</th>
-      <th class="col-actions">Actions</th>
+      <th class="col-actions no-print">Actions</th>
       </thead>
       <tbody>
       <tr ng-repeat="category in vm.categories">
@@ -21,7 +21,7 @@
         <td>{{category.published}}</td>
         <td>{{category.type}}</td>
         <td>{{category.dateCreate | date : 'dd.MM.yyyy HH:mm'}}</td>
-        <td class="col-actions">
+        <td class="col-actions no-print">
           <a ui-sref="fields({id: category._id})" class="btn btn-success btn-sm">
             <span class="glyphicon glyphicon-eye-open"></span>
           </a>
@@ -32,6 +32,29 @@
           </button>
           <button type="button"
                   ng-click="vm.delete(category, $index)"
+                  class="btn btn-danger btn-sm">
+            <span class="glyphicon glyphicon-trash"></span>
+          </button>
+        </td>
+      </tr>
+      <tr>
+        <td>Serial Numbers</td>
+        <td>false</td>
+        <td>true</td>
+        <td>true</td>
+        <td>Table</td>
+        <td>static</td>
+        <td class="col-actions no-print">
+          <a ui-sref="static({model: 'sale'})" class="btn btn-success btn-sm">
+            <span class="glyphicon glyphicon-eye-open"></span>
+          </a>
+          <button type="button"
+                  disabled
+                  class="btn btn-primary btn-sm">
+            <span class="glyphicon glyphicon-edit"></span>
+          </button>
+          <button type="button"
+                  disabled
                   class="btn btn-danger btn-sm">
             <span class="glyphicon glyphicon-trash"></span>
           </button>

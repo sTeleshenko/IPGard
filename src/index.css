@@ -19,6 +19,10 @@ body>ui-view>main-component{
 body>ui-view>main-component>.container{
   flex-grow: 1;
 }
+body>ui-view>main-component>.container-fluid{
+  flex-grow: 1;
+  width: 100%;
+}
 login-component{
   display: block;
   margin-top: 10%;
@@ -27,6 +31,7 @@ login-component{
   width: 150px;
   text-align: center;
 }
+
 .load-progress{
   float: right;
   width: 150px;
@@ -70,4 +75,31 @@ th[ng-click]{
 }
 .sm-spacer{
   margin-bottom: 20px;
+}
+.pagination-wrapper{
+  display: flex;
+  align-items: center;
+}
+.badge-custom{
+  margin-left:20px;
+}
+.badge-custom span{
+  display: inline-block;
+  min-width: 33px;
+  text-align: center;
+  margin-left: 5px;
+  padding: 5px;
+  border: 1px solid #ecf0f1;
+  border-radius: 4px;
+}
+.gallery .carousel-indicators{
+  display: none;
+}
+@media print {
+  .no-print{
+    display: none!important;
+  }
+  a[href]:after {
+    content: none !important;
+  }
 }

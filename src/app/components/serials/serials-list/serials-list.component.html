@@ -1,0 +1,68 @@
+<div class="table-responsive">
+  <table class="table table-bordered">
+    <thead>
+    <th ng-click="vm.onSortFiltersChanged({key: 'serialNumber'})">
+      Serial Number
+      <span class="glyphicon glyphicon-triangle-bottom"
+            ng-class="{reverse: vm.sortFilters.order}"
+            ng-show="vm.sortFilters.sort === 'serialNumber'"></span>
+    </th>
+    <th ng-click="vm.onSortFiltersChanged({key: 'product.model'})">
+      Model name
+      <span class="glyphicon glyphicon-triangle-bottom"
+            ng-class="{reverse: vm.sortFilters.order}"
+            ng-show="vm.sortFilters.sort === 'product.model'"></span>
+    </th>
+    <th ng-click="vm.onSortFiltersChanged({key: 'product.partNumber'})">
+      Part number
+      <span class="glyphicon glyphicon-triangle-bottom"
+            ng-class="{reverse: vm.sortFilters.order}"
+            ng-show="vm.sortFilters.sort === 'product.partNumber'"></span>
+    </th>
+    <th ng-click="vm.onSortFiltersChanged({key: 'product.upc'})">
+      UPC
+      <span class="glyphicon glyphicon-triangle-bottom"
+            ng-class="{reverse: vm.sortFilters.order}"
+            ng-show="vm.sortFilters.sort === 'product.upc'"></span>
+    </th>
+    <th ng-click="vm.onSortFiltersChanged({key: 'product.description'})">
+      Description
+      <span class="glyphicon glyphicon-triangle-bottom"
+            ng-class="{reverse: vm.sortFilters.order}"
+            ng-show="vm.sortFilters.sort === 'product.description'"></span>
+    </th>
+    <th ng-click="vm.onSortFiltersChanged({key: 'date'})">
+      Date
+      <span class="glyphicon glyphicon-triangle-bottom"
+            ng-class="{reverse: vm.sortFilters.order}"
+            ng-show="vm.sortFilters.sort === 'date'"></span>
+    </th>
+    <!--<th class="col-actions"-->
+        <!--has-role="['admin', 'salesAdmin']">Actions</th>-->
+    </thead>
+    <tbody>
+    <tr ng-repeat="serial in vm.serials">
+      <td><a ui-sref="device.serialNumbers({id: serial.product._id, serialNumber: serial.serialNumber})">{{serial.serialNumber}}</a></td>
+      <td><a ui-sref="device({id: serial.product._id})">{{serial.product.model}}</a></td>
+      <td>{{serial.product.partNumber}}</td>
+      <td>{{serial.product.upc}}</td>
+      <td>{{serial.product.description}}</td>
+      <td>{{serial.date | date: 'dd.MM.yyyy'}}</td>
+      <!--<td class="col-actions"-->
+          <!--has-role="['admin', 'salesAdmin']">-->
+        <!--<button type="button"-->
+                <!--has-role="['admin']"-->
+                <!--ng-click="vm.openDeviceModal({serial: serial, index: $index})"-->
+                <!--class="btn btn-primary btn-sm">-->
+          <!--<span class="glyphicon glyphicon-edit"></span>-->
+        <!--</button>-->
+        <!--<button type="button"-->
+                <!--ng-click="vm.delete({serial: serial, index: $index})"-->
+                <!--class="btn btn-danger btn-sm">-->
+          <!--<span class="glyphicon glyphicon-trash"></span>-->
+        <!--</button>-->
+      <!--</td>-->
+    </tr>
+    </tbody>
+  </table>
+</div>

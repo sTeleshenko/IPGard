@@ -1,27 +1,42 @@
 <div class="col-md-8 col-md-offset-2">
   <div class="well well-sm">
     <div class="form-horizontal">
-      <div class="form-group" ng-repeat="field in vm.documents[0].fields">
-        <label class="col-sm-4 control-label">{{field.field.title}}</label>
-        <div class="col-sm-8">
-          <p class="form-control-static">
-            <a href="/api/uploads/{{field.value.filename}}"
-               ng-if="field.field.type.value === 'file'"
-               target="_blank">{{field.value.originalname}}</a>
-            <a href="/api/uploads/{{field.value.filename}}"
-               target="_blank"
-               ng-if="field.field.type.value === 'img'">
-              <img ng-src="/api/uploads/{{field.value.filename}}" style="width: 150px;">
-            </a>
-            <span ng-if="field.field.type.value === 'text' ||
-                     field.field.type.value === 'number' ||
-                     field.field.type.value === 'select' ||
-                     field.field.type.value === 'longText' ">{{field.value}}</span>
-            <span ng-if="field.field.type.value === 'date'">{{field.value | date : 'dd.MM.yyyy'}}</span>
-            <a href="{{field.value}}"
-               ng-if="field.field.type.value === 'link'"
-               target="_blank">{{field.value}}</a>
-          </p>
+      <div ng-repeat="document in vm.documents">
+        <div class="form-group">
+          <label class="col-sm-4 control-label"
+                 ng-repeat="field in document.fields | filter: {field: {type: {value:'text'}}}">{{field.value}}</label>
+          <div class="col-sm-5"
+               ng-repeat="field in document.fields | filter: {field: {type: {value:'file'}}}">
+            <p class="form-control-static">
+              <a href="/api/uploads/{{field.value.filename}}"
+                 target="_blank">{{field.value.originalname}}</a>
+              <!--<a href="/api/uploads/{{field.value.filename}}"-->
+                 <!--target="_blank"-->
+                 <!--ng-if="field.field.type.value === 'img'">-->
+                <!--<img ng-src="/api/uploads/{{field.value.filename}}" style="width: 150px;">-->
+              <!--</a>-->
+              <!--<span ng-if="field.field.type.value === 'text' ||-->
+                     <!--field.field.type.value === 'number' ||-->
+                     <!--field.field.type.value === 'select' ||-->
+                     <!--field.field.type.value === 'longText' ">{{field.value}}</span>-->
+              <!--<span ng-if="field.field.type.value === 'date'">{{field.value | date : 'dd.MM.yyyy'}}</span>-->
+              <!--<a href="{{field.value}}"-->
+                 <!--ng-if="field.field.type.value === 'link'"-->
+                 <!--target="_blank">{{field.value}}</a>-->
+            </p>
+          </div>
+          <div class="col-sm-3 no-print">
+            <button type="button"
+                    ng-click="vm.openDocumentModal({document: document})"
+                    class="btn btn-primary btn-sm">
+              <span class="glyphicon glyphicon-edit"></span>
+            </button>
+            <button type="button"
+                    ng-click="vm.delete({document: document})"
+                    class="btn btn-danger btn-sm">
+              <span class="glyphicon glyphicon-trash"></span>
+            </button>
+          </div>
         </div>
       </div>
     </div>

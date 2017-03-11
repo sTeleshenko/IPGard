@@ -1,13 +1,29 @@
 <div class="row">
-  <div class="col-md-3 sm-spacer">
-    <uib-accordion close-others="oneAtATime">
-      <div uib-accordion-group class="panel-primary" heading="Device info">
-        <p><b>Model name: </b>{{vm.device.model}}</p>
-        <p><b>Part number: </b>{{vm.device.partNumber}}</p>
-        <p><b>UPC: </b>{{vm.device.upc}}</p>
-        <p><b>Description: </b>{{vm.device.description}}</p>
-      </div>
-    </uib-accordion>
+  <div class="col-xs-12">
+    <div class="table-responsive">
+      <table class="table table-bordered">
+        <thead>
+        <tr class="info">
+          <th>Model name</th>
+          <th>Part number</th>
+          <th>UPC</th>
+          <th>Description</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="active">
+          <td>{{vm.device.model}}</td>
+          <td>{{vm.device.partNumber}}</td>
+          <td>{{vm.device.upc}}</td>
+          <td>{{vm.device.description}}</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-3 col-lg-2 sm-spacer no-print">
     <ul class="nav nav-pills nav-stacked">
       <li ng-repeat="category in vm.categories"
           ui-sref-active="active">
@@ -17,11 +33,11 @@
       </li>
       <li ui-sref-active="active"
           has-role="['admin', 'salesAdmin', 'salesUser']">
-        <a ui-sref="device.serialNumbers">Serial Number Information</a>
+        <a ui-sref="device.serialNumbers">Serial Numbers</a>
       </li>
     </ul>
   </div>
-  <div class="col-md-9">
+  <div class="col-md-9 col-lg-10">
     <div class="row">
       <ui-view class="col-xs-12">
         <div class="jumbotron text-center">

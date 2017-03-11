@@ -6,7 +6,9 @@
       controller: deviceCategoryForm,
       controllerAs: 'vm',
       bindings: {
-        documents: '<'
+        documents: '<',
+        openDocumentModal: '&',
+        delete: '&'
       }
     });
 

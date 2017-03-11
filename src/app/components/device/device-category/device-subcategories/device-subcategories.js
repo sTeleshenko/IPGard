@@ -60,7 +60,7 @@
     };
 
     vm.filterDocuments = function () {
-      if(vm.subcategories.length) {
+      if(vm.subcategories.length && vm.documents) {
         vm.subcategories.forEach(function (sub) {
           sub.documents = [];
           vm.documents.forEach(function (doc) {

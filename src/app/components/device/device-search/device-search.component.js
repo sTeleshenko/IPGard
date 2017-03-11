@@ -6,7 +6,8 @@
       bindings: {
         onFiltersChanged: '&',
         filters: '<',
-        openDeviceModal: '&'
+        openDeviceModal: '&',
+        mode: '<'
       },
       controller: DeviceSearchController,
       controllerAs: 'vm'

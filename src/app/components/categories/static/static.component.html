@@ -1,24 +1,39 @@
 <div class="row">
   <div class="col-sm-12 table-responsive">
-    <h3>Category: {{vm.category.title}}</h3>
-    <p ng-if="vm.category.type !== 'Gallery' && vm.category.type !== 'Attachments'">
+    <h3>Model: {{vm.model}}</h3>
+    <p>
       <button class="btn btn-primary btn-sm" ng-click="vm.openFieldModal({})">New</button>
     </p>
-    <table class="table table-bordered" ng-if="vm.fields.length > 0">
+    <table class="table table-bordered">
       <thead>
       <th>Field name</th>
       <th>Field type</th>
       <th>Required</th>
-      <th>Use as subcategory</th>
-      <th class="col-actions" ng-if="vm.category.type !== 'Gallery' && vm.category.type !== 'Attachments'">Actions</th>
+      <th class="col-actions">Actions</th>
       </thead>
       <tbody>
+      <tr ng-repeat="field in vm.staticFields">
+        <td>{{field.title}}</td>
+        <td>{{field.type}}</td>
+        <td>{{field.required}}</td>
+        <td class="col-actions">
+          <button type="button"
+                  disabled
+                  class="btn btn-primary btn-sm">
+            <span class="glyphicon glyphicon-edit"></span>
+          </button>
+          <button type="button"
+                  disabled
+                  class="btn btn-danger btn-sm">
+            <span class="glyphicon glyphicon-trash"></span>
+          </button>
+        </td>
+      </tr>
       <tr ng-repeat="field in vm.fields">
         <td>{{field.title}}</td>
         <td>{{field.type.label}}</td>
         <td>{{field.required}}</td>
-        <td>{{field.useAsSubcategory}}</td>
-        <td class="col-actions" ng-if="vm.category.type !== 'Gallery' && vm.category.type !== 'Attachments'">
+        <td class="col-actions">
           <button type="button"
                   ng-click="vm.openFieldModal(field, $index)"
                   class="btn btn-primary btn-sm">
@@ -33,10 +48,5 @@
       </tr>
       </tbody>
     </table>
-  </div>
-  <div class="col-xs-12" ng-if="vm.fields.length === 0">
-    <div class="jumbotron text-center">
-      <h4>Selected category don't has any field.</h4>
-    </div>
   </div>
 </div>

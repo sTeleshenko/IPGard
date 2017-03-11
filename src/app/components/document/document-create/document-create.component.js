@@ -51,7 +51,7 @@
             toastr.error(message, 'Error');
           });
       }
-    }
+    };
 
     vm.convertDate = function (obj) {
       if(obj.value){
