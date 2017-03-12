@@ -8,7 +8,8 @@ angular
     'toastr',
     'ngAnimate',
     'angular.chips',
-    'ngFileUpload'
+    'ngFileUpload',
+    'sticky'
   ])
   .config(function ($httpProvider, $compileProvider) {
     $httpProvider.interceptors.push('AuthInterceptor');

@@ -19,7 +19,7 @@
       vm.limits = [10, 20, 50, 100];
       vm.pagination = {
         page: 1,
-        limit: 10
+        limit: localStorageService.get('paginationLimit') || 10
       };
       vm.filters = localStorageService.get('serialsFilters') || {};
       if(vm.filters.dateFrom) {
@@ -28,6 +28,10 @@
       if(vm.filters.dateTo) {
         vm.filters.dateTo = new Date(vm.filters.dateTo);
       }
+      vm.loadSerials();
+    };
+    vm.onLimitChange = function () {
+      localStorageService.set('paginationLimit', vm.pagination.limit);
       vm.loadSerials();
     };
 

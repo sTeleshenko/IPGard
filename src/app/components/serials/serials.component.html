@@ -1,10 +1,13 @@
 <div class="row">
   <div class="col-md-3 no-print sm-spacer">
-    <device-search-component filters="vm.filters"
-                             mode="'sales'"
-                             on-filters-changed="vm.onFiltersChanged(filters)">
+    <div sticky offset="10" media-query="min-width: 992px" class="row">
+      <device-search-component filters="vm.filters"
+                               class="col-xs-12"
+                               mode="'sales'"
+                               on-filters-changed="vm.onFiltersChanged(filters)">
 
-    </device-search-component>
+      </device-search-component>
+    </div>
   </div>
   <div class="col-md-9">
     <serials-list-component serials="vm.serials"
@@ -29,7 +32,7 @@
         <label class="btn btn-success" disabled>Items per page</label>
         <label class="btn btn-success"
                ng-model="vm.pagination.limit"
-               ng-change="vm.loadSerials()"
+               ng-change="vm.onLimitChange()"
                ng-repeat="limit in vm.limits"
                uib-btn-radio="limit">{{limit}}</label>
         <label class="btn btn-success" disabled>Count: {{vm.pagination.total}}</label>

@@ -18,8 +18,7 @@
       vm.limits = [10, 20, 50, 100];
       vm.pagination = {
         page: 1,
-        limit: 10,
-        total: 0
+        limit: localStorageService.get('paginationLimit') || 10
       };
       vm.sortFilters = localStorageService.get('salesSortFilters') || {
           sort: 'salesOrder',
@@ -42,6 +41,12 @@
 
       vm.loadSales();
     };
+
+    vm.onLimitChange = function () {
+      localStorageService.set('paginationLimit', vm.pagination.limit);
+      vm.loadSales();
+    };
+
     vm.loadSales = function () {
       var query = '?product=' + $stateParams.id + '&';
       query += $httpParamSerializer(vm.searchFilters) + '&';
