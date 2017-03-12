@@ -25,7 +25,7 @@
           order: true
         };
       vm.searchFilters = {};
-      if($stateParams.serialNumber) {
+      if ($stateParams.serialNumber) {
         vm.searchFilters.serialNumber = $stateParams.serialNumber;
       }
       $scope.$watch('vm.searchFilters', function () {
@@ -65,7 +65,7 @@
     };
 
     vm.onSortFiltersChanged = function (key) {
-      if(vm.sortFilters.sort === key){
+      if (vm.sortFilters.sort === key) {
         vm.sortFilters.order = !vm.sortFilters.order;
       } else {
         vm.sortFilters.sort = key;
@@ -75,7 +75,7 @@
       vm.loadSales();
     };
     vm.openCreateModal = function (sale) {
-      if(!sale._id) {
+      if (!sale._id) {
         sale.product = $stateParams.id;
         sale.fields = vm.fields.map(function (item) {
           return {
@@ -89,6 +89,66 @@
         resolve: {
           sale: function () {
             return angular.copy(sale);
+          }
+        }
+      });
+
+      modalInstance.result.then(function () {
+        vm.loadSales();
+      });
+    };
+    vm.openImportModal = function () {
+      var modalInstance = $uibModal.open({
+        animation: true,
+        component: 'importComponent',
+        size: 'lg',
+        resolve: {
+          headers: function () {
+            return [
+              {
+                key: 'serialNumber',
+                type: 'text',
+                required: true
+              },
+              {
+                key: 'version',
+                type: 'text',
+                required: true
+              },
+              {
+                key: 'salesOrder',
+                type: 'text',
+                required: false
+              },
+              {
+                key: 'date',
+                type: 'date',
+                required: false
+              }
+            ];
+          },
+          save: function () {
+            return function (data) {
+              data.forEach(function (sale) {
+                sale.product = $stateParams.id;
+                sale.fields = vm.fields.map(function (item) {
+                  return {
+                    field: item
+                  }
+                });
+              });
+              return Sales.createCollection(data)
+                .catch(function () {
+                  toastr.error('Something went wrong', 'Error');
+                });
+            }
+          },
+          parser: function () {
+            return function (data) {
+              data.forEach(function (item) {
+                item.date = +item.date ? new Date(1900, 0, +item.date - 1) : null;
+              });
+            }
           }
         }
       });
@@ -115,7 +175,7 @@
           })
           .catch(function () {
             toastr.error('Something went wrong', 'Error');
-          })
+          });
       });
     };
     function applyByFilters(sale) {

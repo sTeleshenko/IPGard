@@ -10,6 +10,9 @@
   /** @ngInject */
   function aboutComponent() {
     var vm = this;
-
+    vm.$onInit = function () {
+      vm.headers = ['serialNumber', 'version'];
+      vm.data = [];
+    }
   }
 })();

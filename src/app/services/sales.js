@@ -22,6 +22,10 @@
     self.deleteSale = function (sale) {
       return $http.delete('/api/sales/' + sale._id)
     };
+    self.createCollection = function (sales) {
+      return $http.post('/api/sales/collection', sales)
+    };
+
 
   }
 
