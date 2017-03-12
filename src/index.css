@@ -79,19 +79,9 @@ th[ng-click]{
 .pagination-wrapper{
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
 }
-.badge-custom{
-  margin-left:20px;
-}
-.badge-custom span{
-  display: inline-block;
-  min-width: 33px;
-  text-align: center;
-  margin-left: 5px;
-  padding: 5px;
-  border: 1px solid #ecf0f1;
-  border-radius: 4px;
-}
+
 .gallery .carousel-indicators{
   display: none;
 }
@@ -102,4 +92,10 @@ th[ng-click]{
   a[href]:after {
     content: none !important;
   }
+}
+.btn-sm, .btn-group-sm>.btn{
+  padding:5px 9px;
+}
+.full-flex{
+  flex-grow: 1;
 }

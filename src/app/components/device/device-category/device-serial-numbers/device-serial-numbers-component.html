@@ -171,7 +171,16 @@
               items-per-page="vm.pagination.limit"
               class="pagination-sm pull-left"
               boundary-link-numbers="true"></ul>
-          <span class="badge-custom">Count: <span>{{vm.pagination.total}}</span></span>
+          <span class="full-flex"></span>
+          <div class="btn-group btn-group-sm">
+            <label class="btn btn-success" disabled>Items per page</label>
+            <label class="btn btn-success"
+                   ng-model="vm.pagination.limit"
+                   ng-change="vm.loadSales()"
+                   ng-repeat="limit in vm.limits"
+                   uib-btn-radio="limit">{{limit}}</label>
+            <label class="btn btn-success" disabled>Count: {{vm.pagination.total}}</label>
+          </div>
         </div>
       </div>
     </div>

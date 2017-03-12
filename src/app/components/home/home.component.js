@@ -18,6 +18,7 @@
         sort: 'model',
         order: true
       };
+      vm.limits = [10, 20, 50, 100];
       vm.pagination = {
         page: 1,
         limit: 10

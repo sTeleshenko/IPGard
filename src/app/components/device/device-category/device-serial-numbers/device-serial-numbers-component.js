@@ -15,6 +15,7 @@
       vm.modelOptions = {
         debounce: 300
       };
+      vm.limits = [10, 20, 50, 100];
       vm.pagination = {
         page: 1,
         limit: 10,
