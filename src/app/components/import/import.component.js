@@ -20,7 +20,7 @@
       vm.data = [];
       vm.editedData = [];
       vm.pagination = {
-        limit: 10,
+        limit: 50,
         parts: 0,
         total: 0,
         part: 0
