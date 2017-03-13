@@ -1,6 +1,7 @@
 <form name="vm.form"
       ng-submit="vm.search()">
-  <div class="form-group form-group-sm" ng-if="vm.mode === 'sales'">
+  <div class="form-group form-group-sm"
+       ng-if="vm.mode === 'sales'">
     <label for="serialNumber">Serial number:</label>
     <input type="text"
            ng-model="vm.filters.serialNumber"
@@ -9,7 +10,41 @@
            class="form-control"
            placeholder="Serial number">
   </div>
-  <div class="form-group form-group-sm">
+
+
+
+  <script type="text/ng-template"
+          id="customTemplate.html">
+    <a>
+      Model Name: <span ng-bind-html="match.model.model | uibTypeaheadHighlight:query"></span>
+      <br>
+      Part Number: <span ng-bind-html="match.model.partNumber | uibTypeaheadHighlight:query"></span>
+      <br>
+      UPC: <span ng-bind-html="match.model.upc | uibTypeaheadHighlight:query"></span>
+      <br>
+      Description: <span ng-bind-html="match.model.description | uibTypeaheadHighlight:query"></span>
+    </a>
+  </script>
+
+
+
+  <div class="form-group form-group-sm"
+       ng-if="vm.mode === 'sales'">
+    <label for="deviceSelect">Device:</label>
+    <input type="text"
+           id="deviceSelect"
+           ng-model="vm.filters.product"
+           placeholder="Device"
+           uib-typeahead="device as device.model for device in vm.devices | filter:$viewValue | limitTo:8"
+           typeahead-min-length="2"
+           typeahead-editable="false"
+           typeahead-template-url="customTemplate.html"
+           class="form-control">
+  </div>
+
+
+  <div class="form-group form-group-sm"
+       ng-if="vm.mode === 'production'">
     <label for="modelName">Model name:</label>
     <input type="text"
            ng-model="vm.filters.model"
@@ -18,7 +53,8 @@
            class="form-control"
            placeholder="Model name">
   </div>
-  <div class="form-group form-group-sm">
+  <div class="form-group form-group-sm"
+       ng-if="vm.mode === 'production'">
     <label for="partNumber">Part Number:</label>
     <input type="text"
            ng-model="vm.filters.partNumber"
@@ -27,7 +63,8 @@
            placeholder="Part number"
            name="partNumber">
   </div>
-  <div class="form-group form-group-sm">
+  <div class="form-group form-group-sm"
+       ng-if="vm.mode === 'production'">
     <label for="upc">UPC:</label>
     <input type="text"
            ng-model="vm.filters.upc"
@@ -36,7 +73,8 @@
            placeholder="UPC"
            name="upc">
   </div>
-  <div class="form-group form-group-sm">
+  <div class="form-group form-group-sm"
+       ng-if="vm.mode === 'production'">
     <label for="description">Description:</label>
     <input type="text"
            ng-model="vm.filters.description"
@@ -45,7 +83,8 @@
            class="form-control"
            placeholder="Description">
   </div>
-  <div class="form-group form-group-sm" ng-if="vm.mode === 'sales'">
+  <div class="form-group form-group-sm"
+       ng-if="vm.mode === 'sales'">
     <label for="dateFrom">From Date:</label>
     <p class="input-group">
       <input type="text"
@@ -57,7 +96,7 @@
              placeholder="From Date"
              is-open="openFrom"
              datepicker-options="{maxDate: vm.filters.dateTo}"
-             close-text="Close"  />
+             close-text="Close" />
       <span class="input-group-btn">
             <button type="button"
                     class="btn btn-default btn-sm"
@@ -67,7 +106,8 @@
     </p>
   </div>
 
-  <div class="form-group form-group-sm" ng-if="vm.mode === 'sales'">
+  <div class="form-group form-group-sm"
+       ng-if="vm.mode === 'sales'">
     <label for="dateTo">To Date:</label>
     <p class="input-group">
       <input type="text"
@@ -79,7 +119,7 @@
              datepicker-options="{minDate: vm.filters.dateFrom}"
              popup-placement="auto"
              is-open="openTo"
-             close-text="Close"  />
+             close-text="Close" />
       <span class="input-group-btn">
             <button type="button"
                     class="btn btn-default btn-sm"
@@ -94,7 +134,9 @@
             ng-if="vm.mode === 'production'"
             has-role="['admin']"
             ng-click="vm.openDeviceModal({device: {}})">New</button>
-    <button type="button" class="btn btn-warning btn-sm" ng-click="vm.reset()">Reset</button>
-    <button type="submit" class="btn btn-success btn-sm">Search</button></div>
+    <button type="button"
+            class="btn btn-warning btn-sm"
+            ng-click="vm.reset()">Reset</button>
+    <button type="submit"
+            class="btn btn-success btn-sm">Search</button></div>
 </form>
-

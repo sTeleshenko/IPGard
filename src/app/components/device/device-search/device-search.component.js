@@ -14,8 +14,15 @@
     });
 
   /** @ngInject */
-  function DeviceSearchController() {
+  function DeviceSearchController($httpParamSerializer, Device) {
     var vm = this;
+
+    vm.$onInit = function() {
+      if(vm.mode === 'sales') {
+        vm.getDevices();
+      }
+    }
+
     vm.reset = function () {
       vm.filters = {};
       vm.search();
@@ -24,6 +31,18 @@
       vm.onFiltersChanged({
         filters: vm.filters
       });
+    };
+
+    vm.getDevices = function () {
+      var query = '?' +  $httpParamSerializer({
+          limit: 1000000,
+          page: 1
+        });
+      Device
+        .getAll(query)
+        .then(function (response) {
+          vm.devices =  response.data.docs;
+        })
     }
   }
 })();

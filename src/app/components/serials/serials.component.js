@@ -37,7 +37,11 @@
 
     vm.loadSerials = function () {
       var query = '?';
-      query += $httpParamSerializer(vm.filters) + '&';
+      var filtersCopy = angular.copy(vm.filters);
+      if(filtersCopy.product) {
+        filtersCopy.product = filtersCopy.product._id;
+      }
+      query += $httpParamSerializer(filtersCopy) + '&';
       // for(var key in vm.filters) {
       //   if(vm.filters[key]){
       //     query = query + key + '=' + vm.filters[key] + '&'
