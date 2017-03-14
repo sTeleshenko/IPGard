@@ -11,40 +11,7 @@
            placeholder="Serial number">
   </div>
 
-
-
-  <script type="text/ng-template"
-          id="customTemplate.html">
-    <a>
-      Model Name: <span ng-bind-html="match.model.model | uibTypeaheadHighlight:query"></span>
-      <br>
-      Part Number: <span ng-bind-html="match.model.partNumber | uibTypeaheadHighlight:query"></span>
-      <br>
-      UPC: <span ng-bind-html="match.model.upc | uibTypeaheadHighlight:query"></span>
-      <br>
-      Description: <span ng-bind-html="match.model.description | uibTypeaheadHighlight:query"></span>
-    </a>
-  </script>
-
-
-
-  <div class="form-group form-group-sm"
-       ng-if="vm.mode === 'sales'">
-    <label for="deviceSelect">Device:</label>
-    <input type="text"
-           id="deviceSelect"
-           ng-model="vm.filters.product"
-           placeholder="Device"
-           uib-typeahead="device as device.model for device in vm.devices | filter:$viewValue | limitTo:8"
-           typeahead-min-length="2"
-           typeahead-editable="false"
-           typeahead-template-url="customTemplate.html"
-           class="form-control">
-  </div>
-
-
-  <div class="form-group form-group-sm"
-       ng-if="vm.mode === 'production'">
+  <div class="form-group form-group-sm">
     <label for="modelName">Model name:</label>
     <input type="text"
            ng-model="vm.filters.model"
@@ -53,8 +20,7 @@
            class="form-control"
            placeholder="Model name">
   </div>
-  <div class="form-group form-group-sm"
-       ng-if="vm.mode === 'production'">
+  <div class="form-group form-group-sm">
     <label for="partNumber">Part Number:</label>
     <input type="text"
            ng-model="vm.filters.partNumber"
@@ -63,8 +29,7 @@
            placeholder="Part number"
            name="partNumber">
   </div>
-  <div class="form-group form-group-sm"
-       ng-if="vm.mode === 'production'">
+  <div class="form-group form-group-sm">
     <label for="upc">UPC:</label>
     <input type="text"
            ng-model="vm.filters.upc"
@@ -73,8 +38,7 @@
            placeholder="UPC"
            name="upc">
   </div>
-  <div class="form-group form-group-sm"
-       ng-if="vm.mode === 'production'">
+  <div class="form-group form-group-sm">
     <label for="description">Description:</label>
     <input type="text"
            ng-model="vm.filters.description"
