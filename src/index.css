@@ -1,6 +1,9 @@
 html{
   height: 100%;
 }
+th{
+  white-space: nowrap;
+}
 body{
   min-height:100%;
   display: flex;
@@ -28,6 +31,7 @@ login-component{
   margin-top: 10%;
 }
 .col-actions{
+  min-width: 100px;
   width: 150px;
   text-align: center;
 }
@@ -98,4 +102,10 @@ th[ng-click]{
 }
 .full-flex{
   flex-grow: 1;
+}
+@media (min-width: 992px) {
+  .modal-lg {
+    max-width: 1100px;
+    width: 100%;
+  }
 }

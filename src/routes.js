@@ -40,7 +40,7 @@ function routesConfig($stateProvider, $urlRouterProvider, $locationProvider) {
       }
     })
     .state('serials', {
-      url: '/serials',
+      url: '/sales',
       parent: 'main',
       component: 'serialsComponent',
       data: {
@@ -75,6 +75,14 @@ function routesConfig($stateProvider, $urlRouterProvider, $locationProvider) {
       url: '/help',
       parent: 'main',
       component: 'helpComponent',
+      data: {
+        roles: allRoles
+      }
+    })
+    .state('customers', {
+      url: '/customers',
+      parent: 'main',
+      component: 'customersComponent',
       data: {
         roles: allRoles
       }

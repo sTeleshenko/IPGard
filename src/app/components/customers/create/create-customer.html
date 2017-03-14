@@ -1,0 +1,102 @@
+<form ng-submit="vm.save()" name="vm.form">
+  <div class="modal-header">
+    <h4>Customer details</h4>
+  </div>
+  <div class="modal-body">
+    <div class="form-group" ng-repeat="field in vm.fields">
+      <label for="{{field.key}}">{{field.label}}:</label>
+      <input type="{{field.type}}"
+             ng-model="vm.customer[field.key]"
+             id="{{field.key}}"
+             name="{{field.key}}"
+             class="form-control"
+             ng-required="field.required"
+             placeholder="{{field.label}}">
+    </div>
+    <!--<div class="form-group">-->
+      <!--<label for="phone">Phone:</label>-->
+      <!--<input type="text"-->
+             <!--ng-model="vm.customer.phone"-->
+             <!--id="phone"-->
+             <!--name="phone"-->
+             <!--class="form-control"-->
+             <!--required-->
+             <!--placeholder="Phone">-->
+    <!--</div>-->
+    <!--<div class="form-group">-->
+      <!--<label for="contactPerson">Contact Person:</label>-->
+      <!--<input type="text"-->
+             <!--ng-model="vm.customer.contactPerson"-->
+             <!--id="contactPerson"-->
+             <!--name="contactPerson"-->
+             <!--class="form-control"-->
+             <!--required-->
+             <!--placeholder="Contact Person">-->
+    <!--</div>-->
+    <!--<div class="form-group">-->
+      <!--<label for="email">Email:</label>-->
+      <!--<input type="email"-->
+             <!--ng-model="vm.customer.email"-->
+             <!--id="email"-->
+             <!--name="email"-->
+             <!--class="form-control"-->
+             <!--required-->
+             <!--placeholder="Email">-->
+    <!--</div>-->
+    <!--<div class="form-group">-->
+      <!--<label for="address">Address:</label>-->
+      <!--<input type="text"-->
+             <!--ng-model="vm.customer.address"-->
+             <!--id="address"-->
+             <!--name="address"-->
+             <!--class="form-control"-->
+             <!--required-->
+             <!--placeholder="Address">-->
+    <!--</div>-->
+    <!--<div class="form-group">-->
+      <!--<label for="city">City:</label>-->
+      <!--<input type="text"-->
+             <!--ng-model="vm.customer.city"-->
+             <!--id="city"-->
+             <!--name="city"-->
+             <!--class="form-control"-->
+             <!--required-->
+             <!--placeholder="City">-->
+    <!--</div>-->
+    <!--<div class="form-group">-->
+      <!--<label for="zipCode">Zip Code:</label>-->
+      <!--<input type="text"-->
+             <!--ng-model="vm.customer.zipCode"-->
+             <!--id="zipCode"-->
+             <!--name="zipCode"-->
+             <!--class="form-control"-->
+             <!--required-->
+             <!--placeholder="Zip Code">-->
+    <!--</div>-->
+    <!--<div class="form-group">-->
+      <!--<label for="state">State:</label>-->
+      <!--<input type="text"-->
+             <!--ng-model="vm.customer.state"-->
+             <!--id="state"-->
+             <!--name="state"-->
+             <!--class="form-control"-->
+             <!--required-->
+             <!--placeholder="State">-->
+    <!--</div>-->
+    <!--<div class="form-group">-->
+      <!--<label for="country">Country:</label>-->
+      <!--<input type="text"-->
+             <!--ng-model="vm.customer.country"-->
+             <!--id="country"-->
+             <!--name="country"-->
+             <!--class="form-control"-->
+             <!--required-->
+             <!--placeholder="Country">-->
+    <!--</div>-->
+  </div>
+  <div class="modal-footer">
+    <button type="submit" class="btn btn-primary">Save</button>
+    <button type="button" class="btn btn-warning" ng-click="vm.cancel()">Cancel</button>
+  </div>
+
+</form>

@@ -4,9 +4,10 @@
       Select File
       <input type="file"
              fileread
+             parse-started="vm.onParseStarted()"
              headers="vm.headers"
              data="vm.data"
-             on-data-changed="vm.onDataChanged()"
+             on-data-changed="vm.onDataChanged(data)"
              accept=".xlsx, .xls"
              style="display: none;">
     </label>
@@ -19,7 +20,7 @@
       <table class="table table-bordered">
         <thead>
         <tr class="info">
-          <th ng-repeat="header in vm.headers">{{header.key}}</th>
+          <th ng-repeat="header in vm.headers">{{header.label}}</th>
         </tr>
         </thead>
         <tbody>
@@ -31,6 +32,12 @@
                    name="input{{$parent.$parent.$index}}{{$index}}"
                    ng-model="row[header.key]"
                    ng-if="header.type === 'text'">
+            <input type="email"
+                   class="form-control input-sm"
+                   ng-required="header.required"
+                   name="input{{$parent.$parent.$index}}{{$index}}"
+                   ng-model="row[header.key]"
+                   ng-if="header.type === 'email'">
             <p class="input-group input-group-sm"
                ng-if="header.type === 'date'">
               <input type="text"
@@ -58,7 +65,15 @@
     </div>
   </div>
   <div class="modal-footer">
-    <button type="submit" class="btn btn-primary" ng-disabled="vm.form.$invalid || !vm.editedData.length">Save</button>
+    <div class="progress pull-left"
+         ng-if="vm.loadInProgress"
+         style="width: 150px; margin-bottom: 0; margin-top: 11px;">
+      <div class="progress-bar progress-bar-success progress-bar-striped active"
+           role="progressbar"
+           style="width: 100%">
+      </div>
+    </div>
+    <button type="submit" class="btn btn-primary" ng-disabled="!vm.editedData.length || vm.loadInProgress">Save</button>
     <button type="button" class="btn btn-warning" ng-click="vm.cancel()">Cancel</button>
   </div>
 

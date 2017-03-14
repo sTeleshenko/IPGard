@@ -39,7 +39,6 @@
           toastr.error('Something went wrong', 'Error');
         });
 
-      vm.loadSales();
     };
 
     vm.onLimitChange = function () {
@@ -113,21 +112,25 @@
             return [
               {
                 key: 'serialNumber',
+                label: 'Serial Number',
                 type: 'text',
                 required: true
               },
               {
                 key: 'version',
+                label: 'Version',
                 type: 'text',
                 required: true
               },
               {
                 key: 'salesOrder',
+                label: 'Sales Order',
                 type: 'text',
                 required: false
               },
               {
                 key: 'date',
+                label: 'Date',
                 type: 'date',
                 required: false
               }

@@ -5,29 +5,32 @@
       return {
         scope: {
           headers: '<',
-          data: '=',
-          onDataChanged: '&'
+          onDataChanged: '&',
+          parseStarted: '&'
         },
         link: function ($scope, $elm, $attrs) {
           $elm.on('change', function (changeEvent) {
+
+            $scope.$apply(function () {
+              $scope.parseStarted();
+            });
             var reader = new FileReader();
 
             reader.onload = function (evt) {
-              $scope.$apply(function () {
-                var data = evt.target.result;
-                var workbook = XLSX.read(data, {type: 'binary', cellDates: true});
-                $scope.data = XLSX.utils.sheet_to_json(
-                  workbook.Sheets[workbook.SheetNames[0]],
-                  { header: $scope.headers.map(function (item) {
-                      return item.key
-                    })
-                  }
-                );
+              var data = evt.target.result;
+              var workbook = XLSX.read(data, {type: 'binary', cellDates: true});
+              data = XLSX.utils.sheet_to_json(
+                workbook.Sheets[workbook.SheetNames[0]],
+                {
+                  header: $scope.headers.map(function (item) {
+                    return item.key
+                  })
+                }
+              );
 
-                $elm.val(null);
-              });
               $scope.$apply(function () {
-                $scope.onDataChanged();
+                $scope.onDataChanged({data: data});
+                $elm.val(null);
               });
             };
             reader.readAsBinaryString(changeEvent.target.files[0]);

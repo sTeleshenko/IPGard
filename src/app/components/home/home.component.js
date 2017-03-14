@@ -111,15 +111,15 @@
           })
       });
     };
-    function applyByFilters(device) {
-      var apply = true;
-      for (var key in vm.filters) {
-        if(vm.filters[key].length && device[key].indexOf(vm.filters[key]) === -1) {
-          apply = false;
-          break;
-        }
-      }
-      return apply;
-    }
+    // function applyByFilters(device) {
+    //   var apply = true;
+    //   for (var key in vm.filters) {
+    //     if(vm.filters[key].length && device[key].indexOf(vm.filters[key]) === -1) {
+    //       apply = false;
+    //       break;
+    //     }
+    //   }
+    //   return apply;
+    // }
   }
 })();
