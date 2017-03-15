@@ -30,7 +30,7 @@
     };
 
     var Field = function (name, type, required) {
-      this.title = name;
+      this.label = name;
       this.type = type;
       this.required = required;
     };
@@ -42,6 +42,68 @@
         new  Field('Sales Order', 'String', false),
         new  Field('Date', 'Date', false),
         new  Field('Customer Name', 'Customer', false)
+      ],
+      'Customer': [
+        {
+          key: 'name',
+          label: 'Name',
+          required: true,
+          type: 'text'
+        },
+        {
+          key: 'phone',
+          label: 'Phone',
+          required: true,
+          type: 'text'
+        },
+        {
+          key: 'contactPerson',
+          label: 'Contact Person',
+          required: true,
+          type: 'text'
+        },
+        {
+          key: 'email',
+          label: 'Email',
+          required: true,
+          type: 'email'
+        },
+        {
+          key: 'salesRep',
+          label: 'Sales Rep',
+          required: false,
+          type: 'text'
+        },
+        {
+          key: 'address',
+          label: 'Address',
+          required: true,
+          type: 'text'
+        },
+        {
+          key: 'city',
+          label: 'City',
+          required: true,
+          type: 'text'
+        },
+        {
+          key: 'zipCode',
+          label: 'Zip Code',
+          required: true,
+          type: 'text'
+        },
+        {
+          key: 'state',
+          label: 'State',
+          required: true,
+          type: 'text'
+        },
+        {
+          key: 'country',
+          label: 'Country',
+          required: true,
+          type: 'text'
+        }
       ]
     }
   }

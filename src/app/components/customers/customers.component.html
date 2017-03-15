@@ -43,6 +43,7 @@
                 ng-class="{reverse: vm.sortFilters.order}"
                 ng-show="vm.sortFilters.sort === field.key"></span>
         </th>
+        <th ng-repeat="field in vm.dynamicFields | orderBy : '_id'">{{field.title}}</th>
         <!--<th ng-click="vm.onSortFiltersChanged('name')">-->
         <!--Name:-->
         <!--<span class="glyphicon glyphicon-triangle-bottom"-->
@@ -114,6 +115,19 @@
           <td>{{customer.zipCode}}</td>
           <td>{{customer.state}}</td>
           <td>{{customer.country}}</td>
+          <td ng-repeat="field in customer.fields | orderBy : 'field._id'">
+            <a href="/api/uploads/{{field.value.filename}}"
+               ng-if="field.field.type.value === 'file' || field.field.type.value === 'img'"
+               target="_blank">{{field.value.originalname}}</a>
+            <span ng-if="field.field.type.value === 'text' ||
+                     field.field.type.value === 'number' ||
+                     field.field.type.value === 'select' ||
+                     field.field.type.value === 'longText' ">{{field.value}}</span>
+            <span ng-if="field.field.type.value === 'date'">{{field.value | date : 'dd.MM.yyyy'}}</span>
+            <a href="{{field.value}}"
+               ng-if="field.field.type.value === 'link'"
+               target="_blank">{{field.value}}</a>
+          </td>
           <td class="col-actions no-print"
               has-role="['admin']">
             <button type="button"
@@ -131,27 +145,27 @@
         </tbody>
       </table>
 
-      <div class="pagination-wrapper no-print">
-        <ul uib-pagination
-            total-items="vm.pagination.total"
-            ng-model="vm.pagination.page"
-            ng-change="vm.loadCustomers()"
-            max-size="6"
-            items-per-page="vm.pagination.limit"
-            class="pagination-sm pull-left"
-            boundary-link-numbers="true"></ul>
-        <span class="full-flex"></span>
-        <div class="btn-group btn-group-sm">
-          <label class="btn btn-success" disabled>Items per page</label>
-          <label class="btn btn-success"
-                 ng-model="vm.pagination.limit"
-                 ng-change="vm.onLimitChange()"
-                 ng-repeat="limit in vm.limits"
-                 uib-btn-radio="limit">{{limit}}</label>
-          <label class="btn btn-success" disabled>Count: {{vm.pagination.total}}</label>
-        </div>
-      </div>
     </div>
 
+    <div class="pagination-wrapper no-print">
+      <ul uib-pagination
+          total-items="vm.pagination.total"
+          ng-model="vm.pagination.page"
+          ng-change="vm.loadCustomers()"
+          max-size="6"
+          items-per-page="vm.pagination.limit"
+          class="pagination-sm pull-left"
+          boundary-link-numbers="true"></ul>
+      <span class="full-flex"></span>
+      <div class="btn-group btn-group-sm">
+        <label class="btn btn-success" disabled>Items per page</label>
+        <label class="btn btn-success"
+               ng-model="vm.pagination.limit"
+               ng-change="vm.onLimitChange()"
+               ng-repeat="limit in vm.limits"
+               uib-btn-radio="limit">{{limit}}</label>
+        <label class="btn btn-success" disabled>Count: {{vm.pagination.total}}</label>
+      </div>
+    </div>
   </div>
 </div>

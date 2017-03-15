@@ -8,10 +8,11 @@
     });
 
   /** @ngInject */
-  function customersComponent(Customers, toastr, localStorageService, $uibModal, $scope) {
+  function customersComponent(Customers, toastr, localStorageService, $uibModal, $scope, StaticFields) {
     var vm = this;
     vm.$onInit = function () {
-      vm.fields = Customers.fields;
+      vm.model = 'Customer';
+      vm.fields = StaticFields.static[vm.model];
       vm.customers = [];
       vm.sortFilters = localStorageService.get('customersSortFilters') || {
           sort: 'name',
@@ -24,6 +25,13 @@
       };
       vm.filters = localStorageService.get('customersFilters') || {};
 
+      StaticFields.getFields(vm.model)
+        .then(function (response) {
+          vm.dynamicFields = response.data;
+        })
+        .catch(function () {
+          toastr.error('Something went wrong', 'Error');
+        });
       // $scope.$watch('vm.filters', function () {
       //   vm.loadCustomers();
       // }, true);
@@ -52,6 +60,13 @@
     };
 
     vm.openCustomerModal = function (customer) {
+      if(!customer._id){
+        customer.fields = vm.dynamicFields.map(function (item) {
+          return {
+            field: item
+          }
+        });
+      }
       var modalInstance = $uibModal.open({
         animation: true,
         component: 'createCustomerComponent',

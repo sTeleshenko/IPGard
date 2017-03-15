@@ -13,10 +13,10 @@
     });
 
   /** @ngInject */
-  function createCustomerComponent(Customers, toastr) {
+  function createCustomerComponent(Customers, toastr, StaticFields) {
     var vm = this;
     vm.$onInit = function () {
-      vm.fields = Customers.fields;
+      vm.fields = StaticFields.static['Customer'];
       vm.customer = vm.resolve.customer;
     };
     vm.cancel = function () {

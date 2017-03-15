@@ -13,7 +13,7 @@
     });
 
   /** @ngInject */
-  function createSalesComponent(Sales, toastr, Upload) {
+  function createSalesComponent(Sales, toastr, Upload, Customers) {
     var vm = this;
     vm.$onInit = function () {
       vm.sale = vm.resolve.sale;
@@ -54,6 +54,14 @@
             toastr.error(message, 'Error');
           });
       }
+    };
+
+    vm.getCustomers = function (customerName) {
+      var query = '?page=1&limit=10&name=' + customerName;
+      return Customers.getAll(query)
+        .then(function (response) {
+          return response.data.docs;
+        });
     };
 
     vm.convertDate = function (obj) {

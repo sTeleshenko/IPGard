@@ -47,51 +47,68 @@
            class="form-control"
            placeholder="Description">
   </div>
-  <div class="form-group form-group-sm"
+  <div class="row"
        ng-if="vm.mode === 'sales'">
-    <label for="dateFrom">From Date:</label>
-    <p class="input-group">
-      <input type="text"
-             id="dateFrom"
-             class="form-control"
-             uib-datepicker-popup="dd.MM.yyyy"
-             ng-model="vm.filters.dateFrom"
-             popup-placement="auto"
-             placeholder="From Date"
-             is-open="openFrom"
-             datepicker-options="{maxDate: vm.filters.dateTo}"
-             close-text="Close" />
-      <span class="input-group-btn">
+    <div class="col-sm-6">
+      <div class="form-group form-group-sm">
+        <label for="dateFrom">From Date:</label>
+        <p class="input-group">
+          <input type="text"
+                 id="dateFrom"
+                 class="form-control"
+                 uib-datepicker-popup="dd.MM.yyyy"
+                 ng-model="vm.filters.dateFrom"
+                 popup-placement="auto"
+                 placeholder="From Date"
+                 is-open="openFrom"
+                 datepicker-options="{maxDate: vm.filters.dateTo}"
+                 close-text="Close" />
+          <span class="input-group-btn">
             <button type="button"
                     class="btn btn-default btn-sm"
                     ng-click="openFrom = !openFrom">
               <i class="glyphicon glyphicon-calendar"></i></button>
           </span>
-    </p>
-  </div>
-
-  <div class="form-group form-group-sm"
-       ng-if="vm.mode === 'sales'">
-    <label for="dateTo">To Date:</label>
-    <p class="input-group">
-      <input type="text"
-             id="dateTo"
-             class="form-control"
-             placeholder="To Date"
-             uib-datepicker-popup="dd.MM.yyyy"
-             ng-model="vm.filters.dateTo"
-             datepicker-options="{minDate: vm.filters.dateFrom}"
-             popup-placement="auto"
-             is-open="openTo"
-             close-text="Close" />
-      <span class="input-group-btn">
+        </p>
+      </div>
+    </div>
+    <div class="col-sm-6">
+      <div class="form-group form-group-sm">
+        <label for="dateTo">To Date:</label>
+        <p class="input-group">
+          <input type="text"
+                 id="dateTo"
+                 class="form-control"
+                 placeholder="To Date"
+                 uib-datepicker-popup="dd.MM.yyyy"
+                 ng-model="vm.filters.dateTo"
+                 datepicker-options="{minDate: vm.filters.dateFrom}"
+                 popup-placement="auto"
+                 is-open="openTo"
+                 close-text="Close" />
+          <span class="input-group-btn">
             <button type="button"
                     class="btn btn-default btn-sm"
                     ng-click="openTo = !openTo">
               <i class="glyphicon glyphicon-calendar"></i></button>
           </span>
-    </p>
+        </p>
+      </div>
+    </div>
   </div>
+
+
+
+  <div class="form-group form-group-sm" ng-if="vm.mode === 'sales'">
+    <label for="customerName">Customer name:</label>
+    <input type="text"
+           ng-model="vm.filters.customerName"
+           id="customerName"
+           name="customerName"
+           class="form-control"
+           placeholder="Customer name">
+  </div>
+
   <div class="text-right">
     <button class="btn btn-primary btn-sm"
             type="button"
