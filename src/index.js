@@ -9,7 +9,7 @@ angular
     'ngAnimate',
     'angular.chips',
     'ngFileUpload',
-    'sticky'
+    'fixed.table.header'
   ])
   .config(function ($httpProvider, $compileProvider) {
     $httpProvider.interceptors.push('AuthInterceptor');

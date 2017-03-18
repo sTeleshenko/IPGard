@@ -54,7 +54,7 @@ login-component{
 }
 .footer-main{
   margin-bottom: 0;
-  margin-top: 35px;
+  margin-top: 10px;
   background-color: #ebebeb;
   padding: 7px 0;
 }
@@ -89,12 +89,34 @@ th[ng-click]{
 .gallery .carousel-indicators{
   display: none;
 }
+
+.scroled-table{
+  overflow: auto;
+  max-height: 600px;
+  max-height: calc( 100vh - 187px );
+}
+table.clone{
+  margin-bottom: 0;
+  border-left:none!important;
+}
 @media print {
   .no-print{
     display: none!important;
   }
   a[href]:after {
     content: none !important;
+  }
+  table.clone{
+    display: none!important;
+  }
+  .scroled-table{
+    max-height: none;
+  }
+  .scroled-table table{
+    margin-top: 0!important;
+  }
+  .scroled-table thead{
+    visibility: visible!important;
   }
 }
 .btn-sm, .btn-group-sm>.btn{

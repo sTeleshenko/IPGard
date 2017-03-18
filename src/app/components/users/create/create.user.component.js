@@ -37,6 +37,10 @@
         {
           label: 'Super Admin',
           value: 'admin'
+        },
+        {
+          label: 'Support',
+          value: 'support'
         }
       ];
       Auth.getCurrentUser()

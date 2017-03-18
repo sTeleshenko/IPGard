@@ -34,117 +34,121 @@
     </form>
   </div>
   <div class="col-md-9">
-    <div class="table-responsive">
-      <table class="table table-bordered">
-        <thead>
-        <th ng-repeat="field in vm.fields" ng-click="vm.onSortFiltersChanged(field.key)">
-          {{field.label}}
-          <span class="glyphicon glyphicon-triangle-bottom"
-                ng-class="{reverse: vm.sortFilters.order}"
-                ng-show="vm.sortFilters.sort === field.key"></span>
-        </th>
-        <th ng-repeat="field in vm.dynamicFields | orderBy : '_id'">{{field.title}}</th>
-        <!--<th ng-click="vm.onSortFiltersChanged('name')">-->
-        <!--Name:-->
-        <!--<span class="glyphicon glyphicon-triangle-bottom"-->
-        <!--ng-class="{reverse: vm.sortFilters.order}"-->
-        <!--ng-show="vm.sortFilters.sort === 'name'"></span>-->
-        <!--</th>-->
-        <!--<th ng-click="vm.onSortFiltersChanged('phone')">-->
-        <!--Phone:-->
-        <!--<span class="glyphicon glyphicon-triangle-bottom"-->
-        <!--ng-class="{reverse: vm.sortFilters.order}"-->
-        <!--ng-show="vm.sortFilters.sort === 'phone'"></span>-->
-        <!--</th>-->
-        <!--<th ng-click="vm.onSortFiltersChanged('contactPerson')">-->
-        <!--Contact Person:-->
-        <!--<span class="glyphicon glyphicon-triangle-bottom"-->
-        <!--ng-class="{reverse: vm.sortFilters.order}"-->
-        <!--ng-show="vm.sortFilters.sort === 'contactPerson'"></span>-->
-        <!--</th>-->
-        <!--<th ng-click="vm.onSortFiltersChanged('email')">-->
-        <!--Email:-->
-        <!--<span class="glyphicon glyphicon-triangle-bottom"-->
-        <!--ng-class="{reverse: vm.sortFilters.order}"-->
-        <!--ng-show="vm.sortFilters.sort === 'email'"></span>-->
-        <!--</th>-->
-        <!--<th ng-click="vm.onSortFiltersChanged('address')">-->
-        <!--Address:-->
-        <!--<span class="glyphicon glyphicon-triangle-bottom"-->
-        <!--ng-class="{reverse: vm.sortFilters.order}"-->
-        <!--ng-show="vm.sortFilters.sort === 'address'"></span>-->
-        <!--</th>-->
-        <!--<th ng-click="vm.onSortFiltersChanged('city')">-->
-        <!--City:-->
-        <!--<span class="glyphicon glyphicon-triangle-bottom"-->
-        <!--ng-class="{reverse: vm.sortFilters.order}"-->
-        <!--ng-show="vm.sortFilters.sort === 'city'"></span>-->
-        <!--</th>-->
-        <!--<th ng-click="vm.onSortFiltersChanged('zipCode')">-->
-        <!--Zip Code:-->
-        <!--<span class="glyphicon glyphicon-triangle-bottom"-->
-        <!--ng-class="{reverse: vm.sortFilters.order}"-->
-        <!--ng-show="vm.sortFilters.sort === 'zipCode'"></span>-->
-        <!--</th>-->
-        <!--<th ng-click="vm.onSortFiltersChanged('state')">-->
-        <!--State:-->
-        <!--<span class="glyphicon glyphicon-triangle-bottom"-->
-        <!--ng-class="{reverse: vm.sortFilters.order}"-->
-        <!--ng-show="vm.sortFilters.sort === 'state'"></span>-->
-        <!--</th>-->
-        <!--<th ng-click="vm.onSortFiltersChanged('country')">-->
-        <!--Country:-->
-        <!--<span class="glyphicon glyphicon-triangle-bottom"-->
-        <!--ng-class="{reverse: vm.sortFilters.order}"-->
-        <!--ng-show="vm.sortFilters.sort === 'country'"></span>-->
-        <!--</th>-->
-        <th class="col-actions no-print">Actions</th>
-        </thead>
-        <tbody>
-        <tr ng-repeat="customer in vm.customers">
-          <!--<td ng-repeat="field in vm.fields">{{customer[field.key]}}-->
+    <div>
+      <div class="table-responsive scroled-table">
+        <table class="table table-bordered">
+          <thead fix-head>
+          <tr>
+            <th ng-repeat="field in vm.fields" ng-click="vm.onSortFiltersChanged(field.key)">
+              {{field.label}}
+              <span class="glyphicon glyphicon-triangle-bottom"
+                    ng-class="{reverse: vm.sortFilters.order}"
+                    ng-show="vm.sortFilters.sort === field.key"></span>
+            </th>
+            <th ng-repeat="field in vm.dynamicFields | orderBy : '_id'">{{field.title}}</th>
+            <!--<th ng-click="vm.onSortFiltersChanged('name')">-->
+            <!--Name:-->
+            <!--<span class="glyphicon glyphicon-triangle-bottom"-->
+            <!--ng-class="{reverse: vm.sortFilters.order}"-->
+            <!--ng-show="vm.sortFilters.sort === 'name'"></span>-->
+            <!--</th>-->
+            <!--<th ng-click="vm.onSortFiltersChanged('phone')">-->
+            <!--Phone:-->
+            <!--<span class="glyphicon glyphicon-triangle-bottom"-->
+            <!--ng-class="{reverse: vm.sortFilters.order}"-->
+            <!--ng-show="vm.sortFilters.sort === 'phone'"></span>-->
+            <!--</th>-->
+            <!--<th ng-click="vm.onSortFiltersChanged('contactPerson')">-->
+            <!--Contact Person:-->
+            <!--<span class="glyphicon glyphicon-triangle-bottom"-->
+            <!--ng-class="{reverse: vm.sortFilters.order}"-->
+            <!--ng-show="vm.sortFilters.sort === 'contactPerson'"></span>-->
+            <!--</th>-->
+            <!--<th ng-click="vm.onSortFiltersChanged('email')">-->
+            <!--Email:-->
+            <!--<span class="glyphicon glyphicon-triangle-bottom"-->
+            <!--ng-class="{reverse: vm.sortFilters.order}"-->
+            <!--ng-show="vm.sortFilters.sort === 'email'"></span>-->
+            <!--</th>-->
+            <!--<th ng-click="vm.onSortFiltersChanged('address')">-->
+            <!--Address:-->
+            <!--<span class="glyphicon glyphicon-triangle-bottom"-->
+            <!--ng-class="{reverse: vm.sortFilters.order}"-->
+            <!--ng-show="vm.sortFilters.sort === 'address'"></span>-->
+            <!--</th>-->
+            <!--<th ng-click="vm.onSortFiltersChanged('city')">-->
+            <!--City:-->
+            <!--<span class="glyphicon glyphicon-triangle-bottom"-->
+            <!--ng-class="{reverse: vm.sortFilters.order}"-->
+            <!--ng-show="vm.sortFilters.sort === 'city'"></span>-->
+            <!--</th>-->
+            <!--<th ng-click="vm.onSortFiltersChanged('zipCode')">-->
+            <!--Zip Code:-->
+            <!--<span class="glyphicon glyphicon-triangle-bottom"-->
+            <!--ng-class="{reverse: vm.sortFilters.order}"-->
+            <!--ng-show="vm.sortFilters.sort === 'zipCode'"></span>-->
+            <!--</th>-->
+            <!--<th ng-click="vm.onSortFiltersChanged('state')">-->
+            <!--State:-->
+            <!--<span class="glyphicon glyphicon-triangle-bottom"-->
+            <!--ng-class="{reverse: vm.sortFilters.order}"-->
+            <!--ng-show="vm.sortFilters.sort === 'state'"></span>-->
+            <!--</th>-->
+            <!--<th ng-click="vm.onSortFiltersChanged('country')">-->
+            <!--Country:-->
+            <!--<span class="glyphicon glyphicon-triangle-bottom"-->
+            <!--ng-class="{reverse: vm.sortFilters.order}"-->
+            <!--ng-show="vm.sortFilters.sort === 'country'"></span>-->
+            <!--</th>-->
+            <th class="col-actions no-print">Actions</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr ng-repeat="customer in vm.customers">
+            <!--<td ng-repeat="field in vm.fields">{{customer[field.key]}}-->
             <!--<a ng-if="field.key === 'name'" ui-sref="serials({id: customer._id})">{{customer.name}}</a>-->
-          <!--</td>-->
-          <td>{{customer.name}}</td>
-          <td>{{customer.phone}}</td>
-          <td>{{customer.contactPerson}}</td>
-          <td>{{customer.email}}</td>
-          <td>{{customer.salesRep}}</td>
-          <td>{{customer.address}}</td>
-          <td>{{customer.city}}</td>
-          <td>{{customer.zipCode}}</td>
-          <td>{{customer.state}}</td>
-          <td>{{customer.country}}</td>
-          <td ng-repeat="field in customer.fields | orderBy : 'field._id'">
-            <a href="/api/uploads/{{field.value.filename}}"
-               ng-if="field.field.type.value === 'file' || field.field.type.value === 'img'"
-               target="_blank">{{field.value.originalname}}</a>
-            <span ng-if="field.field.type.value === 'text' ||
+            <!--</td>-->
+            <td>{{customer.name}}</td>
+            <td>{{customer.phone}}</td>
+            <td>{{customer.contactPerson}}</td>
+            <td>{{customer.email}}</td>
+            <td>{{customer.salesRep}}</td>
+            <td>{{customer.address}}</td>
+            <td>{{customer.city}}</td>
+            <td>{{customer.zipCode}}</td>
+            <td>{{customer.state}}</td>
+            <td>{{customer.country}}</td>
+            <td ng-repeat="field in customer.fields | orderBy : 'field._id'">
+              <a href="/api/uploads/{{field.value.filename}}"
+                 ng-if="field.field.type.value === 'file' || field.field.type.value === 'img'"
+                 target="_blank">{{field.value.originalname}}</a>
+              <span ng-if="field.field.type.value === 'text' ||
                      field.field.type.value === 'number' ||
                      field.field.type.value === 'select' ||
                      field.field.type.value === 'longText' ">{{field.value}}</span>
-            <span ng-if="field.field.type.value === 'date'">{{field.value | date : 'dd.MM.yyyy'}}</span>
-            <a href="{{field.value}}"
-               ng-if="field.field.type.value === 'link'"
-               target="_blank">{{field.value}}</a>
-          </td>
-          <td class="col-actions no-print"
-              has-role="['admin']">
-            <button type="button"
-                    ng-click="vm.openCustomerModal(customer)"
-                    class="btn btn-primary btn-sm">
-              <span class="glyphicon glyphicon-edit"></span>
-            </button>
-            <button type="button"
-                    ng-click="vm.delete(customer)"
-                    class="btn btn-danger btn-sm">
-              <span class="glyphicon glyphicon-trash"></span>
-            </button>
-          </td>
-        </tr>
-        </tbody>
-      </table>
+              <span ng-if="field.field.type.value === 'date'">{{field.value | date : 'dd.MM.yyyy'}}</span>
+              <a href="{{field.value}}"
+                 ng-if="field.field.type.value === 'link'"
+                 target="_blank">{{field.value}}</a>
+            </td>
+            <td class="col-actions no-print"
+                has-role="['admin']">
+              <button type="button"
+                      ng-click="vm.openCustomerModal(customer)"
+                      class="btn btn-primary btn-sm">
+                <span class="glyphicon glyphicon-edit"></span>
+              </button>
+              <button type="button"
+                      ng-click="vm.delete(customer)"
+                      class="btn btn-danger btn-sm">
+                <span class="glyphicon glyphicon-trash"></span>
+              </button>
+            </td>
+          </tr>
+          </tbody>
+        </table>
 
+      </div>
     </div>
 
     <div class="pagination-wrapper no-print">

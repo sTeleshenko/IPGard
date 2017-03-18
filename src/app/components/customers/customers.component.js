@@ -20,11 +20,12 @@
         };
       vm.limits = [10, 20, 50, 100];
       vm.pagination = {
+        total: 0,
         page: 1,
         limit: localStorageService.get('paginationLimit') || 10
       };
       vm.filters = localStorageService.get('customersFilters') || {};
-
+      vm.dynamicFields = [];
       StaticFields.getFields(vm.model)
         .then(function (response) {
           vm.dynamicFields = response.data;

@@ -20,6 +20,9 @@
           if(currentUser.role === 'salesAdmin' || currentUser.role === 'salesUser'){
             $state.go('serials')
           }
+          else if(currentUser.role === 'support'){
+            $state.go('about')
+          }
           else $state.go('home')
         })
         .catch(function (error) {

@@ -4,7 +4,7 @@ angular
 
 /** @ngInject */
 function routesConfig($stateProvider, $urlRouterProvider, $locationProvider) {
-  var allRoles = ['admin', 'productionAdmin', 'productionUser', 'salesAdmin', 'salesUser'];
+  var allRoles = ['admin', 'productionAdmin', 'productionUser', 'salesAdmin', 'salesUser', 'support'];
   var admins = ['admin', 'productionAdmin', 'salesAdmin'];
   var sales = ['admin', 'salesAdmin', 'salesUser'];
   var productions = ['admin', 'productionAdmin', 'productionUser'];
