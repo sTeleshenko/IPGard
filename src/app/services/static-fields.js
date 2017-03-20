@@ -104,6 +104,13 @@
           required: true,
           type: 'text'
         }
+      ],
+      'Rma': [
+        new  Field('Serial Number', 'String', true),
+        new  Field('Version', 'String', true),
+        new  Field('Sales Order', 'String', true),
+        new  Field('Date', 'Date', true),
+        new  Field('Customer Name', 'Customer', true)
       ]
     }
   }

@@ -8,6 +8,7 @@ function routesConfig($stateProvider, $urlRouterProvider, $locationProvider) {
   var admins = ['admin', 'productionAdmin', 'salesAdmin'];
   var sales = ['admin', 'salesAdmin', 'salesUser'];
   var productions = ['admin', 'productionAdmin', 'productionUser'];
+  var support = ['admin', 'support'];
   $locationProvider.html5Mode(true).hashPrefix('!');
   $urlRouterProvider.otherwise(function ($injector) {
     var auth = $injector.get('Auth');
@@ -18,6 +19,8 @@ function routesConfig($stateProvider, $urlRouterProvider, $locationProvider) {
           state.go('home');
         } else if(sales.indexOf(user.role) !== -1) {
           state.go('serials')
+        } else if(support.indexOf(user.role) !== -1) {
+          state.go('rma')
         } else {
           state.go('login');
         }
@@ -61,6 +64,30 @@ function routesConfig($stateProvider, $urlRouterProvider, $locationProvider) {
       component: 'categoriesComponent',
       data: {
         roles: ['admin']
+      }
+    })
+    .state('rma', {
+      url: '/rma',
+      parent: 'main',
+      component: 'rmaComponent',
+      data: {
+        roles: support
+      }
+    })
+    .state('rmaDetail', {
+      url: '/rma/:id',
+      parent: 'main',
+      component: 'rmaCreateComponent',
+      data: {
+        roles: support
+      }
+    })
+    .state('rmaCreate', {
+      url: '/rma-create',
+      parent: 'main',
+      component: 'rmaCreateComponent',
+      data: {
+        roles: support
       }
     })
     .state('about', {

@@ -21,7 +21,7 @@
             $state.go('serials')
           }
           else if(currentUser.role === 'support'){
-            $state.go('about')
+            $state.go('rma')
           }
           else $state.go('home')
         })

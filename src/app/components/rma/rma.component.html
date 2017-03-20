@@ -1,0 +1,150 @@
+<div class="row">
+  <div class="col-md-3 no-print sm-spacer">
+    <form name="vm.form"
+          ng-submit="vm.loadCustomers()">
+      <div class="form-group form-group-sm" ng-repeat="field in vm.fields | limitTo: 5">
+        <label for="{{field.key}}">{{field.label}}:</label>
+        <input type="text"
+               ng-model="vm.filters[field.key]"
+               id="{{field.key}}"
+               name="{{field.key}}"
+               class="form-control"
+               placeholder="{{field.label}}">
+      </div>
+
+      <div class="text-right">
+        <button class="btn btn-primary btn-sm"
+                type="button"
+                has-role="['admin']"
+                ui-sref="rmaCreate">New
+        </button>
+        <button type="button"
+                class="btn btn-warning btn-sm"
+                ng-click="vm.reset()">Reset
+        </button>
+        <button type="submit"
+                class="btn btn-success btn-sm">Search
+        </button>
+      </div>
+    </form>
+  </div>
+  <div class="col-md-9">
+    <div>
+      <div class="table-responsive scroled-table">
+        <table class="table table-bordered">
+          <thead fix-head>
+          <tr>
+            <th ng-click="vm.onSortFiltersChanged('formNumber')">
+              RMA Form Number
+              <span class="glyphicon glyphicon-triangle-bottom"
+                    ng-class="{reverse: vm.sortFilters.order}"
+                    ng-show="vm.sortFilters.sort === 'formNumber'"></span>
+            </th>
+            <th ng-click="vm.onSortFiltersChanged('rxCarrier')">
+              Rx Carrier
+              <span class="glyphicon glyphicon-triangle-bottom"
+                    ng-class="{reverse: vm.sortFilters.order}"
+                    ng-show="vm.sortFilters.sort === 'rxCarrier'"></span>
+            </th>
+            <th ng-click="vm.onSortFiltersChanged('rxTracking')">
+              Rx Tracking
+              <span class="glyphicon glyphicon-triangle-bottom"
+                    ng-class="{reverse: vm.sortFilters.order}"
+                    ng-show="vm.sortFilters.sort === 'rxTracking'"></span>
+            </th>
+            <th ng-click="vm.onSortFiltersChanged('description')">
+              Description
+              <span class="glyphicon glyphicon-triangle-bottom"
+                    ng-class="{reverse: vm.sortFilters.order}"
+                    ng-show="vm.sortFilters.sort === 'description'"></span>
+            </th>
+            <th ng-click="vm.onSortFiltersChanged('status')">
+              Status
+              <span class="glyphicon glyphicon-triangle-bottom"
+                    ng-class="{reverse: vm.sortFilters.order}"
+                    ng-show="vm.sortFilters.sort === 'status'"></span>
+            </th>
+            <th ng-click="vm.onSortFiltersChanged('totalItems')">
+              Total Items
+              <span class="glyphicon glyphicon-triangle-bottom"
+                    ng-class="{reverse: vm.sortFilters.order}"
+                    ng-show="vm.sortFilters.sort === 'totalItems'"></span>
+            </th>
+            <th ng-click="vm.onSortFiltersChanged('closedItems')">
+              Closed Items
+              <span class="glyphicon glyphicon-triangle-bottom"
+                    ng-class="{reverse: vm.sortFilters.order}"
+                    ng-show="vm.sortFilters.sort === 'closedItems'"></span>
+            </th>
+            <th ng-click="vm.onSortFiltersChanged('dateCreate')">
+              Date Create
+              <span class="glyphicon glyphicon-triangle-bottom"
+                    ng-class="{reverse: vm.sortFilters.order}"
+                    ng-show="vm.sortFilters.sort === 'dateCreate'"></span>
+            </th>
+            <th class="col-actions no-print">Actions</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr ng-repeat="rma in vm.rmaes">
+            <!--<td ng-repeat="field in vm.fields">{{customer[field.key]}}-->
+            <!--<a ng-if="field.key === 'name'" ui-sref="serials({id: customer._id})">{{customer.name}}</a>-->
+            <!--</td>-->
+            <td><a ui-sref="rmaDetail({id: rma._id})">{{rma.formNumber}}</a></td>
+            <td>{{rma.rxCarrier}}</td>
+            <td>{{rma.rxTracking}}</td>
+            <td>{{rma.description}}</td>
+            <td>{{rma.closed ? 'Closed' : 'Open'}}</td>
+            <td>{{rma.products.length}}</td>
+            <td>{{rma.closedCount}}</td>
+            <td>{{rma.dateCreate | date: 'dd.MM.yyyy'}}</td>
+            <!--<td ng-repeat="field in customer.fields | orderBy : 'field._id'">-->
+            <!--<a href="/api/uploads/{{field.value.filename}}"-->
+            <!--ng-if="field.field.type.value === 'file' || field.field.type.value === 'img'"-->
+            <!--target="_blank">{{field.value.originalname}}</a>-->
+            <!--<span ng-if="field.field.type.value === 'text' ||-->
+            <!--field.field.type.value === 'number' ||-->
+            <!--field.field.type.value === 'select' ||-->
+            <!--field.field.type.value === 'longText' ">{{field.value}}</span>-->
+            <!--<span ng-if="field.field.type.value === 'date'">{{field.value | date : 'dd.MM.yyyy'}}</span>-->
+            <!--<a href="{{field.value}}"-->
+            <!--ng-if="field.field.type.value === 'link'"-->
+            <!--target="_blank">{{field.value}}</a>-->
+            <!--</td>-->
+            <td class="text-center">
+              <button type="button"
+                      ng-click="vm.delete(rma)"
+                      class="btn btn-danger btn-sm">
+                <span class="glyphicon glyphicon-trash"></span>
+              </button>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+
+      </div>
+    </div>
+
+    <div class="pagination-wrapper no-print">
+      <ul uib-pagination
+          total-items="vm.pagination.total"
+          ng-model="vm.pagination.page"
+          ng-change="vm.loadRma()"
+          max-size="6"
+          items-per-page="vm.pagination.limit"
+          class="pagination-sm pull-left"
+          boundary-link-numbers="true"></ul>
+      <span class="full-flex"></span>
+      <div class="btn-group btn-group-sm">
+        <label class="btn btn-success" disabled>Items per page</label>
+        <label class="btn btn-success"
+               ng-model="vm.pagination.limit"
+               ng-change="vm.onLimitChange()"
+               ng-repeat="limit in vm.limits"
+               uib-btn-radio="limit">{{limit}}</label>
+        <label class="btn btn-success" disabled>Count: {{vm.pagination.total}}</label>
+      </div>
+    </div>
+  </div>
+</div>
+

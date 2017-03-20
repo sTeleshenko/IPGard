@@ -1,0 +1,295 @@
+<form name="vm.form"
+      ng-submit="vm.save()"
+      autocomplete="off">
+  <div class="row">
+    <div class="col-lg-3 col-md-6">
+      <fieldset name="basic">
+        <legend>Basic RMA info</legend>
+        <div class="form-group form-group-sm">
+          <label for="formNumber">RMA Form Number:</label>
+          <input type="text"
+                 ng-if="vm.editMode"
+                 ng-model="vm.rma.formNumber"
+                 class="form-control"
+                 id="formNumber"
+                 disabled
+                 name="formNumber"
+                 required
+                 placeholder="RMA Form Number">
+          <div class="input-group input-group-sm" ng-if="!vm.editMode">
+            <span class="input-group-addon" id="basic-addon1">{{vm.options.formNumberStatic}}</span>
+            <input type="text"
+                   ng-model="vm.options.formNumberDynamic"
+                   class="form-control"
+                   id="formNumber"
+                   name="formNumber"
+                   required
+                   placeholder="RMA Form Number">
+          </div>
+        </div>
+        <div class="form-group form-group-sm">
+          <label for="rxCarrier">Rx Carrier:</label>
+          <input type="text"
+                 ng-model="vm.rma.rxCarrier"
+                 class="form-control"
+                 id="rxCarrier"
+                 name="rxCarrier"
+                 placeholder="Rx Carrier">
+        </div>
+        <div class="form-group form-group-sm">
+          <label for="rxTracking">Rx Tracking:</label>
+          <input type="text"
+                 ng-model="vm.rma.rxTracking"
+                 class="form-control"
+                 id="rxTracking"
+                 name="rxTracking"
+                 placeholder="Rx Tracking">
+        </div>
+        <div class="form-group form-group-sm">
+          <label for="description">Description:</label>
+          <textarea name="description"
+                    id="description"
+                    class="form-control"
+                    placeholder="Description"
+                    ng-model="vm.rma.description"></textarea>
+        </div>
+      </fieldset>
+    </div>
+    <div class="col-lg-3 col-md-6 col-lg-push-6">
+      <fieldset name="customer">
+        <legend>Customer info</legend>
+
+        <div class="form-group form-group-sm with-autocomplete" ng-if="!vm.editMode">
+          <a href="#" class="pull-right" ng-click="vm.openCustomerModal($event)">New</a>
+          <label for="clientName">Customer Name:</label>
+          <input type="text"
+                 typeahead-editable="false"
+                 id="clientName"
+                 ng-model="vm.rma.customer"
+                 ng-model-options="{debounce: 300}"
+                 placeholder="Customer Name"
+                 uib-typeahead="customer as customer.name for customer in vm.getCustomers($viewValue)"
+                 typeahead-loading="loadingCustomers"
+                 typeahead-on-select="vm.onCustomerChanged()"
+                 typeahead-no-results="noResults"
+                 class="form-control">
+          <i ng-show="loadingCustomers" class="glyphicon glyphicon-refresh"></i>
+          <div ng-show="noResults">
+            <i class="glyphicon glyphicon-remove"></i> No Results Found
+          </div>
+        </div>
+        <div class="well well-sm" ng-if="vm.rma.customer">
+          <table class="table table-sm">
+            <tbody>
+            <tr ng-repeat="field in vm.customerFields">
+              <td><b>{{field.label}}:</b></td>
+              <td>{{vm.rma.customer[field.key]}}</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </fieldset>
+    </div>
+    <div class="col-lg-6 col-md-12 col-lg-pull-3">
+      <fieldset name="devices">
+        <legend>RMA devices</legend>
+        <div class="form-group form-group-sm with-autocomplete" ng-if="!vm.editMode">
+          <label for="serialNumber">Serial Number:</label>
+          <input type="text"
+                 typeahead-editable="false"
+                 id="serialNumber"
+                 ng-model="vm.serialNumber"
+                 ng-model-options="{debounce: 300}"
+                 placeholder="Serial Number"
+                 uib-typeahead="sn as sn.serialNumber for sn in vm.getSerials($viewValue)"
+                 typeahead-loading="loadingSerials"
+                 typeahead-template-url="serial-template.html"
+                 typeahead-no-results="noSerialsResults"
+                 typeahead-on-select="vm.onSerialNumberChanged()"
+                 class="form-control">
+          <i ng-show="loadingSerials" class="glyphicon glyphicon-refresh"></i>
+          <div ng-show="noSerialsResults">
+            <i class="glyphicon glyphicon-remove"></i> No Results Found
+          </div>
+        </div>
+        <div class="table-responsive" ng-show="vm.rma.products.length">
+          <table class="table table-bordered">
+            <thead>
+            <tr>
+              <th>Serial Number</th>
+              <th>Version</th>
+              <th>Sales Order</th>
+              <th>Date</th>
+              <th>Customer</th>
+              <th ng-repeat="field in vm.staticFields | orderBy: '_id'">{{field.title}}</th>
+              <th class="text-center" ng-if="!vm.editMode">Actions</th>
+              <th class="text-center" ng-if="vm.editMode">
+                <input type="checkbox" ng-model="vm.rma.closed" ng-change="vm.closeAllChanged()">
+              </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="sn in vm.rma.products">
+              <td>{{sn.sale.serialNumber}}</td>
+              <td>{{sn.sale.version}}</td>
+              <td>{{sn.sale.salesOrder}}</td>
+              <td>{{sn.sale.date | date: 'dd.MM.yyyy'}}</td>
+              <td>{{sn.sale.customer.name}}</td>
+              <td ng-repeat="field in sn.fields | orderBy : 'field._id'" ng-if="vm.editMode">
+                <a href="/api/uploads/{{field.value.filename}}"
+                   ng-if="field.field.type.value === 'file' || field.field.type.value === 'img'"
+                   target="_blank">{{field.value.originalname}}</a>
+                <span ng-if="field.field.type.value === 'text' ||
+                     field.field.type.value === 'number' ||
+                     field.field.type.value === 'select' ||
+                     field.field.type.value === 'longText' ">{{field.value}}</span>
+                <span ng-if="field.field.type.value === 'date'">{{field.value | date : 'dd.MM.yyyy'}}</span>
+                <a href="{{field.value}}"
+                   ng-if="field.field.type.value === 'link'"
+                   target="_blank">{{field.value}}</a>
+              </td>
+              <td ng-repeat="obj in sn.fields | orderBy: 'field._id'" class="clear-form-group-margin" ng-if="!vm.editMode">
+
+                <div class="form-group form-group-sm" ng-if="obj.field.type.value === 'number'">
+                  <input type="number"
+                         ng-model="obj.value"
+                         placeholder="{{obj.field.title}}"
+                         id="{{obj.field.title}}"
+                         name="{{obj.field.title}}"
+                         class="form-control"
+                         ng-required="obj.field.required">
+                </div>
+                <div class="form-group form-group-sm" ng-if="obj.field.type.value === 'text'">
+                  <input type="text"
+                         ng-model="obj.value"
+                         placeholder="{{obj.field.title}}"
+                         id="{{obj.field.title}}"
+                         name="{{obj.field.title}}"
+                         class="form-control"
+                         ng-required="obj.field.required">
+                </div>
+                <div class="form-group form-group-sm" ng-if="obj.field.type.value === 'link'">
+                  <input type="text"
+                         ng-model="obj.value"
+                         placeholder="http://{{obj.field.title}}"
+                         id="{{obj.field.title}}"
+                         name="{{obj.field.title}}"
+                         ng-pattern="/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/"
+                         class="form-control"
+                         ng-required="obj.field.required">
+                </div>
+                <div class="form-group form-group-sm" ng-if="obj.field.type.value === 'longText'">
+                  <textarea
+                    ng-model="obj.value"
+                    id="{{obj.field.title}}"
+                    placeholder="{{obj.field.title}}"
+                    name="{{obj.field.title}}"
+                    class="form-control"
+                    ng-required="obj.field.required"></textarea>
+                </div>
+                <div class="form-group form-group-sm" ng-if="obj.field.type.value === 'select'">
+                  <select ng-model="obj.value"
+                          id="{{obj.field.title}}"
+                          name="{{obj.field.title}}"
+                          class="form-control"
+                          ng-required="obj.field.required"
+                          ng-options="option as option for option in obj.field.options">
+                  </select>
+                </div>
+                <div class="form-group form-group-sm" ng-if="obj.field.type.value === 'file'">
+                  <div class="load-progress">
+                    <uib-progressbar max="100" value="obj.progress" ng-if="obj.progress >= 0">
+                      <span style="color:white; white-space:nowrap;">{{obj.progress}} / 100</span>
+                    </uib-progressbar>
+                  </div>
+                  <div class="clearfix"></div>
+                  <div class="input-group input-group-sm" ngf-select="vm.upload($file, obj)">
+                  <span class="input-group-btn">
+                    <button class="btn btn-default btn-sm" type="button">Search</button>
+                  </span>
+                    <input type="text"
+                           id="{{obj.field.title}}"
+                           name="{{obj.field.title}}"
+                           ng-model="obj.value.originalname"
+                           class="form-control"
+                           placeholder="{{obj.field.title}}"
+                           ng-required="obj.field.required"
+                           readonly>
+                  </div>
+                </div>
+                <div class="form-group form-group-sm" ng-if="obj.field.type.value === 'img'">
+                  <div class="load-progress">
+                    <uib-progressbar max="100" value="obj.progress" ng-if="obj.progress >= 0">
+                      <span style="color:white; white-space:nowrap;">{{obj.progress}} / 100</span>
+                    </uib-progressbar>
+                  </div>
+                  <div class="clearfix"></div>
+                  <div class="input-group input-group-sm" ngf-select="vm.upload($file, obj)" ngf-accept="'image/*'">
+                  <span class="input-group-btn">
+                    <button class="btn btn-default" type="button">Search</button>
+                  </span>
+                    <input type="text"
+                           id="{{obj.field.title}}"
+                           name="{{obj.field.title}}"
+                           ng-model="obj.value.originalname"
+                           placeholder="{{obj.field.title}}"
+                           class="form-control"
+                           ng-required="obj.field.required"
+                           readonly>
+                  </div>
+                </div>
+                <div class="form-group form-group-sm" ng-if="obj.field.type.value === 'date'">
+                  <p class="input-group input-group-sm" ng-init="vm.convertDate(obj)">
+                    <input type="text"
+                           class="form-control"
+                           uib-datepicker-popup="dd.MM.yyyy"
+                           ng-model="obj.value"
+                           popup-placement="auto"
+                           placeholder="{{obj.field.title}}"
+                           is-open="obj.open"
+                           ng-required="obj.required"
+                           close-text="Close"  />
+                    <span class="input-group-btn">
+                      <button type="button"
+                              class="btn btn-default"
+                              ng-click="obj.open = !obj.open">
+                        <i class="glyphicon glyphicon-calendar"></i></button>
+                    </span>
+                  </p>
+                </div>
+
+              </td>
+              <td class="text-center" ng-if="!vm.editMode">
+                <button type="button"
+                        ng-click="vm.deleteSerialNumber(sn, $index)"
+                        class="btn btn-danger btn-sm">
+                  <span class="glyphicon glyphicon-trash"></span>
+                </button>
+              </td>
+              <td class="text-center" ng-if="vm.editMode">
+                <input type="checkbox" ng-model="sn.closed" ng-change="vm.closeOneChanged()">
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </fieldset>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xs-12">
+      <button class="btn btn-sm btn-primary">Save</button>
+    </div>
+  </div>
+</form>
+<script type="text/ng-template" id="serial-template.html">
+  <a>
+    Serial Number: <span ng-bind-html="match.model.serialNumber | uibTypeaheadHighlight:query"></span><br>
+    Version: <span>{{match.model.version}}</span><br>
+    Sales Order: <span>{{match.model.salesOrder}}</span><br>
+    Date: <span>{{match.model.date | date: 'dd.MM.yyyy'}}</span><br>
+    Customer: <span>{{match.model.customer.name}}</span><br>
+  </a>
+</script>

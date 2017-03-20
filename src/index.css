@@ -131,3 +131,27 @@ table.clone{
     width: 100%;
   }
 }
+legend{
+  width: 100%;
+  margin-bottom: 20px;
+  font-size: 18px;
+  line-height:inherit;
+  border-bottom: 1px solid #e5e5e5;
+}
+.with-autocomplete{
+  position: relative;
+}
+.with-autocomplete .dropdown-menu{
+  top: 100%!important;
+  left: 0!important;
+  width: 100%!important;
+}
+.clear-form-group-margin{
+  min-width:100px;
+}
+.clear-form-group-margin .form-group{
+  margin-bottom: 0!important;
+}
+.table-sm td{
+  padding: 4px!important;
+}
