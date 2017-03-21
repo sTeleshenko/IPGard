@@ -1,0 +1,22 @@
+<form ng-submit="vm.save()" name="vm.form">
+  <div class="modal-header">
+    <h4>Close RMA</h4>
+  </div>
+  <div class="modal-body">
+    <div class="form-group">
+      <label for="some">some..</label>
+      <input type="text"
+             ng-model="vm.data.some"
+             id="some"
+             name="some"
+             class="form-control"
+             required
+             placeholder="some..">
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="submit" class="btn btn-primary" ng-disabled="vm.form.$invalid">Save</button>
+    <button type="button" class="btn btn-warning" ng-click="vm.cancel()">Cancel</button>
+  </div>
+
+</form>

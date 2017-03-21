@@ -8,7 +8,7 @@
     });
 
   /** @ngInject */
-  function rmaComponent(Rma, toastr, localStorageService, $uibModal) {
+  function rmaComponent(Rma, toastr, localStorageService, $uibModal, $httpParamSerializer) {
     var vm = this;
     vm.$onInit = function () {
       vm.rmaes = [];
@@ -23,10 +23,6 @@
         limit: localStorageService.get('paginationLimit') || 10
       };
       vm.filters = localStorageService.get('rmaFilters') || {};
-
-      // $scope.$watch('vm.filters', function () {
-      //   vm.loadRma();
-      // }, true);
       vm.loadRma();
     };
 
@@ -54,11 +50,7 @@
 
     vm.loadRma = function () {
       var query = '?';
-      for(var key in vm.filters) {
-        if(vm.filters[key]){
-          query = query + key + '=' + vm.filters[key] + '&'
-        }
-      }
+      query += $httpParamSerializer(vm.filters) + '&';
       query = query + 'sort=' + (vm.sortFilters.order ? '' : '-') + vm.sortFilters.sort + '&';
       query = query + 'page=' + vm.pagination.page + '&';
       query = query + 'limit=' + vm.pagination.limit;
@@ -85,7 +77,7 @@
         size: 'sm',
         resolve: {
           message: function () {
-            return 'Are you sure to delete RMA ' + rma.formNumber + '?';
+            return 'Are you sure to delete RMA ' + rma.formNumber + ' ?';
           }
         }
       }).result.then(function () {
@@ -101,6 +93,7 @@
 
     vm.reset = function () {
       vm.filters = {};
+      vm.loadRma();
     };
   }
 })();

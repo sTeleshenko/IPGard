@@ -1,21 +1,95 @@
 <div class="row">
   <div class="col-md-3 no-print sm-spacer">
     <form name="vm.form"
-          ng-submit="vm.loadCustomers()">
-      <div class="form-group form-group-sm" ng-repeat="field in vm.fields | limitTo: 5">
-        <label for="{{field.key}}">{{field.label}}:</label>
+          ng-submit="vm.loadRma()">
+      <div class="form-group form-group-sm">
+        <label for="formNumber">Form Number:</label>
         <input type="text"
-               ng-model="vm.filters[field.key]"
-               id="{{field.key}}"
-               name="{{field.key}}"
+               ng-model="vm.filters.formNumber"
+               id="formNumber"
+               name="formNumber"
                class="form-control"
-               placeholder="{{field.label}}">
+               placeholder="Form Number">
+      </div>
+      <div class="form-group form-group-sm">
+        <label for="rxCarrier">Rx Carrier:</label>
+        <input type="text"
+               ng-model="vm.filters.rxCarrier"
+               id="rxCarrier"
+               name="rxCarrier"
+               class="form-control"
+               placeholder="Rx Carrier">
+      </div>
+      <div class="form-group form-group-sm">
+        <label for="rxTracking">Rx Tracking:</label>
+        <input type="text"
+               ng-model="vm.filters.rxTracking"
+               id="rxTracking"
+               name="rxTracking"
+               class="form-control"
+               placeholder="Rx Tracking">
+      </div>
+      <div class="form-group form-group-sm">
+        <label for="description">Description:</label>
+        <input type="text"
+               ng-model="vm.filters.description"
+               id="description"
+               name="description"
+               class="form-control"
+               placeholder="Description">
+      </div>
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="form-group form-group-sm">
+            <label for="dateFrom">From Date:</label>
+            <p class="input-group">
+              <input type="text"
+                     id="dateFrom"
+                     class="form-control"
+                     uib-datepicker-popup="dd.MM.yyyy"
+                     ng-model="vm.filters.dateFrom"
+                     popup-placement="auto"
+                     placeholder="From Date"
+                     is-open="openFrom"
+                     datepicker-options="{maxDate: vm.filters.dateTo}"
+                     close-text="Close" />
+              <span class="input-group-btn">
+            <button type="button"
+                    class="btn btn-default btn-sm"
+                    ng-click="openFrom = !openFrom">
+              <i class="glyphicon glyphicon-calendar"></i></button>
+          </span>
+            </p>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="form-group form-group-sm">
+            <label for="dateTo">To Date:</label>
+            <p class="input-group">
+              <input type="text"
+                     id="dateTo"
+                     class="form-control"
+                     placeholder="To Date"
+                     uib-datepicker-popup="dd.MM.yyyy"
+                     ng-model="vm.filters.dateTo"
+                     datepicker-options="{minDate: vm.filters.dateFrom}"
+                     popup-placement="auto"
+                     is-open="openTo"
+                     close-text="Close" />
+              <span class="input-group-btn">
+            <button type="button"
+                    class="btn btn-default btn-sm"
+                    ng-click="openTo = !openTo">
+              <i class="glyphicon glyphicon-calendar"></i></button>
+          </span>
+            </p>
+          </div>
+        </div>
       </div>
 
       <div class="text-right">
         <button class="btn btn-primary btn-sm"
                 type="button"
-                has-role="['admin']"
                 ui-sref="rmaCreate">New
         </button>
         <button type="button"
@@ -58,23 +132,23 @@
                     ng-class="{reverse: vm.sortFilters.order}"
                     ng-show="vm.sortFilters.sort === 'description'"></span>
             </th>
-            <th ng-click="vm.onSortFiltersChanged('status')">
+            <th ng-click="vm.onSortFiltersChanged('closed')">
               Status
               <span class="glyphicon glyphicon-triangle-bottom"
                     ng-class="{reverse: vm.sortFilters.order}"
-                    ng-show="vm.sortFilters.sort === 'status'"></span>
+                    ng-show="vm.sortFilters.sort === 'closed'"></span>
             </th>
-            <th ng-click="vm.onSortFiltersChanged('totalItems')">
+            <th ng-click="vm.onSortFiltersChanged('totalCount')">
               Total Items
               <span class="glyphicon glyphicon-triangle-bottom"
                     ng-class="{reverse: vm.sortFilters.order}"
-                    ng-show="vm.sortFilters.sort === 'totalItems'"></span>
+                    ng-show="vm.sortFilters.sort === 'totalCount'"></span>
             </th>
-            <th ng-click="vm.onSortFiltersChanged('closedItems')">
+            <th ng-click="vm.onSortFiltersChanged('closedCount')">
               Closed Items
               <span class="glyphicon glyphicon-triangle-bottom"
                     ng-class="{reverse: vm.sortFilters.order}"
-                    ng-show="vm.sortFilters.sort === 'closedItems'"></span>
+                    ng-show="vm.sortFilters.sort === 'closedCount'"></span>
             </th>
             <th ng-click="vm.onSortFiltersChanged('dateCreate')">
               Date Create
@@ -95,7 +169,7 @@
             <td>{{rma.rxTracking}}</td>
             <td>{{rma.description}}</td>
             <td>{{rma.closed ? 'Closed' : 'Open'}}</td>
-            <td>{{rma.products.length}}</td>
+            <td>{{rma.totalCount}}</td>
             <td>{{rma.closedCount}}</td>
             <td>{{rma.dateCreate | date: 'dd.MM.yyyy'}}</td>
             <!--<td ng-repeat="field in customer.fields | orderBy : 'field._id'">-->

@@ -8,7 +8,7 @@
     });
 
   /** @ngInject */
-  function rmaCreateComponent(Customers, StaticFields, toastr, $uibModal, Sales, Rma, $state, $stateParams, $filter) {
+  function rmaCreateComponent(Customers, StaticFields, toastr, $uibModal, Sales, Rma, $state, $stateParams, $filter, $q) {
     var vm = this;
     vm.$onInit = function () {
       vm.model = 'Rma';
@@ -28,6 +28,8 @@
         vm.editMode = false;
         vm.rma = {};
         vm.rma.products = [];
+        vm.rma.totalCount = 0;
+        vm.rma.closedCount = 0;
         vm.options.formNumberStatic = 'RY' + $filter('date')(new Date(), 'ddMMyyyy');
       }
       vm.loadStaticFields();
@@ -135,15 +137,27 @@
     };
     vm.save = function () {
       if(vm.editMode){
-        Rma.update(vm.rma)
-          .then(function () {
-            $state.go('rma')
-          })
-          .catch(function () {
-            toastr.error('Something went wrong', 'Error');
-          });
+        var defered;
+        if(vm.rma.closed){
+          defered = $uibModal.open({
+            animation: true,
+            component: 'closeRmaComponent'
+          }).result;
+        } else {
+          defered = $q.resolve();
+        }
+        defered.then(function () {
+          Rma.update(vm.rma)
+            .then(function () {
+              $state.go('rma')
+            })
+            .catch(function () {
+              toastr.error('Something went wrong', 'Error');
+            });
+        });
       } else{
         vm.rma.formNumber = vm.options.formNumberStatic + vm.options.formNumberDynamic;
+        vm.rma.totalCount = vm.rma.products.length;
         Rma.create(vm.rma)
           .then(function () {
             $state.go('rma')
@@ -160,11 +174,10 @@
       });
     };
     vm.closeOneChanged = function () {
-      var totalCount = vm.rma.products.length;
-      var closedCount = vm.rma.products.filter(function (product) {
+      vm.rma.closedCount = vm.rma.products.filter(function (product) {
         return product.closed;
       }).length;
-      vm.rma.closed = totalCount === closedCount;
+      vm.rma.closed = vm.rma.totalCount === vm.rma.closedCount;
     };
 
   }
