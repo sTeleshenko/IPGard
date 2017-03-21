@@ -26,7 +26,7 @@
             ng-show="vm.sortFilters.sort === 'description'"></span>
     </th>
     <th class="col-actions no-print"
-        has-role="['admin']">Actions</th>
+        has-role="['admin', 'productionAdmin']">Actions</th>
     </thead>
     <tbody>
     <tr ng-repeat="device in vm.devices">
@@ -35,7 +35,7 @@
       <td>{{device.upc}}</td>
       <td>{{device.description}}</td>
       <td class="col-actions no-print"
-          has-role="['admin']">
+          has-role="['admin', 'productionAdmin']">
         <button type="button"
                 ng-click="vm.openDeviceModal({device: device, index: $index})"
                 class="btn btn-primary btn-sm">
