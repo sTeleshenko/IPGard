@@ -55,13 +55,14 @@
         </div>
       </fieldset>
       <button class="btn btn-sm btn-primary pull-right visible-lg"
+              type="submit"
               ng-disabled="!vm.rma.products.length || !vm.rma.customer || vm.form.$invalid">Save</button>
     </div>
     <div class="col-lg-3 col-md-6 col-lg-push-6">
       <fieldset name="customer">
         <legend>Customer info</legend>
 
-        <div class="form-group form-group-sm with-autocomplete" ng-if="!vm.editMode">
+        <div class="form-group form-group-sm with-autocomplete">
           <a href="#" class="pull-right" ng-click="vm.openCustomerModal($event)">New</a>
           <label for="clientName">Customer Name:</label>
           <input type="text"
@@ -93,9 +94,9 @@
       </fieldset>
     </div>
     <div class="col-lg-6 col-md-12 col-lg-pull-3">
-      <fieldset name="devices">
+      <fieldset ng-form="vm.form.devices">
         <legend>RMA devices</legend>
-        <div class="form-group form-group-sm with-autocomplete" ng-if="!vm.editMode">
+        <div class="form-group form-group-sm with-autocomplete">
           <label for="serialNumber">Serial Number:</label>
           <input type="text"
                  typeahead-editable="false"
@@ -114,168 +115,222 @@
             <i class="glyphicon glyphicon-remove"></i> No Results Found
           </div>
         </div>
-        <div class="table-responsive" ng-show="vm.rma.products.length">
-          <table class="table table-bordered">
-            <thead>
-            <tr>
-              <th>Serial Number</th>
-              <th>Version</th>
-              <th>Sales Order</th>
-              <th>Date</th>
-              <th>Customer</th>
-              <th ng-repeat="field in vm.staticFields | orderBy: '_id'">{{field.title}}</th>
-              <th class="text-center" ng-if="!vm.editMode">Actions</th>
-              <th class="text-center" ng-if="vm.editMode">
-                <input type="checkbox" ng-model="vm.rma.closed" ng-change="vm.closeAllChanged()">
-              </th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr ng-repeat="sn in vm.rma.products">
-              <td>{{sn.sale.serialNumber}}</td>
-              <td>{{sn.sale.version}}</td>
-              <td>{{sn.sale.salesOrder}}</td>
-              <td>{{sn.sale.date | date: 'dd.MM.yyyy'}}</td>
-              <td>{{sn.sale.customer.name}}</td>
-              <td ng-repeat="field in sn.fields | orderBy : 'field._id'" ng-if="vm.editMode">
-                <a href="/api/uploads/{{field.value.filename}}"
-                   ng-if="field.field.type.value === 'file' || field.field.type.value === 'img'"
-                   target="_blank">{{field.value.originalname}}</a>
-                <span ng-if="field.field.type.value === 'text' ||
-                     field.field.type.value === 'number' ||
-                     field.field.type.value === 'select' ||
-                     field.field.type.value === 'longText' ">{{field.value}}</span>
-                <span ng-if="field.field.type.value === 'date'">{{field.value | date : 'dd.MM.yyyy'}}</span>
-                <a href="{{field.value}}"
-                   ng-if="field.field.type.value === 'link'"
-                   target="_blank">{{field.value}}</a>
-              </td>
-              <td ng-repeat="obj in sn.fields | orderBy: 'field._id'" class="clear-form-group-margin" ng-if="!vm.editMode">
+        <div class="row">
+          <div class="col-md-6" ng-repeat="nth in [0, 1]">
+            <div class="rma-serial-card" ng-class="{'rma-card-closed': sn.closed}"
+                 ng-repeat="sn in vm.rma.products | orderBy: 'closed' | nthChild: nth">
+              <button class="edit-serial-card"
+                      type="button"
+                      ng-disabled="vm.form.devices['device' + $index + $parent.$index].$invalid"
+                      ng-click="vm.toggleEditedState(sn)">
+                <span class="glyphicon"
+                      ng-class="{'glyphicon-ok': sn.editable, 'glyphicon-pencil': !sn.editable}">
+                </span>
+              </button>
+              <button class="delete-serial-card"
+                      ng-disabled="sn.closed && vm.user.role !== 'admin'"
+                      ng-click="vm.deleteSerialNumber(sn)"
+                      type="button">
+                <span class="glyphicon glyphicon-remove">
+                </span>
+              </button>
+              <fieldset ng-form="vm.form.devices.device{{$index}}{{$parent.$index}}">
+                <table class="table table-sm">
+                  <tbody>
+                  <tr>
+                    <td><b>Model Name</b></td>
+                    <td>{{sn.sale._productModel}}</td>
+                  </tr>
+                  <tr>
+                    <td><b>Serial Number:</b></td>
+                    <td>{{sn.sale.serialNumber}}</td>
+                  </tr>
+                  <tr>
+                    <td><b>Sales Order:</b></td>
+                    <td>{{sn.sale.salesOrder}}</td>
+                  </tr>
+                  <tr>
+                    <td><b>Date:</b></td>
+                    <td>{{sn.sale.date | date: 'MM.dd.yyyy'}}</td>
+                  </tr>
+                  <tr class="max-two-columns">
+                    <td><b>Version:</b></td>
+                    <td ng-if="!sn.editable">
+                      <span>{{sn.sale.version}}</span>
+                    </td>
+                    <td ng-if="sn.editable">
+                      <input class="form-control input-sm"
+                             type="text"
+                             name="version"
+                             ng-model="sn.sale.version"
+                             required>
+                    </td>
+                  </tr>
+                  <tr class="max-two-columns">
+                    <td><b>Customer:</b></td>
+                    <td ng-if="!sn.editable">{{sn.sale.customer.name}}</td>
+                    <td class="form-group form-group-sm with-autocomplete" ng-if="sn.editable">
+                      <input type="text"
+                             typeahead-editable="false"
+                             id="snClientName"
+                             ng-model="sn.sale.customer"
+                             ng-model-options="{debounce: 300}"
+                             placeholder="Customer Name"
+                             uib-typeahead="customer as customer.name for customer in vm.getCustomers($viewValue)"
+                             typeahead-loading="loadingCustomers"
+                             typeahead-no-results="noResults"
+                             class="form-control">
+                      <i ng-show="loadingCustomers" class="glyphicon glyphicon-refresh"></i>
+                      <div ng-show="noResults">
+                        <i class="glyphicon glyphicon-remove"></i> No Results Found
+                      </div>
+                    </td>
+                  </tr>
+                  <tr ng-repeat="obj in sn.fields | orderBy : 'obj._id'"
+                      class="max-two-columns"
+                      ng-show="obj.value || sn.editable">
+                    <td><b>{{obj.field.title}}:</b></td>
+                    <td ng-if="!sn.editable">
+                      <a href="/api/uploads/{{obj.value.filename}}"
+                         ng-if="obj.field.type.value === 'file' || obj.field.type.value === 'img'"
+                         target="_blank">{{obj.value.originalname}}</a>
+                      <span ng-if="obj.field.type.value === 'text' ||
+                     obj.field.type.value === 'number' ||
+                     obj.field.type.value === 'select' ||
+                     obj.field.type.value === 'longText' ">{{obj.value}}</span>
+                      <span ng-if="obj.field.type.value === 'date'">{{obj.value | date : 'MM.dd.yyyy'}}</span>
+                      <a href="{{obj.value}}"
+                         ng-if="obj.field.type.value === 'link'"
+                         target="_blank">{{obj.value}}</a>
+                    </td>
+                    <td class="clear-form-group-margin" ng-if="sn.editable">
 
-                <div class="form-group form-group-sm" ng-if="obj.field.type.value === 'number'">
-                  <input type="number"
-                         ng-model="obj.value"
-                         placeholder="{{obj.field.title}}"
-                         id="{{obj.field.title}}"
-                         name="{{obj.field.title}}"
-                         class="form-control"
-                         ng-required="obj.field.required">
-                </div>
-                <div class="form-group form-group-sm" ng-if="obj.field.type.value === 'text'">
-                  <input type="text"
-                         ng-model="obj.value"
-                         placeholder="{{obj.field.title}}"
-                         id="{{obj.field.title}}"
-                         name="{{obj.field.title}}"
-                         class="form-control"
-                         ng-required="obj.field.required">
-                </div>
-                <div class="form-group form-group-sm" ng-if="obj.field.type.value === 'link'">
-                  <input type="text"
-                         ng-model="obj.value"
-                         placeholder="http://{{obj.field.title}}"
-                         id="{{obj.field.title}}"
-                         name="{{obj.field.title}}"
-                         ng-pattern="/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/"
-                         class="form-control"
-                         ng-required="obj.field.required">
-                </div>
-                <div class="form-group form-group-sm" ng-if="obj.field.type.value === 'longText'">
-                  <textarea
-                    ng-model="obj.value"
-                    id="{{obj.field.title}}"
-                    placeholder="{{obj.field.title}}"
-                    name="{{obj.field.title}}"
-                    class="form-control"
-                    ng-required="obj.field.required"></textarea>
-                </div>
-                <div class="form-group form-group-sm" ng-if="obj.field.type.value === 'select'">
-                  <select ng-model="obj.value"
+                      <div class="form-group form-group-sm" ng-if="obj.field.type.value === 'number'">
+                        <input type="number"
+                               ng-model="obj.value"
+                               placeholder="{{obj.field.title}}"
+                               id="{{obj.field.title}}"
+                               name="{{obj.field.title}}"
+                               class="form-control"
+                               ng-required="obj.field.required">
+                      </div>
+                      <div class="form-group form-group-sm" ng-if="obj.field.type.value === 'text'">
+                        <input type="text"
+                               ng-model="obj.value"
+                               placeholder="{{obj.field.title}}"
+                               id="{{obj.field.title}}"
+                               name="{{obj.field.title}}"
+                               class="form-control"
+                               ng-required="obj.field.required">
+                      </div>
+                      <div class="form-group form-group-sm" ng-if="obj.field.type.value === 'link'">
+                        <input type="text"
+                               ng-model="obj.value"
+                               placeholder="http://{{obj.field.title}}"
+                               id="{{obj.field.title}}"
+                               name="{{obj.field.title}}"
+                               ng-pattern="/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/"
+                               class="form-control"
+                               ng-required="obj.field.required">
+                      </div>
+                      <div class="form-group form-group-sm" ng-if="obj.field.type.value === 'longText'">
+                        <textarea
+                          ng-model="obj.value"
                           id="{{obj.field.title}}"
+                          placeholder="{{obj.field.title}}"
                           name="{{obj.field.title}}"
                           class="form-control"
-                          ng-required="obj.field.required"
-                          ng-options="option as option for option in obj.field.options">
-                  </select>
-                </div>
-                <div class="form-group form-group-sm" ng-if="obj.field.type.value === 'file'">
-                  <div class="load-progress">
-                    <uib-progressbar max="100" value="obj.progress" ng-if="obj.progress >= 0">
-                      <span style="color:white; white-space:nowrap;">{{obj.progress}} / 100</span>
-                    </uib-progressbar>
-                  </div>
-                  <div class="clearfix"></div>
-                  <div class="input-group input-group-sm" ngf-select="vm.upload($file, obj)">
+                          ng-required="obj.field.required"></textarea>
+                      </div>
+                      <div class="form-group form-group-sm" ng-if="obj.field.type.value === 'select'">
+                        <select ng-model="obj.value"
+                                id="{{obj.field.title}}"
+                                name="{{obj.field.title}}"
+                                class="form-control"
+                                ng-required="obj.field.required"
+                                ng-options="option as option for option in obj.field.options">
+                        </select>
+                      </div>
+                      <div class="form-group form-group-sm" ng-if="obj.field.type.value === 'file'">
+                        <div class="load-progress">
+                          <uib-progressbar max="100" value="obj.progress" ng-if="obj.progress >= 0">
+                            <span style="color:white; white-space:nowrap;">{{obj.progress}} / 100</span>
+                          </uib-progressbar>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="input-group input-group-sm" ngf-select="vm.upload($file, obj)">
                   <span class="input-group-btn">
                     <button class="btn btn-default btn-sm" type="button">Search</button>
                   </span>
-                    <input type="text"
-                           id="{{obj.field.title}}"
-                           name="{{obj.field.title}}"
-                           ng-model="obj.value.originalname"
-                           class="form-control"
-                           placeholder="{{obj.field.title}}"
-                           ng-required="obj.field.required"
-                           readonly>
-                  </div>
-                </div>
-                <div class="form-group form-group-sm" ng-if="obj.field.type.value === 'img'">
-                  <div class="load-progress">
-                    <uib-progressbar max="100" value="obj.progress" ng-if="obj.progress >= 0">
-                      <span style="color:white; white-space:nowrap;">{{obj.progress}} / 100</span>
-                    </uib-progressbar>
-                  </div>
-                  <div class="clearfix"></div>
-                  <div class="input-group input-group-sm" ngf-select="vm.upload($file, obj)" ngf-accept="'image/*'">
+                          <input type="text"
+                                 id="{{obj.field.title}}"
+                                 name="{{obj.field.title}}"
+                                 ng-model="obj.value.originalname"
+                                 class="form-control"
+                                 placeholder="{{obj.field.title}}"
+                                 ng-required="obj.field.required"
+                                 readonly>
+                        </div>
+                      </div>
+                      <div class="form-group form-group-sm" ng-if="obj.field.type.value === 'img'">
+                        <div class="load-progress">
+                          <uib-progressbar max="100" value="obj.progress" ng-if="obj.progress >= 0">
+                            <span style="color:white; white-space:nowrap;">{{obj.progress}} / 100</span>
+                          </uib-progressbar>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="input-group input-group-sm" ngf-select="vm.upload($file, obj)" ngf-accept="'image/*'">
                   <span class="input-group-btn">
                     <button class="btn btn-default" type="button">Search</button>
                   </span>
-                    <input type="text"
-                           id="{{obj.field.title}}"
-                           name="{{obj.field.title}}"
-                           ng-model="obj.value.originalname"
-                           placeholder="{{obj.field.title}}"
-                           class="form-control"
-                           ng-required="obj.field.required"
-                           readonly>
-                  </div>
-                </div>
-                <div class="form-group form-group-sm" ng-if="obj.field.type.value === 'date'">
-                  <p class="input-group input-group-sm" ng-init="vm.convertDate(obj)">
-                    <input type="text"
-                           class="form-control"
-                           uib-datepicker-popup="dd.MM.yyyy"
-                           ng-model="obj.value"
-                           popup-placement="auto"
-                           placeholder="{{obj.field.title}}"
-                           is-open="obj.open"
-                           ng-required="obj.required"
-                           close-text="Close"  />
-                    <span class="input-group-btn">
+                          <input type="text"
+                                 id="{{obj.field.title}}"
+                                 name="{{obj.field.title}}"
+                                 ng-model="obj.value.originalname"
+                                 placeholder="{{obj.field.title}}"
+                                 class="form-control"
+                                 ng-required="obj.field.required"
+                                 readonly>
+                        </div>
+                      </div>
+                      <div class="form-group form-group-sm" ng-if="obj.field.type.value === 'date'">
+                        <p class="input-group input-group-sm" ng-init="vm.convertDate(obj)">
+                          <input type="text"
+                                 class="form-control"
+                                 uib-datepicker-popup="MM.dd.yyyy"
+                                 ng-model="obj.value"
+                                 popup-placement="auto"
+                                 placeholder="{{obj.field.title}}"
+                                 is-open="obj.open"
+                                 ng-required="obj.required"
+                                 close-text="Close"  />
+                          <span class="input-group-btn">
                       <button type="button"
                               class="btn btn-default"
                               ng-click="obj.open = !obj.open">
                         <i class="glyphicon glyphicon-calendar"></i></button>
                     </span>
-                  </p>
-                </div>
+                        </p>
+                      </div>
 
-              </td>
-              <td class="text-center" ng-if="!vm.editMode">
-                <button type="button"
-                        ng-click="vm.deleteSerialNumber(sn, $index)"
-                        class="btn btn-danger btn-sm">
-                  <span class="glyphicon glyphicon-trash"></span>
-                </button>
-              </td>
-              <td class="text-center" ng-if="vm.editMode">
-                <input type="checkbox" ng-model="sn.closed" ng-change="vm.closeOneChanged()">
-              </td>
-            </tr>
-            </tbody>
-          </table>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><b>Status:</b></td>
+                    <td>
+                      <input type="checkbox"
+                             ng-disabled="sn.closed && vm.user.role !== 'admin'"
+                             ng-model="sn.closed"
+                             ng-change="vm.closeOneChanged()">
+                      <span>{{sn.closed ? 'Closed' : 'Open'}}</span>
+                    </td>
+                  </tr>
+                  </tbody>
+                </table>
+              </fieldset>
+            </div>
+          </div>
         </div>
-
       </fieldset>
     </div>
   </div>
@@ -283,6 +338,7 @@
   <div class="row">
     <div class="col-xs-12 hidden-lg">
       <button class="btn btn-sm btn-primary"
+              type="submit"
               ng-disabled="!vm.rma.products.length || !vm.rma.customer || vm.form.$invalid">Save</button>
     </div>
   </div>
@@ -292,7 +348,7 @@
     Serial Number: <span ng-bind-html="match.model.serialNumber | uibTypeaheadHighlight:query"></span><br>
     Version: <span>{{match.model.version}}</span><br>
     Sales Order: <span>{{match.model.salesOrder}}</span><br>
-    Date: <span>{{match.model.date | date: 'dd.MM.yyyy'}}</span><br>
+    Date: <span>{{match.model.date | date: 'MM.dd.yyyy'}}</span><br>
     Customer: <span>{{match.model.customer.name}}</span><br>
   </a>
 </script>

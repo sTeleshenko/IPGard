@@ -162,7 +162,7 @@
         }
       });
 
-      modalInstance.result.then(function () {
+      modalInstance.result.finally(function () {
         vm.loadSales();
       });
     };

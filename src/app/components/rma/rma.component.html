@@ -12,6 +12,15 @@
                placeholder="Form Number">
       </div>
       <div class="form-group form-group-sm">
+        <label for="customerName">Customer:</label>
+        <input type="text"
+               ng-model="vm.filters._customerName"
+               id="customerName"
+               name="customerName"
+               class="form-control"
+               placeholder="Customer Name">
+      </div>
+      <div class="form-group form-group-sm">
         <label for="rxCarrier">Rx Carrier:</label>
         <input type="text"
                ng-model="vm.filters.rxCarrier"
@@ -46,7 +55,7 @@
               <input type="text"
                      id="dateFrom"
                      class="form-control"
-                     uib-datepicker-popup="dd.MM.yyyy"
+                     uib-datepicker-popup="MM.dd.yyyy"
                      ng-model="vm.filters.dateFrom"
                      popup-placement="auto"
                      placeholder="From Date"
@@ -70,7 +79,7 @@
                      id="dateTo"
                      class="form-control"
                      placeholder="To Date"
-                     uib-datepicker-popup="dd.MM.yyyy"
+                     uib-datepicker-popup="MM.dd.yyyy"
                      ng-model="vm.filters.dateTo"
                      datepicker-options="{minDate: vm.filters.dateFrom}"
                      popup-placement="auto"
@@ -113,6 +122,12 @@
               <span class="glyphicon glyphicon-triangle-bottom"
                     ng-class="{reverse: vm.sortFilters.order}"
                     ng-show="vm.sortFilters.sort === 'formNumber'"></span>
+            </th>
+            <th ng-click="vm.onSortFiltersChanged('customer.name')">
+              Customer
+              <span class="glyphicon glyphicon-triangle-bottom"
+                    ng-class="{reverse: vm.sortFilters.order}"
+                    ng-show="vm.sortFilters.sort === 'customer.name'"></span>
             </th>
             <th ng-click="vm.onSortFiltersChanged('rxCarrier')">
               Rx Carrier
@@ -165,13 +180,14 @@
             <!--<a ng-if="field.key === 'name'" ui-sref="serials({id: customer._id})">{{customer.name}}</a>-->
             <!--</td>-->
             <td><a ui-sref="rmaDetail({id: rma._id})">{{rma.formNumber}}</a></td>
+            <td>{{rma.customer.name}}</td>
             <td>{{rma.rxCarrier}}</td>
-            <td>{{rma.rxTracking}}</td>
+            <td><a target="_blank" href="http://www.google.com/search?q={{rma.rxTracking}}">{{rma.rxTracking}}</a></td>
             <td>{{rma.description}}</td>
             <td>{{rma.closed ? 'Closed' : 'Open'}}</td>
             <td>{{rma.totalCount}}</td>
             <td>{{rma.closedCount}}</td>
-            <td>{{rma.dateCreate | date: 'dd.MM.yyyy'}}</td>
+            <td>{{rma.dateCreate | date: 'MM.dd.yyyy'}}</td>
             <!--<td ng-repeat="field in customer.fields | orderBy : 'field._id'">-->
             <!--<a href="/api/uploads/{{field.value.filename}}"-->
             <!--ng-if="field.field.type.value === 'file' || field.field.type.value === 'img'"-->

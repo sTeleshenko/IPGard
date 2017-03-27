@@ -8,9 +8,24 @@
     });
 
   /** @ngInject */
-  function rmaCreateComponent(Customers, StaticFields, toastr, $uibModal, Sales, Rma, $state, $stateParams, $filter, $q) {
+  function rmaCreateComponent(
+    Customers,
+    StaticFields,
+    toastr,
+    $uibModal,
+    Upload,
+    Sales,
+    Rma,
+    $state,
+    $stateParams,
+    $filter,
+    Auth) {
     var vm = this;
     vm.$onInit = function () {
+      Auth.getCurrentUser()
+        .then(function (user) {
+          vm.user = user
+        });
       vm.model = 'Rma';
       vm.customerFields = StaticFields.static['Customer'];
       vm.options = {};
@@ -30,7 +45,7 @@
         vm.rma.products = [];
         vm.rma.totalCount = 0;
         vm.rma.closedCount = 0;
-        vm.options.formNumberStatic = 'RY' + $filter('date')(new Date(), 'ddMMyyyy');
+        vm.options.formNumberStatic = 'RY' + $filter('date')(new Date(), 'MMddyyyy');
       }
       vm.loadStaticFields();
     };
@@ -119,7 +134,13 @@
       vm.serialNumber = '';
     };
 
-    vm.deleteSerialNumber = function (sn, index) {
+    vm.deleteSerialNumber = function (sn) {
+      for(var i = 0; i < vm.rma.products.length; i++){
+        if(vm.rma.products[i]._id === sn._id) {
+          vm.rma.products.splice(i, 1);
+          break;
+        }
+      }
       vm.rma.products.splice(index, 1);
       if(!vm.rma.products.length && vm.options.customerFromSerial){
         vm.rma.customer = '';
@@ -137,24 +158,13 @@
     };
     vm.save = function () {
       if(vm.editMode){
-        var defered;
-        if(vm.rma.closed){
-          defered = $uibModal.open({
-            animation: true,
-            component: 'closeRmaComponent'
-          }).result;
-        } else {
-          defered = $q.resolve();
-        }
-        defered.then(function () {
-          Rma.update(vm.rma)
-            .then(function () {
-              $state.go('rma')
-            })
-            .catch(function () {
-              toastr.error('Something went wrong', 'Error');
-            });
-        });
+        Rma.update(vm.rma)
+          .then(function () {
+            $state.go('rma')
+          })
+          .catch(function () {
+            toastr.error('Something went wrong', 'Error');
+          });
       } else{
         vm.rma.formNumber = vm.options.formNumberStatic + vm.options.formNumberDynamic;
         vm.rma.totalCount = vm.rma.products.length;
@@ -166,6 +176,32 @@
             toastr.error('Something went wrong', 'Error');
           });
       }
+    };
+
+    vm.convertDate = function (obj) {
+      if(obj.value){
+        obj.value = new Date(obj.value);
+      }
+    };
+
+    vm.upload = function (file, obj) {
+      Upload.upload({
+        url: '/api/upload',
+        data: {
+          file: file
+        }
+      })
+        .then(function (response) {
+          obj.value = response.data;
+        }, function (resp) {
+          console.log('Error status: ' + resp.status);
+        }, function (evt) {
+          obj.progress = parseInt(100.0 * evt.loaded / evt.total);
+        })
+    };
+
+    vm.toggleEditedState = function (sn) {
+      sn.editable = !sn.editable;
     };
 
     vm.closeAllChanged = function () {

@@ -14,7 +14,7 @@
                      field.field.type.value === 'number' ||
                      field.field.type.value === 'select' ||
                      field.field.type.value === 'longText' ">{{field.value}}</span>
-        <span ng-if="field.field.type.value === 'date'">{{field.value | date : 'dd.MM.yyyy'}}</span>
+        <span ng-if="field.field.type.value === 'date'">{{field.value | date : 'MM.dd.yyyy'}}</span>
         <a href="{{field.value}}"
            ng-if="field.field.type.value === 'link'"
            target="_blank">{{field.value}}</a>

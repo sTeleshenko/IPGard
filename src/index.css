@@ -155,3 +155,61 @@ legend{
 .table-sm td{
   padding: 4px!important;
 }
+.rma-serial-card{
+  border-radius: 2px;
+  padding: 20px 8px;
+  position: relative;
+  box-shadow: 0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12);
+  opacity: 1;
+}
+.rma-serial-card:hover .delete-serial-card, .rma-serial-card:hover .edit-serial-card{
+  opacity: 1;
+}
+.delete-serial-card{
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  border: none;
+  background: transparent;
+  padding: 0;
+  width: 21px;
+  font-size: 16px;
+  opacity: 0;
+  transition: .3s;
+  color: #757575;
+}
+.rma-serial-card table{
+  margin-bottom: 0;
+}
+.rma-serial-card table td {
+  width: 50%;
+}
+.rma-serial-card .form-control{
+  transition: none!important;
+}
+.edit-serial-card{
+  position: absolute;
+  top: 6px;
+  right: 33px;
+  border: none;
+  background: transparent;
+  padding: 0;
+  width: 21px;
+  opacity: 0;
+  transition: .3s;
+  font-size: 14px;
+  color: #757575;
+}
+.rma-serial-card:hover .edit-serial-card[disabled], .rma-serial-card:hover .delete-serial-card[disabled]{
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+.rma-serial-card + .rma-serial-card{
+  margin-top: 30px;
+}
+.rma-card-closed{
+  background: #f5f5ff;
+}
+.max-two-columns td:nth-child(n+3){
+  display: none!important;
+}

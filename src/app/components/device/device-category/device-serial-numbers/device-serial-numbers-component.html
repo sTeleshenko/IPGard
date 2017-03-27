@@ -27,7 +27,7 @@
               <input type="text"
                      id="dateFrom"
                      class="form-control"
-                     uib-datepicker-popup="dd.MM.yyyy"
+                     uib-datepicker-popup="MM.dd.yyyy"
                      ng-model="vm.searchFilters.dateFrom"
                      popup-placement="auto"
                      is-open="openFrom"
@@ -48,7 +48,7 @@
               <input type="text"
                      id="dateTo"
                      class="form-control"
-                     uib-datepicker-popup="dd.MM.yyyy"
+                     uib-datepicker-popup="MM.dd.yyyy"
                      ng-model="vm.searchFilters.dateTo"
                      datepicker-options="{minDate: vm.searchFilters.dateFrom}"
                      popup-placement="auto"
@@ -133,7 +133,7 @@
                 <td>{{sale.serialNumber}}</td>
                 <td>{{sale.version}}</td>
                 <td>{{sale.salesOrder}}</td>
-                <td>{{sale.date | date: 'dd.MM.yyyy'}}</td>
+                <td>{{sale.date | date: 'MM.dd.yyyy'}}</td>
                 <td>{{sale.customer.name}}</td>
                 <td ng-repeat="field in sale.fields | orderBy : 'field._id'">
                   <a href="/api/uploads/{{field.value.filename}}"
@@ -143,7 +143,7 @@
                      field.field.type.value === 'number' ||
                      field.field.type.value === 'select' ||
                      field.field.type.value === 'longText' ">{{field.value}}</span>
-                  <span ng-if="field.field.type.value === 'date'">{{field.value | date : 'dd.MM.yyyy'}}</span>
+                  <span ng-if="field.field.type.value === 'date'">{{field.value | date : 'MM.dd.yyyy'}}</span>
                   <a href="{{field.value}}"
                      ng-if="field.field.type.value === 'link'"
                      target="_blank">{{field.value}}</a>
