@@ -19,6 +19,7 @@
     $state,
     $stateParams,
     $filter,
+    $scope,
     Auth) {
     var vm = this;
     vm.$onInit = function () {
@@ -27,6 +28,7 @@
           vm.user = user
         });
       vm.model = 'Rma';
+      $scope.$watch('vm.rma', vm.matchCustomers, true);
       vm.customerFields = StaticFields.static['Customer'];
       vm.options = {};
       if($stateParams.id){
@@ -34,6 +36,7 @@
         Rma.getOne($stateParams.id)
           .then(function (response) {
             vm.rma = response.data;
+            // vm.defaultData = angular.copy(vm.rma);
           })
           .catch(function () {
             toastr.error('Error loading RMA', 'Error');
@@ -43,9 +46,8 @@
         vm.editMode = false;
         vm.rma = {};
         vm.rma.products = [];
-        vm.rma.totalCount = 0;
-        vm.rma.closedCount = 0;
         vm.options.formNumberStatic = 'RY' + $filter('date')(new Date(), 'MMddyyyy');
+        // vm.defaultData = angular.copy(vm.rma);
       }
       vm.loadStaticFields();
     };
@@ -59,7 +61,7 @@
     };
 
     vm.getSerials = function (sn) {
-      var query = '?page=1&limit=10&customerName=.&serialNumber=' + sn;
+      var query = '?page=1&limit=10&serialNumber=' + sn;
       return Sales.getAll(query)
         .then(function (response) {
           return response.data.docs;
@@ -118,6 +120,7 @@
       });
       if(!selected) {
         vm.rma.products.push({
+          closed: false,
           sale: vm.serialNumber,
           fields: vm.staticFields.map(function (field) {
             return {
@@ -141,7 +144,6 @@
           break;
         }
       }
-      vm.rma.products.splice(index, 1);
       if(!vm.rma.products.length && vm.options.customerFromSerial){
         vm.rma.customer = '';
       }
@@ -157,6 +159,12 @@
         });
     };
     vm.save = function () {
+      vm.rma.totalCount = vm.rma.products.length;
+      if(!vm.rma.totalCount) return false;
+      vm.rma.closedCount = vm.rma.products.filter(function (product) {
+        return product.closed;
+      }).length;
+      vm.rma.closed = vm.rma.totalCount === vm.rma.closedCount;
       if(vm.editMode){
         Rma.update(vm.rma)
           .then(function () {
@@ -167,7 +175,6 @@
           });
       } else{
         vm.rma.formNumber = vm.options.formNumberStatic + vm.options.formNumberDynamic;
-        vm.rma.totalCount = vm.rma.products.length;
         Rma.create(vm.rma)
           .then(function () {
             $state.go('rma')
@@ -203,18 +210,25 @@
     vm.toggleEditedState = function (sn) {
       sn.editable = !sn.editable;
     };
-
-    vm.closeAllChanged = function () {
+    vm.matchCustomers = function () {
+      if(!vm.rma || !vm.rma.customer || !vm.rma.products.length){
+        return vm.invalidCustomer = false;
+      }
+      var invalidProducts = vm.rma.products.filter(function (product) {
+        if(!product.sale.customer) return true;
+        return product.sale.customer._id !== vm.rma.customer._id;
+      });
+      vm.invalidCustomer = !!invalidProducts.length;
+    };
+    vm.updateSerialsCustomer = function () {
+      if(!vm.rma.customer) return false;
       vm.rma.products.forEach(function (product) {
-        product.closed = vm.rma.closed;
+        product.sale.customer = vm.rma.customer;
       });
     };
-    vm.closeOneChanged = function () {
-      vm.rma.closedCount = vm.rma.products.filter(function (product) {
-        return product.closed;
-      }).length;
-      vm.rma.closed = vm.rma.totalCount === vm.rma.closedCount;
-    };
+    // vm.uiCanExit = function () {
+    //   return angular.equals(vm.rma, vm.defaultData);
+    // }
 
   }
 })();

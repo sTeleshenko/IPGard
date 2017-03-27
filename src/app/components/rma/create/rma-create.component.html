@@ -115,6 +115,10 @@
             <i class="glyphicon glyphicon-remove"></i> No Results Found
           </div>
         </div>
+        <div class="alert-card" ng-if="vm.invalidCustomer">
+          <div class="alert-card-message">Selected customer and customers in devices don't match!</div>
+          <button type="button" class="btn btn-info" ng-click="vm.updateSerialsCustomer()">Update</button>
+        </div>
         <div class="row">
           <div class="col-md-6" ng-repeat="nth in [0, 1]">
             <div class="rma-serial-card" ng-class="{'rma-card-closed': sn.closed}"
@@ -134,7 +138,7 @@
                 <span class="glyphicon glyphicon-remove">
                 </span>
               </button>
-              <fieldset ng-form="vm.form.devices.device{{$index}}{{$parent.$index}}">
+              <fieldset ng-form="vm.form.devices['device' + $index + '' + $parent.$index]">
                 <table class="table table-sm">
                   <tbody>
                   <tr>
@@ -315,13 +319,12 @@
 
                     </td>
                   </tr>
-                  <tr>
+                  <tr ng-if="vm.editMode">
                     <td><b>Status:</b></td>
                     <td>
                       <input type="checkbox"
                              ng-disabled="sn.closed && vm.user.role !== 'admin'"
-                             ng-model="sn.closed"
-                             ng-change="vm.closeOneChanged()">
+                             ng-model="sn.closed">
                       <span>{{sn.closed ? 'Closed' : 'Open'}}</span>
                     </td>
                   </tr>

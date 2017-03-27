@@ -57,11 +57,11 @@
       Rma.getAll(query)
         .then(function (response) {
           vm.rmaes = response.data.docs;
-          vm.rmaes.forEach(function (rma) {
-            rma.closedCount = rma.products.filter(function (product) {
-              return product.closed;
-            }).length;
-          });
+          // vm.rmaes.forEach(function (rma) {
+          //   rma.closedCount = rma.products.filter(function (product) {
+          //     return product.closed;
+          //   }).length;
+          // });
           vm.pagination.total = response.data.total;
           vm.pagination.page = response.data.page;
         })
