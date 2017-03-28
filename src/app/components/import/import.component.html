@@ -42,7 +42,7 @@
                ng-if="header.type === 'date'">
               <input type="text"
                      class="form-control"
-                     uib-datepicker-popup="dd.MM.yyyy"
+                     uib-datepicker-popup="MM.dd.yyyy"
                      name="input{{$parent.$parent.$index}}{{$index}}"
                      ng-required="header.required"
                      ng-model="row[header.key]"
