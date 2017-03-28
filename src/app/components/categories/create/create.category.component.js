@@ -56,6 +56,7 @@
     };
 
     vm.save = function () {
+      vm.loadInProgress = true;
       if(vm.category._id){
         Category.updateCategory(vm.category)
           .then(function () {
@@ -69,6 +70,9 @@
               message = 'Something went wrong';
             }
             toastr.error(message, 'Error');
+          })
+          .finally(function () {
+            vm.loadInProgress = false;
           });
       } else {
         Category.createCategory(vm.category)
@@ -83,7 +87,10 @@
               message = 'Something went wrong';
             }
             toastr.error(message, 'Error');
-          });
+          })
+          .finally(function () {
+            vm.loadInProgress = false;
+          });;
       }
     }
   }

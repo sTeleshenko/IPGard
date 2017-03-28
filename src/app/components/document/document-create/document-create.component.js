@@ -22,6 +22,7 @@
       vm.dismiss({$value: 'cancel'});
     };
     vm.save = function () {
+      vm.loadInProgress = true;
       if(vm.document._id){
         Documents.updateDocument(vm.document)
           .then(function () {
@@ -35,7 +36,10 @@
               message = 'Something went wrong';
             }
             toastr.error(message, 'Error');
-          });
+          })
+          .finally(function () {
+            vm.loadInProgress = false;
+          });;
       } else {
         Documents.createDocument(vm.document)
           .then(function (response) {
@@ -49,7 +53,10 @@
               message = 'Something went wrong';
             }
             toastr.error(message, 'Error');
-          });
+          })
+          .finally(function () {
+            vm.loadInProgress = false;
+          });;
       }
     };
 

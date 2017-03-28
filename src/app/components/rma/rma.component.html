@@ -51,7 +51,7 @@
         <div class="col-sm-6">
           <div class="form-group form-group-sm">
             <label for="dateFrom">From Date:</label>
-            <p class="input-group">
+            <p class="input-group input-group-sm">
               <input type="text"
                      id="dateFrom"
                      class="form-control"
@@ -74,7 +74,7 @@
         <div class="col-sm-6">
           <div class="form-group form-group-sm">
             <label for="dateTo">To Date:</label>
-            <p class="input-group">
+            <p class="input-group input-group-sm">
               <input type="text"
                      id="dateTo"
                      class="form-control"
@@ -176,9 +176,6 @@
           </thead>
           <tbody>
           <tr ng-repeat="rma in vm.rmaes">
-            <!--<td ng-repeat="field in vm.fields">{{customer[field.key]}}-->
-            <!--<a ng-if="field.key === 'name'" ui-sref="serials({id: customer._id})">{{customer.name}}</a>-->
-            <!--</td>-->
             <td><a ui-sref="rmaDetail({id: rma._id})">{{rma.formNumber}}</a></td>
             <td>{{rma.customer.name}}</td>
             <td>{{rma.rxCarrier}}</td>
@@ -188,19 +185,6 @@
             <td>{{rma.totalCount}}</td>
             <td>{{rma.closedCount}}</td>
             <td>{{rma.dateCreate | date: 'MM.dd.yyyy'}}</td>
-            <!--<td ng-repeat="field in customer.fields | orderBy : 'field._id'">-->
-            <!--<a href="/api/uploads/{{field.value.filename}}"-->
-            <!--ng-if="field.field.type.value === 'file' || field.field.type.value === 'img'"-->
-            <!--target="_blank">{{field.value.originalname}}</a>-->
-            <!--<span ng-if="field.field.type.value === 'text' ||-->
-            <!--field.field.type.value === 'number' ||-->
-            <!--field.field.type.value === 'select' ||-->
-            <!--field.field.type.value === 'longText' ">{{field.value}}</span>-->
-            <!--<span ng-if="field.field.type.value === 'date'">{{field.value | date : 'dd.MM.yyyy'}}</span>-->
-            <!--<a href="{{field.value}}"-->
-            <!--ng-if="field.field.type.value === 'link'"-->
-            <!--target="_blank">{{field.value}}</a>-->
-            <!--</td>-->
             <td class="text-center">
               <button type="button"
                       ng-click="vm.delete(rma)"

@@ -152,7 +152,7 @@ legend{
 .clear-form-group-margin .form-group{
   margin-bottom: 0!important;
 }
-.table-sm td{
+.table-sm>tbody>tr>td{
   padding: 4px!important;
 }
 .alert-card{
@@ -173,6 +173,7 @@ legend{
   padding: 20px 8px;
   position: relative;
   box-shadow: 0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12);
+  overflow: auto;
 }
 .rma-serial-card:hover .delete-serial-card, .rma-serial-card:hover .edit-serial-card{
   opacity: 1;
@@ -222,6 +223,6 @@ legend{
 .rma-card-closed{
   background: #f5f5ff;
 }
-.max-two-columns td:nth-child(n+3){
+.max-two-columns>td:nth-child(n+3){
   display: none!important;
 }

@@ -29,6 +29,7 @@
       vm.dismiss({$value: 'cancel'});
     };
     vm.save = function () {
+      vm.loadInProgress = true;
       if(vm.field._id){
         StaticFields.updateField(vm.field)
           .then(function () {
@@ -42,6 +43,9 @@
               message = 'Something went wrong';
             }
             toastr.error(message, 'Error');
+          })
+          .finally(function () {
+            vm.loadInProgress = false;
           });
       } else {
         StaticFields.createField(vm.field)
@@ -56,6 +60,9 @@
               message = 'Something went wrong';
             }
             toastr.error(message, 'Error');
+          })
+          .finally(function () {
+            vm.loadInProgress = false;
           });
       }
     }

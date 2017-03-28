@@ -160,6 +160,7 @@
 
     vm.reset = function () {
       vm.filters = {};
+      vm.loadCustomers();
     };
 
   }

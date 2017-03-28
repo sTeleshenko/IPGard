@@ -74,8 +74,8 @@
     </div>
   </div>
   <div class="modal-footer">
-    <button type="submit" class="btn btn-primary" ng-disabled="vm.form.$invalid">Save</button>
-    <button type="button" class="btn btn-warning" ng-click="vm.cancel()">Cancel</button>
+    <button type="submit" class="btn btn-primary" ng-disabled="vm.form.$invalid || vm.loadInProgress">Save</button>
+    <button type="button" class="btn btn-warning" ng-click="vm.cancel()" ng-disabled="vm.loadInProgress">Cancel</button>
   </div>
 
 </form>
