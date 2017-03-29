@@ -6,13 +6,6 @@
             ng-click="vm.openDocumentModal({})">New
     </button>
   </p>
-  <!--<p ng-if="vm.category.type === 'Form' && vm.documents.length >=1">-->
-    <!--<button type="button"-->
-            <!--ng-click="vm.openDocumentModal(vm.documents[0], 0)"-->
-            <!--class="btn btn-primary btn-sm">-->
-      <!--Edit-->
-    <!--</button>-->
-  <!--</p>-->
   <device-category-table
       ng-if="vm.category.type === 'Table' && vm.fields.length > 0 && vm.documents.length > 0"
       open-document-modal="vm.openDocumentModal(document)"

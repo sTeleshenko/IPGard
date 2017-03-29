@@ -19,7 +19,6 @@
   function deviceSubcategories(Documents, toastr, $scope) {
     var vm = this;
     vm.$onInit = function () {
-      vm.subcategories = [];
       Documents.getAll(vm.deviceId, vm.category.relatedCategory)
         .then(function (response) {
           vm.subcategories = [];

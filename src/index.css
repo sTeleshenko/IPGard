@@ -226,3 +226,6 @@ legend{
 .max-two-columns>td:nth-child(n+3){
   display: none!important;
 }
+#toast-container{
+  z-index: 999999999;
+}
