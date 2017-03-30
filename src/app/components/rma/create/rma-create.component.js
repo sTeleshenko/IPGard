@@ -20,6 +20,7 @@
     $stateParams,
     $filter,
     $scope,
+    printElement,
     Auth) {
     var vm = this;
     vm.$onInit = function () {
@@ -230,5 +231,8 @@
     //   return angular.equals(vm.rma, vm.defaultData);
     // }
 
+    vm.print = function (id) {
+      printElement(id)
+    }
   }
 })();

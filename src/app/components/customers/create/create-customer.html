@@ -1,5 +1,11 @@
-<form ng-submit="vm.save()" name="vm.form">
-  <div class="modal-header">
+<form ng-submit="vm.save()" name="vm.form" id="{{vm.customer._id}}">
+  <div class="modal-header customer-detail-header">
+    <button type="button"
+            class="print-customer-button"
+            ng-if="vm.customer._id"
+            ng-click="vm.print('selected-customer')">
+      <span class="glyphicon glyphicon-print"></span>
+    </button>
     <h4>Customer details</h4>
   </div>
   <div class="modal-body">
@@ -13,86 +19,6 @@
              ng-required="field.required"
              placeholder="{{field.label}}">
     </div>
-    <!--<div class="form-group">-->
-      <!--<label for="phone">Phone:</label>-->
-      <!--<input type="text"-->
-             <!--ng-model="vm.customer.phone"-->
-             <!--id="phone"-->
-             <!--name="phone"-->
-             <!--class="form-control"-->
-             <!--required-->
-             <!--placeholder="Phone">-->
-    <!--</div>-->
-    <!--<div class="form-group">-->
-      <!--<label for="contactPerson">Contact Person:</label>-->
-      <!--<input type="text"-->
-             <!--ng-model="vm.customer.contactPerson"-->
-             <!--id="contactPerson"-->
-             <!--name="contactPerson"-->
-             <!--class="form-control"-->
-             <!--required-->
-             <!--placeholder="Contact Person">-->
-    <!--</div>-->
-    <!--<div class="form-group">-->
-      <!--<label for="email">Email:</label>-->
-      <!--<input type="email"-->
-             <!--ng-model="vm.customer.email"-->
-             <!--id="email"-->
-             <!--name="email"-->
-             <!--class="form-control"-->
-             <!--required-->
-             <!--placeholder="Email">-->
-    <!--</div>-->
-    <!--<div class="form-group">-->
-      <!--<label for="address">Address:</label>-->
-      <!--<input type="text"-->
-             <!--ng-model="vm.customer.address"-->
-             <!--id="address"-->
-             <!--name="address"-->
-             <!--class="form-control"-->
-             <!--required-->
-             <!--placeholder="Address">-->
-    <!--</div>-->
-    <!--<div class="form-group">-->
-      <!--<label for="city">City:</label>-->
-      <!--<input type="text"-->
-             <!--ng-model="vm.customer.city"-->
-             <!--id="city"-->
-             <!--name="city"-->
-             <!--class="form-control"-->
-             <!--required-->
-             <!--placeholder="City">-->
-    <!--</div>-->
-    <!--<div class="form-group">-->
-      <!--<label for="zipCode">Zip Code:</label>-->
-      <!--<input type="text"-->
-             <!--ng-model="vm.customer.zipCode"-->
-             <!--id="zipCode"-->
-             <!--name="zipCode"-->
-             <!--class="form-control"-->
-             <!--required-->
-             <!--placeholder="Zip Code">-->
-    <!--</div>-->
-    <!--<div class="form-group">-->
-      <!--<label for="state">State:</label>-->
-      <!--<input type="text"-->
-             <!--ng-model="vm.customer.state"-->
-             <!--id="state"-->
-             <!--name="state"-->
-             <!--class="form-control"-->
-             <!--required-->
-             <!--placeholder="State">-->
-    <!--</div>-->
-    <!--<div class="form-group">-->
-      <!--<label for="country">Country:</label>-->
-      <!--<input type="text"-->
-             <!--ng-model="vm.customer.country"-->
-             <!--id="country"-->
-             <!--name="country"-->
-             <!--class="form-control"-->
-             <!--required-->
-             <!--placeholder="Country">-->
-    <!--</div>-->  <!--dynamic fields-->
     <div ng-repeat="obj in vm.customer.fields">
       <div class="form-group" ng-if="obj.field.type.value === 'number'">
         <label for="{{obj.field.title}}">{{obj.field.title}}</label>
@@ -217,3 +143,25 @@
   </div>
 
 </form>
+<div id="selected-customer">
+  <table class="print-only table-bordered" cellpadding="5" cellspacing="0">
+    <tbody>
+    <tr ng-repeat="field in vm.fields">
+      <td><b>{{field.label}}:</b></td>
+      <td>{{vm.customer[field.key]}}</td>
+    </tr>
+    <tr ng-repeat="obj in vm.customer.fields | orderBy: obj._id" ng-if="obj.value">
+      <td><b>{{obj.field.title}}:</b></td>
+      <td>
+        <span ng-if="obj.field.type.value === 'number' ||
+                     obj.field.type.value === 'text' ||
+                     obj.field.type.value === 'link' ||
+                     obj.field.type.value === 'select' ||
+                     obj.field.type.value === 'longText'">{{obj.value}}</span>
+        <span ng-if="obj.field.type.value === 'date'">{{obj.value | date: 'MM.dd.yyyy'}}</span>
+        <span ng-if="obj.field.type.value === 'file' || obj.field.type.value === 'img'">{{obj.value.originalname}}</span>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>

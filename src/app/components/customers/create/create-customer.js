@@ -13,7 +13,7 @@
     });
 
   /** @ngInject */
-  function createCustomerComponent(Customers, toastr, StaticFields, Upload) {
+  function createCustomerComponent(Customers, toastr, StaticFields, Upload, printElement) {
     var vm = this;
     vm.$onInit = function () {
       vm.fields = StaticFields.static['Customer'];
@@ -74,6 +74,9 @@
             toastr.error(message, 'Error');
           });
       }
+    }
+    vm.print = function (id) {
+      printElement(id)
     }
   }
 })();

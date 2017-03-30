@@ -175,7 +175,7 @@ legend{
   box-shadow: 0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12);
   overflow: auto;
 }
-.rma-serial-card:hover .delete-serial-card, .rma-serial-card:hover .edit-serial-card{
+.rma-serial-card:hover .delete-serial-card, .rma-serial-card:hover .edit-serial-card, .rma-serial-card:hover .print-serial-card{
   opacity: 1;
 }
 .delete-serial-card{
@@ -213,7 +213,20 @@ legend{
   font-size: 14px;
   color: #757575;
 }
-.rma-serial-card:hover .edit-serial-card[disabled], .rma-serial-card:hover .delete-serial-card[disabled]{
+.print-serial-card{
+  position: absolute;
+  top: 6px;
+  right: 60px;
+  border: none;
+  background: transparent;
+  padding: 0;
+  width: 21px;
+  opacity: 0;
+  transition: .3s;
+  font-size: 14px;
+  color: #757575;
+}
+.rma-serial-card:hover .edit-serial-card[disabled], .rma-serial-card:hover .delete-serial-card[disabled], .rma-serial-card:hover .print-serial-card[disabled]{
   cursor: not-allowed;
   opacity: 0.65;
 }
@@ -228,4 +241,27 @@ legend{
 }
 #toast-container{
   z-index: 999999999;
+}
+.print-only{
+  display: none!important;
+}
+.print-customer-button{
+  position: absolute;
+  top: 23px;
+  right: 30px;
+  border: none;
+  background: transparent;
+  padding: 0;
+  width: 21px;
+  font-size: 16px;
+  color: #757575;
+}
+.customer-detail-header{
+  position: relative;
+}
+.navbar-brand{
+  padding: 10px 15px!important;
+}
+.navbar-brand img{
+  height: 100%;
 }

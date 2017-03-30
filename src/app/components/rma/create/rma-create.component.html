@@ -122,8 +122,15 @@
         <div class="row">
           <div class="col-md-6" ng-repeat="nth in [0, 1]">
             <div class="rma-serial-card" ng-class="{'rma-card-closed': sn.closed}"
+                 id="{{sn._id}}"
                  ng-repeat="sn in vm.rma.products | orderBy: 'closed' | nthChild: nth">
-              <button class="edit-serial-card"
+              <button type="button"
+                      class="no-print print-serial-card"
+                      ng-disabled="sn.editable"
+                      ng-click="vm.print(sn._id)">
+                <span class="glyphicon glyphicon-print"></span>
+              </button>
+              <button class="edit-serial-card no-print"
                       type="button"
                       ng-disabled="vm.form.devices['device' + $index + $parent.$index].$invalid"
                       ng-click="vm.toggleEditedState(sn)">
@@ -131,7 +138,7 @@
                       ng-class="{'glyphicon-ok': sn.editable, 'glyphicon-pencil': !sn.editable}">
                 </span>
               </button>
-              <button class="delete-serial-card"
+              <button class="delete-serial-card no-print"
                       ng-disabled="sn.closed && vm.user.role !== 'admin'"
                       ng-click="vm.deleteSerialNumber(sn)"
                       type="button">
@@ -192,6 +199,7 @@
                   </tr>
                   <tr ng-repeat="obj in sn.fields | orderBy : 'obj._id'"
                       class="max-two-columns"
+                      ng-class="{'no-print': !obj.value}"
                       ng-show="obj.value || sn.editable">
                     <td><b>{{obj.field.title}}:</b></td>
                     <td ng-if="!sn.editable">
