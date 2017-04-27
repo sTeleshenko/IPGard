@@ -9,6 +9,13 @@
     <h4>Customer details</h4>
   </div>
   <div class="modal-body">
+    <div class="form-group">
+      <label for="customerType">Type:</label>
+      <select name="customerType" class="form-control" id="customerType" ng-model="vm.customer.type" required>
+        <option value="reseller">Reseller</option>
+        <option value="endUser">End User</option>
+      </select>
+    </div>
     <div class="form-group" ng-repeat="field in vm.fields">
       <label for="{{field.key}}">{{field.label}}:</label>
       <input type="{{field.type}}"
