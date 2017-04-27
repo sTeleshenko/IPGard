@@ -4,6 +4,7 @@ const StaticField = require('../static-field/static-field-schema');
 const Schema = mongoose.Schema;
 
 const customerSchema = new Schema({
+    type: { type: String, enum: ['reseller', 'endUser'], default: 'reseller' },
     name: { type: String, required: true },
     address: { type: String, required: true },
     city: { type: String, required: true },
