@@ -1,0 +1,10 @@
+<div class="modal-header">
+  <h4>{{vm.resolve.title ? vm.resolve.title : 'Confirm'}}</h4>
+</div>
+<div class="modal-body">
+  <p>{{vm.resolve.message}}</p>
+</div>
+<div class="modal-footer text-right">
+  <button class="btn btn-danger" ng-click="vm.dismiss({$value: false})">Cancel</button>
+  <button class="btn btn-success" ng-click="vm.close({$value: true})">Ok</button>
+</div>

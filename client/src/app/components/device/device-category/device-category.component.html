@@ -1,0 +1,51 @@
+<div class="row">
+  <p class="col-sm-12 no-print"
+     ng-if="vm.fields.length > 0 && vm.category.type !== 'Table with subcategory'">
+    <button class="btn btn-primary btn-sm"
+            has-role="['admin', 'productionAdmin', 'salesAdmin']"
+            ng-click="vm.openDocumentModal({})">New
+    </button>
+  </p>
+  <device-category-table
+      ng-if="vm.category.type === 'Table' && vm.fields.length > 0 && vm.documents.length > 0"
+      open-document-modal="vm.openDocumentModal(document)"
+      delete="vm.delete(document)"
+      fields="vm.fields"
+      documents="vm.documents"></device-category-table>
+  <device-category-gallery
+      ng-if="vm.category.type === 'Gallery'"
+      delete="vm.delete(document)"
+      documents="vm.documents"></device-category-gallery>
+  <device-category-form
+      ng-if="vm.category.type === 'Attachments' && vm.documents[0]"
+      open-document-modal="vm.openDocumentModal(document)"
+      delete="vm.delete(document)"
+      documents="vm.documents"></device-category-form>
+  <device-subcategories
+      ng-if="vm.category.type === 'Table with subcategory'"
+      documents="vm.documents"
+      fields="vm.fields"
+      device-id="vm.deviceId"
+      delete="vm.delete(document)"
+      open-document-modal="vm.openDocumentModal(document)"
+      category="vm.category"></device-subcategories>
+  <div class="col-xs-12" ng-if="vm.fields.length === 0">
+    <div class="jumbotron col-xs-12 text-center">
+      <h4>
+        Selected category don't has any field.
+      </h4>
+      <a ui-sref="fields({id: vm.categoryId})"
+         class="btn btn-primary"
+         has-role="['admin']">Add fields</a>
+    </div>
+  </div>
+  <div class="col-xs-12"
+       ng-if="vm.fields.length > 0 &&
+              vm.documents.length === 0 &&
+              vm.category.type != 'Table with subcategory'">
+    <div class="jumbotron text-center">
+      <h4>Selected device don't has any info in this category.</h4>
+    </div>
+  </div>
+</div>
+

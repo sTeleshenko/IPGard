@@ -1,0 +1,31 @@
+<div class="col-md-8 col-md-offset-2">
+  <div class="well well-sm">
+    <div class="form-horizontal">
+      <div ng-repeat="document in vm.documents">
+        <div class="form-group">
+          <label class="col-sm-4 control-label"
+                 ng-repeat="field in document.fields | filter: {field: {type: {value:'text'}}}">{{field.value}}</label>
+          <div class="col-sm-5"
+               ng-repeat="field in document.fields | filter: {field: {type: {value:'file'}}}">
+            <p class="form-control-static">
+              <a href="/api/uploads/{{field.value.filename}}?name={{field.value.originalname}}"
+                 target="_blank">{{field.value.originalname}}</a>
+            </p>
+          </div>
+          <div class="col-sm-3 no-print">
+            <button type="button"
+                    ng-click="vm.openDocumentModal({document: document})"
+                    class="btn btn-primary btn-sm">
+              <span class="glyphicon glyphicon-edit"></span>
+            </button>
+            <button type="button"
+                    ng-click="vm.delete({document: document})"
+                    class="btn btn-danger btn-sm">
+              <span class="glyphicon glyphicon-trash"></span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

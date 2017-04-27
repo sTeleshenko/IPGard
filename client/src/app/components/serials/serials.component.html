@@ -1,0 +1,41 @@
+<div class="row">
+  <div class="col-md-3 no-print sm-spacer">
+    <device-search-component filters="vm.filters"
+                             mode="'sales'"
+                             on-filters-changed="vm.onFiltersChanged(filters)">
+
+    </device-search-component>
+  </div>
+  <div class="col-md-9">
+    <serials-list-component serials="vm.serials"
+                            delete="vm.delete(serial)"
+                            sort-filters="vm.sortFilters"
+                            on-sort-filters-changed="vm.onSortFiltersChanged(key)"
+                            open-device-modal="vm.openDeviceModal(device, index)">
+
+    </serials-list-component>
+
+    <div class="pagination-wrapper no-print">
+      <ul uib-pagination
+          total-items="vm.pagination.total"
+          ng-model="vm.pagination.page"
+          ng-change="vm.loadSerials()"
+          max-size="6"
+          items-per-page="vm.pagination.limit"
+          class="pagination-sm"
+          boundary-link-numbers="true"></ul>
+      <span class="full-flex"></span>
+      <div class="btn-group btn-group-sm">
+        <label class="btn btn-success"
+               disabled>Items per page</label>
+        <label class="btn btn-success"
+               ng-model="vm.pagination.limit"
+               ng-change="vm.onLimitChange()"
+               ng-repeat="limit in vm.limits"
+               uib-btn-radio="limit">{{limit}}</label>
+        <label class="btn btn-success"
+               disabled>Count: {{vm.pagination.total}}</label>
+      </div>
+    </div>
+  </div>
+</div>

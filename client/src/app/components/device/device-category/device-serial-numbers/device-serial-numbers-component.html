@@ -1,0 +1,193 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="row">
+      <div class="col-xs-12 col-md-push-9 col-md-3 sm-spacer no-print">
+        <form novalidate ng-submit="vm.loadSales()">
+          <div class="form-group form-group-sm">
+            <label for="serialNumber">Serial Number</label>
+            <input class="form-control" type="text" id="serialNumber" ng-model="vm.searchFilters.serialNumber">
+          </div>
+          <div class="form-group form-group-sm">
+            <label for="version">Version</label>
+            <input class="form-control" type="text" id="version" ng-model="vm.searchFilters.version">
+          </div>
+
+          <div class="form-group form-group-sm">
+            <label for="salesOrder">Sales Order</label>
+            <input class="form-control"
+                   type="text"
+                   id="salesOrder"
+                   ng-model-options="vm.modelOptions"
+                   ng-model="vm.searchFilters.salesOrder">
+          </div>
+
+          <div class="form-group form-group-sm">
+            <label for="dateFrom">From Date:</label>
+            <p class="input-group">
+              <input type="text"
+                     id="dateFrom"
+                     class="form-control"
+                     uib-datepicker-popup="MM.dd.yyyy"
+                     ng-model="vm.searchFilters.dateFrom"
+                     popup-placement="auto"
+                     is-open="openFrom"
+                     datepicker-options="{maxDate: vm.searchFilters.dateTo}"
+                     close-text="Close"  />
+              <span class="input-group-btn">
+            <button type="button"
+                    class="btn btn-default btn-sm"
+                    ng-click="openFrom = !openFrom">
+              <i class="glyphicon glyphicon-calendar"></i></button>
+          </span>
+            </p>
+          </div>
+
+          <div class="form-group form-group-sm">
+            <label for="dateTo">To Date:</label>
+            <p class="input-group">
+              <input type="text"
+                     id="dateTo"
+                     class="form-control"
+                     uib-datepicker-popup="MM.dd.yyyy"
+                     ng-model="vm.searchFilters.dateTo"
+                     datepicker-options="{minDate: vm.searchFilters.dateFrom}"
+                     popup-placement="auto"
+                     is-open="openTo"
+                     close-text="Close"  />
+              <span class="input-group-btn">
+            <button type="button"
+                    class="btn btn-default btn-sm"
+                    ng-click="openTo = !openTo">
+              <i class="glyphicon glyphicon-calendar"></i></button>
+          </span>
+            </p>
+          </div>
+
+          <div class="form-group form-group-sm">
+            <label for="customerName">Customer Name</label>
+            <input class="form-control" type="text" id="customerName" ng-model="vm.searchFilters.customerName">
+          </div>
+
+          <div class="text-right">
+            <button class="btn btn-info btn-sm"
+                    type="button"
+                    has-role="['admin', 'salesAdmin']"
+                    ng-click="vm.openImportModal()">Import
+            </button>
+            <button class="btn btn-primary btn-sm"
+                    type="button"
+                    has-role="['admin', 'salesAdmin']"
+                    ng-click="vm.openCreateModal({})">New
+            </button>
+            <button type="button" class="btn btn-warning btn-sm" ng-click="vm.reset()">Reset</button>
+            <button type="submit" class="btn btn-success btn-sm">Search</button>
+          </div>
+        </form>
+      </div>
+      <div class="col-xs-12 table-responsive col-md-pull-3 col-md-9">
+        <div>
+
+          <div class="scroled-table">
+            <table class="table table-bordered">
+              <thead fix-head>
+              <th
+                ng-click="vm.onSortFiltersChanged('serialNumber')">
+                Serial Number
+                <span class="glyphicon glyphicon-triangle-bottom"
+                      ng-class="{reverse: vm.sortFilters.order}"
+                      ng-show="vm.sortFilters.sort === 'serialNumber'"></span>
+              </th>
+              <th
+                ng-click="vm.onSortFiltersChanged('version')">
+                Version
+                <span class="glyphicon glyphicon-triangle-bottom"
+                      ng-class="{reverse: vm.sortFilters.order}"
+                      ng-show="vm.sortFilters.sort === 'version'"></span>
+              </th>
+              <th
+                ng-click="vm.onSortFiltersChanged('salesOrder')">
+                Sales Order
+                <span class="glyphicon glyphicon-triangle-bottom"
+                      ng-class="{reverse: vm.sortFilters.order}"
+                      ng-show="vm.sortFilters.sort === 'salesOrder'"></span>
+              </th>
+              <th
+                ng-click="vm.onSortFiltersChanged('date')">
+                Date
+                <span class="glyphicon glyphicon-triangle-bottom"
+                      ng-class="{reverse: vm.sortFilters.order}"
+                      ng-show="vm.sortFilters.sort === 'date'"></span>
+              </th>
+              <th
+                ng-click="vm.onSortFiltersChanged('customerName')">
+                Customer Name
+                <span class="glyphicon glyphicon-triangle-bottom"
+                      ng-class="{reverse: vm.sortFilters.order}"
+                      ng-show="vm.sortFilters.sort === 'customerName'"></span>
+              </th>
+              <th ng-repeat="field in vm.fields | orderBy : '_id'">{{field.title}}</th>
+              <th class="col-actions no-print" has-role="['admin', 'salesAdmin']">Actions</th>
+              </thead>
+              <tbody>
+              <tr ng-repeat="sale in vm.sales">
+                <td>{{sale.serialNumber}}</td>
+                <td>{{sale.version}}</td>
+                <td>{{sale.salesOrder}}</td>
+                <td>{{sale.date | date: 'MM.dd.yyyy'}}</td>
+                <td>{{sale.customer.name}}</td>
+                <td ng-repeat="field in sale.fields | orderBy : 'field._id'">
+                  <a href="/api/uploads/{{field.value.filename}}?name={{field.value.originalname}}"
+                     ng-if="field.field.type.value === 'file' || field.field.type.value === 'img'"
+                     target="_blank">{{field.value.originalname}}</a>
+                  <span ng-if="field.field.type.value === 'text' ||
+                     field.field.type.value === 'number' ||
+                     field.field.type.value === 'select' ||
+                     field.field.type.value === 'longText' ">{{field.value}}</span>
+                  <span ng-if="field.field.type.value === 'date'">{{field.value | date : 'MM.dd.yyyy'}}</span>
+                  <a href="{{field.value}}"
+                     ng-if="field.field.type.value === 'link'"
+                     target="_blank">{{field.value}}</a>
+                </td>
+                <td class="col-actions no-print" has-role="['admin', 'salesAdmin']">
+                  <button type="button"
+                          ng-click="vm.openCreateModal(sale, $index)"
+                          class="btn btn-primary btn-sm">
+                    <span class="glyphicon glyphicon-edit"></span>
+                  </button>
+                  <button type="button"
+                          ng-click="vm.delete(sale, $index)"
+                          class="btn btn-danger btn-sm">
+                    <span class="glyphicon glyphicon-trash"></span>
+                  </button>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+
+        <div class="pagination-wrapper no-print">
+          <ul uib-pagination
+              total-items="vm.pagination.total"
+              ng-model="vm.pagination.page"
+              ng-change="vm.loadSales()"
+              max-size="6"
+              items-per-page="vm.pagination.limit"
+              class="pagination-sm pull-left"
+              boundary-link-numbers="true"></ul>
+          <span class="full-flex"></span>
+          <div class="btn-group btn-group-sm">
+            <label class="btn btn-success" disabled>Items per page</label>
+            <label class="btn btn-success"
+                   ng-model="vm.pagination.limit"
+                   ng-change="vm.onLimitChange()"
+                   ng-repeat="limit in vm.limits"
+                   uib-btn-radio="limit">{{limit}}</label>
+            <label class="btn btn-success" disabled>Count: {{vm.pagination.total}}</label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

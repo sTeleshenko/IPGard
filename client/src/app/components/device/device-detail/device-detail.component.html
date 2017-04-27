@@ -1,0 +1,49 @@
+<div class="row">
+  <div class="col-xs-12">
+    <div class="table-responsive">
+      <table class="table table-bordered">
+        <thead>
+        <tr class="info">
+          <th>Model name</th>
+          <th>Part number</th>
+          <th>UPC</th>
+          <th>Description</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="active">
+          <td>{{vm.device.model}}</td>
+          <td>{{vm.device.partNumber}}</td>
+          <td>{{vm.device.upc}}</td>
+          <td>{{vm.device.description}}</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-3 col-lg-2 sm-spacer no-print">
+    <ul class="nav nav-pills nav-stacked">
+      <li ng-repeat="category in vm.categories"
+          ui-sref-active="active">
+        <a ui-sref=".category({categoryId: category._id})">
+          {{category.title}}
+        </a>
+      </li>
+      <li ui-sref-active="active"
+          has-role="['admin', 'salesAdmin', 'salesUser']">
+        <a ui-sref="device.serialNumbers">Serial Numbers</a>
+      </li>
+    </ul>
+  </div>
+  <div class="col-md-9 col-lg-10">
+    <div class="row">
+      <ui-view class="col-xs-12">
+        <div class="jumbotron text-center">
+          <h4>Select category for detail.</h4>
+        </div>
+      </ui-view>
+    </div>
+  </div>
+</div>

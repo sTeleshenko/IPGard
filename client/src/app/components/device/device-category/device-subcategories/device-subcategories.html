@@ -1,0 +1,28 @@
+
+<div class="col-xs-12">
+  <uib-accordion>
+    <div uib-accordion-group
+         ng-repeat="sub in vm.subcategories"
+         class="panel-default">
+      <uib-accordion-heading>
+        <a href="#" ng-click="vm.onCreateClick(sub, $event)" class="pull-right">New</a>
+        {{sub.value}}
+      </uib-accordion-heading>
+
+      <div class="row">
+        <device-category-table
+          open-document-modal="vm.create(document)"
+          delete="vm.onDelelte(document)"
+          fields="vm.fields"
+          documents="sub.documents">
+        </device-category-table>
+      </div>
+    </div>
+  </uib-accordion>
+</div>
+<div class="col-xs-12"
+     ng-if="vm.subcategories.length === 0">
+  <div class="jumbotron text-center">
+    <h4>not found subcategory.</h4>
+  </div>
+</div>

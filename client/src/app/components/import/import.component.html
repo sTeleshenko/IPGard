@@ -1,0 +1,80 @@
+<form ng-submit="vm.save()" name="vm.form">
+  <div class="modal-header">
+    <label class="btn btn-default btn-sm btn-file">
+      Select File
+      <input type="file"
+             fileread
+             parse-started="vm.onParseStarted()"
+             headers="vm.headers"
+             data="vm.data"
+             on-data-changed="vm.onDataChanged(data)"
+             accept=".xlsx, .xls"
+             style="display: none;">
+    </label>
+  </div>
+  <div class="modal-body">
+    <p ng-if="vm.editedData.length">
+      Part: {{vm.pagination.part}}/{{vm.pagination.parts}}. Total {{vm.pagination.total}} items.
+    </p>
+    <div ng-if="vm.editedData.length">
+      <table class="table table-bordered">
+        <thead>
+        <tr class="info">
+          <th ng-repeat="header in vm.headers">{{header.label}}</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="row in vm.editedData">
+          <td ng-repeat="header in vm.headers">
+            <input type="text"
+                   class="form-control input-sm"
+                   ng-required="header.required"
+                   name="input{{$parent.$parent.$index}}{{$index}}"
+                   ng-model="row[header.key]"
+                   ng-if="header.type === 'text'">
+            <input type="email"
+                   class="form-control input-sm"
+                   ng-required="header.required"
+                   name="input{{$parent.$parent.$index}}{{$index}}"
+                   ng-model="row[header.key]"
+                   ng-if="header.type === 'email'">
+            <p class="input-group input-group-sm"
+               ng-if="header.type === 'date'">
+              <input type="text"
+                     class="form-control"
+                     uib-datepicker-popup="MM.dd.yyyy"
+                     name="input{{$parent.$parent.$index}}{{$index}}"
+                     ng-required="header.required"
+                     ng-model="row[header.key]"
+                     datepicker-options="{}"
+                     is-open="row.open[$index]"
+                     close-text="Close"  />
+              <span class="input-group-btn">
+            <button type="button"
+                    class="btn btn-default btn-sm"
+                    ng-click="row.open[$index] = !row.open[$index]">
+              <i class="glyphicon glyphicon-calendar"></i></button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="jumbotron text-center" ng-if="!vm.editedData.length">
+      <h4>Please select .xls file</h4>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <div class="progress pull-left"
+         ng-if="vm.loadInProgress"
+         style="width: 150px; margin-bottom: 0; margin-top: 11px;">
+      <div class="progress-bar progress-bar-success progress-bar-striped active"
+           role="progressbar"
+           style="width: 100%">
+      </div>
+    </div>
+    <button type="submit" class="btn btn-primary" ng-disabled="!vm.editedData.length || vm.loadInProgress">Save</button>
+    <button type="button" class="btn btn-warning" ng-click="vm.cancel()">Cancel</button>
+  </div>
+
+</form>

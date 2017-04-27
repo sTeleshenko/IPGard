@@ -1,0 +1,53 @@
+<div class="table-responsive">
+  <table class="table table-bordered">
+    <thead>
+    <th ng-click="vm.onSortFiltersChanged({key: 'model'})">
+      Model name
+      <span class="glyphicon glyphicon-triangle-bottom"
+            ng-class="{reverse: vm.sortFilters.order}"
+            ng-show="vm.sortFilters.sort === 'model'"></span>
+    </th>
+    <th ng-click="vm.onSortFiltersChanged({key: 'partNumber'})">
+      Part number
+      <span class="glyphicon glyphicon-triangle-bottom"
+            ng-class="{reverse: vm.sortFilters.order}"
+            ng-show="vm.sortFilters.sort === 'partNumber'"></span>
+    </th>
+    <th ng-click="vm.onSortFiltersChanged({key: 'upc'})">
+      UPC
+      <span class="glyphicon glyphicon-triangle-bottom"
+            ng-class="{reverse: vm.sortFilters.order}"
+            ng-show="vm.sortFilters.sort === 'upc'"></span>
+    </th>
+    <th ng-click="vm.onSortFiltersChanged({key: 'description'})">
+      Description
+      <span class="glyphicon glyphicon-triangle-bottom"
+            ng-class="{reverse: vm.sortFilters.order}"
+            ng-show="vm.sortFilters.sort === 'description'"></span>
+    </th>
+    <th class="col-actions no-print"
+        has-role="['admin', 'productionAdmin']">Actions</th>
+    </thead>
+    <tbody>
+    <tr ng-repeat="device in vm.devices">
+      <td><a ui-sref="device({id: device._id})">{{device.model}}</a></td>
+      <td>{{device.partNumber}}</td>
+      <td>{{device.upc}}</td>
+      <td>{{device.description}}</td>
+      <td class="col-actions no-print"
+          has-role="['admin', 'productionAdmin']">
+        <button type="button"
+                ng-click="vm.openDeviceModal({device: device, index: $index})"
+                class="btn btn-primary btn-sm">
+          <span class="glyphicon glyphicon-edit"></span>
+        </button>
+        <button type="button"
+                ng-click="vm.delete({device: device, index: $index})"
+                class="btn btn-danger btn-sm">
+          <span class="glyphicon glyphicon-trash"></span>
+        </button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
