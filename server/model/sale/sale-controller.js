@@ -17,6 +17,9 @@ class SaleController extends Controller {
                 if (sale.customer) {
                     sale._customerName = sale.customer.name;
                 }
+                if (sale.reseller) {
+                    sale._resellerName = sale.reseller.name;
+                }
                 return this.model.create(sale)
             })
             .then(doc => res.status(201).json(doc))
@@ -34,6 +37,9 @@ class SaleController extends Controller {
                     if (sale.customer) {
                         sale._customerName = sale.customer.name;
                     }
+                    if (sale.reseller) {
+                        sale._resellerName = sale.reseller.name;
+                    }
                     return sale;
                 });
                 return this.model.createCollection(collection)
@@ -47,6 +53,7 @@ class SaleController extends Controller {
         options.populate = [
             { path: 'product' },
             { path: 'customer' },
+            { path: 'reseller' },
             { path: 'fields.field' }
         ];
         if (req.query.sort) {
@@ -60,6 +67,8 @@ class SaleController extends Controller {
                 options.sort = req.query.sort.replace(/product.description/, '_productDescription')
             } else if (req.query.sort.indexOf('customerName') !== -1) {
                 options.sort = req.query.sort.replace(/customerName/, '_customerName');
+            } else if (req.query.sort.indexOf('resellerName') !== -1) {
+                options.sort = req.query.sort.replace(/resellerName/, '_resellerName');
             } else {
                 options.sort = req.query.sort;
             }
@@ -88,6 +97,8 @@ class SaleController extends Controller {
                     query['_productDescription'] = new RegExp(req.query[key], 'i');
                 } else if (key === 'customerName') {
                     query['_customerName'] = new RegExp(req.query[key], 'i');
+                } else if (key === 'resellerName') {
+                    query['_resellerName'] = new RegExp(req.query[key], 'i');
                 } else if (key === 'dateFrom') {
                     query.date = query.date || {};
                     query.date['$gte'] = req.query[key];
@@ -119,6 +130,9 @@ class SaleController extends Controller {
         let sale = req.body;
         if(sale.customer) {
             sale._customerName = sale.customer.name;
+        }
+        if(sale.reseller) {
+            sale._resellerName = sale.reseller.name;
         }
         this.model.update(conditions, sale)
             .then(doc => {

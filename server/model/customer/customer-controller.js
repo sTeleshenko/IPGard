@@ -57,6 +57,13 @@ class CustomerController extends Controller {
                 return Sale.update({ customer: customer._id }, body)
                     .then(() => customer);
             })
+            .then(customer => {
+                let body = {
+                    _resellerName: customer.name
+                };
+                return Sale.update({ reseller: customer._id }, body)
+                    .then(() => customer);
+            })
             .then(doc => res.status(200).json(doc))
             .catch(err => next(err));
     }
@@ -66,6 +73,11 @@ class CustomerController extends Controller {
             .then(doc => {
                 if (!doc) { return res.status(404).end(); }
                 return Sale.update({ customer: doc._id }, { _customerName: '', customer: null})
+                    .then(() => doc);
+            })
+            .then(doc => {
+                return Sale.update({ reseller: doc._id }, { _resellerName: '', reseller: null})
+                    .then(() => doc);
             })
             .then(() => res.status(204).end())
             .catch(err => next(err));

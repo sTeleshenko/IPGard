@@ -13,6 +13,8 @@ const saleSchema = new Schema({
     _productDescription: { type: String, required: true },
     customer: { type: mongoose.Schema.Types.ObjectId, ref: 'Customer' },
     _customerName: {type: String, required: false, default: ''},
+    reseller: { type: mongoose.Schema.Types.ObjectId, ref: 'Customer' },
+    _resellerName: {type: String, required: false, default: ''},
     serialNumber: {type: String, required: true, default: '', unique: true},
     salesOrder: {type: String, required: false, default: ''},
     version: { type: String, required: true },
