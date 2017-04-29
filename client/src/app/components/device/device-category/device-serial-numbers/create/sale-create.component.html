@@ -53,6 +53,23 @@
       </p>
     </div>
     <div class="form-group">
+      <label for="reseller">Reseller:</label>
+      <input type="text"
+             typeahead-editable="false"
+             id="reseller"
+             ng-model="vm.sale.reseller"
+             ng-model-options="{debounce: 300}"
+             placeholder="Reseller"
+             uib-typeahead="reseller as reseller.name for reseller in vm.getCustomers($viewValue)"
+             typeahead-loading="loadingResellers"
+             typeahead-no-results="noResults"
+             class="form-control">
+      <i ng-show="loadingResellers" class="glyphicon glyphicon-refresh"></i>
+      <div ng-show="noResults">
+        <i class="glyphicon glyphicon-remove"></i> No Results Found
+      </div>
+    </div>
+    <div class="form-group">
       <label for="clientName">Customer Name:</label>
       <input type="text"
              typeahead-editable="false"

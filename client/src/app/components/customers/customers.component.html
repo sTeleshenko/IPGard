@@ -2,6 +2,15 @@
   <div class="col-md-3 no-print sm-spacer">
     <form name="vm.form"
           ng-submit="vm.loadCustomers()">
+
+      <div class="form-group form-group-sm">
+        <label for="customerType">Type:</label>
+        <select class="form-control" name="customerType" id="customerType" ng-model="vm.filters.type">
+          <option value="">All</option>
+          <option value="reseller">Reseller</option>
+          <option value="endUser">End User</option>
+        </select>
+      </div>
       <div class="form-group form-group-sm" ng-repeat="field in vm.fields | limitTo: 5">
         <label for="{{field.key}}">{{field.label}}:</label>
         <input type="text"
@@ -39,6 +48,12 @@
         <table class="table table-bordered">
           <thead fix-head>
           <tr>
+            <th ng-click="vm.onSortFiltersChanged('type')">
+              Type
+              <span class="glyphicon glyphicon-triangle-bottom"
+                    ng-class="{reverse: vm.sortFilters.order}"
+                    ng-show="vm.sortFilters.sort === 'type'"></span>
+            </th>
             <th ng-repeat="field in vm.fields" ng-click="vm.onSortFiltersChanged(field.key)">
               {{field.label}}
               <span class="glyphicon glyphicon-triangle-bottom"
@@ -46,60 +61,7 @@
                     ng-show="vm.sortFilters.sort === field.key"></span>
             </th>
             <th ng-repeat="field in vm.dynamicFields | orderBy : '_id'">{{field.title}}</th>
-            <!--<th ng-click="vm.onSortFiltersChanged('name')">-->
-            <!--Name:-->
-            <!--<span class="glyphicon glyphicon-triangle-bottom"-->
-            <!--ng-class="{reverse: vm.sortFilters.order}"-->
-            <!--ng-show="vm.sortFilters.sort === 'name'"></span>-->
-            <!--</th>-->
-            <!--<th ng-click="vm.onSortFiltersChanged('phone')">-->
-            <!--Phone:-->
-            <!--<span class="glyphicon glyphicon-triangle-bottom"-->
-            <!--ng-class="{reverse: vm.sortFilters.order}"-->
-            <!--ng-show="vm.sortFilters.sort === 'phone'"></span>-->
-            <!--</th>-->
-            <!--<th ng-click="vm.onSortFiltersChanged('contactPerson')">-->
-            <!--Contact Person:-->
-            <!--<span class="glyphicon glyphicon-triangle-bottom"-->
-            <!--ng-class="{reverse: vm.sortFilters.order}"-->
-            <!--ng-show="vm.sortFilters.sort === 'contactPerson'"></span>-->
-            <!--</th>-->
-            <!--<th ng-click="vm.onSortFiltersChanged('email')">-->
-            <!--Email:-->
-            <!--<span class="glyphicon glyphicon-triangle-bottom"-->
-            <!--ng-class="{reverse: vm.sortFilters.order}"-->
-            <!--ng-show="vm.sortFilters.sort === 'email'"></span>-->
-            <!--</th>-->
-            <!--<th ng-click="vm.onSortFiltersChanged('address')">-->
-            <!--Address:-->
-            <!--<span class="glyphicon glyphicon-triangle-bottom"-->
-            <!--ng-class="{reverse: vm.sortFilters.order}"-->
-            <!--ng-show="vm.sortFilters.sort === 'address'"></span>-->
-            <!--</th>-->
-            <!--<th ng-click="vm.onSortFiltersChanged('city')">-->
-            <!--City:-->
-            <!--<span class="glyphicon glyphicon-triangle-bottom"-->
-            <!--ng-class="{reverse: vm.sortFilters.order}"-->
-            <!--ng-show="vm.sortFilters.sort === 'city'"></span>-->
-            <!--</th>-->
-            <!--<th ng-click="vm.onSortFiltersChanged('zipCode')">-->
-            <!--Zip Code:-->
-            <!--<span class="glyphicon glyphicon-triangle-bottom"-->
-            <!--ng-class="{reverse: vm.sortFilters.order}"-->
-            <!--ng-show="vm.sortFilters.sort === 'zipCode'"></span>-->
-            <!--</th>-->
-            <!--<th ng-click="vm.onSortFiltersChanged('state')">-->
-            <!--State:-->
-            <!--<span class="glyphicon glyphicon-triangle-bottom"-->
-            <!--ng-class="{reverse: vm.sortFilters.order}"-->
-            <!--ng-show="vm.sortFilters.sort === 'state'"></span>-->
-            <!--</th>-->
-            <!--<th ng-click="vm.onSortFiltersChanged('country')">-->
-            <!--Country:-->
-            <!--<span class="glyphicon glyphicon-triangle-bottom"-->
-            <!--ng-class="{reverse: vm.sortFilters.order}"-->
-            <!--ng-show="vm.sortFilters.sort === 'country'"></span>-->
-            <!--</th>-->
+
             <th class="col-actions no-print"
                 has-role="['admin']">Actions
             </th>
@@ -110,6 +72,7 @@
             <!--<td ng-repeat="field in vm.fields">{{customer[field.key]}}-->
             <!--<a ng-if="field.key === 'name'" ui-sref="serials({id: customer._id})">{{customer.name}}</a>-->
             <!--</td>-->
+            <td>{{customer.type}}</td>
             <td>{{customer.name}}</td>
             <td>{{customer.phone}}</td>
             <td>{{customer.contactPerson}}</td>

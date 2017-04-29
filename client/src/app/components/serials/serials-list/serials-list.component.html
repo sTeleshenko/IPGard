@@ -25,11 +25,11 @@
             ng-class="{reverse: vm.sortFilters.order}"
             ng-show="vm.sortFilters.sort === 'product.upc'"></span>
     </th>
-    <th ng-click="vm.onSortFiltersChanged({key: 'product.description'})">
-      Description
+    <th ng-click="vm.onSortFiltersChanged({key: 'salesOrder'})">
+      Sales Order
       <span class="glyphicon glyphicon-triangle-bottom"
             ng-class="{reverse: vm.sortFilters.order}"
-            ng-show="vm.sortFilters.sort === 'product.description'"></span>
+            ng-show="vm.sortFilters.sort === 'salesOrder'"></span>
     </th>
     <th ng-click="vm.onSortFiltersChanged({key: 'date'})">
       Date
@@ -52,7 +52,7 @@
       <td><a ui-sref="device({id: serial.product._id})">{{serial.product.model}}</a></td>
       <td>{{serial.product.partNumber}}</td>
       <td>{{serial.product.upc}}</td>
-      <td>{{serial.product.description}}</td>
+      <td>{{serial.salesOrder}}</td>
       <td>{{serial.date | date: 'MM.dd.yyyy HH:mm'}}</td>
       <td>{{serial.customer.name}}</td>
       <!--<td class="col-actions"-->
