@@ -12,13 +12,13 @@
                placeholder="Form Number">
       </div>
       <div class="form-group form-group-sm">
-        <label for="customerName">Customer:</label>
+        <label for="customerName">End User:</label>
         <input type="text"
                ng-model="vm.filters._customerName"
                id="customerName"
                name="customerName"
                class="form-control"
-               placeholder="Customer Name">
+               placeholder="End User">
       </div>
       <div class="form-group form-group-sm">
         <label for="rxCarrier">Rx Carrier:</label>
@@ -124,7 +124,7 @@
                     ng-show="vm.sortFilters.sort === 'formNumber'"></span>
             </th>
             <th ng-click="vm.onSortFiltersChanged('customer.name')">
-              Customer
+              End User
               <span class="glyphicon glyphicon-triangle-bottom"
                     ng-class="{reverse: vm.sortFilters.order}"
                     ng-show="vm.sortFilters.sort === 'customer.name'"></span>

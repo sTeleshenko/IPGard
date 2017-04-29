@@ -1,4 +1,4 @@
-<form ng-submit="vm.save()" name="vm.form">
+<form ng-submit="vm.save()" name="vm.form" autocomplete="off">
   <div class="modal-header">
     <h4>Sale details</h4>
   </div>
@@ -62,7 +62,8 @@
              placeholder="Reseller"
              uib-typeahead="reseller as reseller.name for reseller in vm.getCustomers($viewValue)"
              typeahead-loading="loadingResellers"
-             typeahead-no-results="noResults"
+             typeahead-no-results="noResellerResults"
+             typeahead-on-select="vm.onResellerChanged()"
              class="form-control">
       <i ng-show="loadingResellers" class="glyphicon glyphicon-refresh"></i>
       <div ng-show="noResults">
@@ -79,7 +80,8 @@
              placeholder="Customer Name"
              uib-typeahead="customer as customer.name for customer in vm.getCustomers($viewValue)"
              typeahead-loading="loadingCustomers"
-             typeahead-no-results="noResults"
+             typeahead-no-results="noCustomerResults"
+             typeahead-on-select="vm.onCustomerChanged()"
              class="form-control">
       <i ng-show="loadingCustomers" class="glyphicon glyphicon-refresh"></i>
       <div ng-show="noResults">
