@@ -208,8 +208,8 @@
         <option value="$PROJECT_DIR$/client/src/app/components/rma/create/rma-create.component.html" />
         <option value="$PROJECT_DIR$/client/src/index.css" />
         <option value="$PROJECT_DIR$/client/src/app/components/device/device-category/device-serial-numbers/create/sale-create.component.html" />
-        <option value="$PROJECT_DIR$/client/src/app/components/sales-groups/create/sales-group-create.js" />
         <option value="$PROJECT_DIR$/client/src/app/components/sales-groups/create/sales-group-create.html" />
+        <option value="$PROJECT_DIR$/client/src/app/components/sales-groups/create/sales-group-create.js" />
       </list>
     </option>
   </component>

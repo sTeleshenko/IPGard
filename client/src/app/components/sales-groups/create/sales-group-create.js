@@ -89,6 +89,12 @@
                 product: item.product,
                 serialNumber: item.serialNumber
             })
+                .then(function (response) {
+                    console.log(response.data)
+                })
+                .catch(function () {
+                    console.log('err')
+                })
         }
 
     }
