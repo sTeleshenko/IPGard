@@ -42,7 +42,7 @@ router.use('/customers', customer);
 
 router.use('/sales', sale);
 
-router.use('/salesGroup', saleGroup);
+router.use('/sales-group', saleGroup);
 
 router.use('/categories', category);
 
