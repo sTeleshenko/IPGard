@@ -17,7 +17,7 @@ const saleSchema = new Schema({
     _resellerName: {type: String, required: false, default: ''},
     serialNumber: {type: String, required: true, default: '', unique: true},
     salesOrder: {type: String, required: false, default: ''},
-    version: { type: String, required: true },
+    version: { type: String, required: false },
     date: {type: Date, required: false},
     dateCreate: { type: Date, default: Date.now },
     fields: [{
