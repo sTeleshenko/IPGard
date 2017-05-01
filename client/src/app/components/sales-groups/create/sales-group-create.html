@@ -5,7 +5,7 @@
         <div class="col-md-3">
             <fieldset name="basic"
                       ng-disabled="vm.editMode">
-                <legend>Group info</legend>
+                <legend>Order Info</legend>
                 <div class="form-group form-group-sm">
                     <label for="salesOrder">Sales Order:</label>
                     <input type="text"
@@ -85,9 +85,9 @@
 
             <fieldset name="products"
                       ng-disabled="vm.editMode">
-                <legend>Group Devices</legend>
+                <legend>Devices</legend>
 
-                <div class="form-group form-group-sm with-autocomplete">
+                <div class="form-group form-group-sm with-autocomplete" ng-if="!vm.editMode">
                     <label for="products">Select Device:</label>
                     <input type="text"
                            typeahead-editable="false"
@@ -141,7 +141,7 @@
                     </div>
                     <div class="col-md-6">
                         <h4>Serial Numbers</h4>
-                        <div class="form-group form-group-sm with-autocomplete">
+                        <div class="form-group form-group-sm with-autocomplete" ng-if="!vm.editMode">
                             <input type="text"
                                    typeahead-editable="true"
                                    id="serialNumber"
@@ -166,14 +166,14 @@
                             <thead>
                             <tr>
                                 <th>Serial Number</th>
-                                <th class="col-actions">Actions</th>
+                                <th class="col-actions" ng-if="!vm.editMode">Actions</th>
                             </tr>
                             </thead>
                             <tbody>
                             <tr ng-repeat="serial in item.serials">
                                 <td ng-if="!vm.editMode">{{serial.serialNumber}}</td>
                                 <td ng-if="vm.editMode"><a ui-sref="device.serialNumbers({id: item.product._id, serialNumber: serial.serialNumber})">{{serial.serialNumber}}</a></td>
-                                <td class="text-center">
+                                <td class="text-center" ng-if="!vm.editMode">
                                     <button type="button"
                                             ng-click="vm.deleteSerial(item, $index)"
                                             class="btn btn-danger btn-sm">

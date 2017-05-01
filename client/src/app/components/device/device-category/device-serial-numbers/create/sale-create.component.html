@@ -70,13 +70,13 @@
       </div>
     </div>
     <div class="form-group">
-      <label for="clientName">Customer Name:</label>
+      <label for="clientName">End User:</label>
       <input type="text"
              typeahead-editable="false"
              id="clientName"
              ng-model="vm.sale.customer"
              ng-model-options="{debounce: 300}"
-             placeholder="Customer Name"
+             placeholder="End User"
              uib-typeahead="customer as customer.name for customer in vm.getCustomers($viewValue)"
              typeahead-loading="loadingCustomers"
              typeahead-no-results="noCustomerResults"

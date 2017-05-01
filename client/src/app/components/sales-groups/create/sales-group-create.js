@@ -20,7 +20,7 @@
                         vm.salesGroup.date = new Date(vm.salesGroup.date);
                     })
                     .catch(function () {
-                        toastr.error('Sales Group with id ' + $stateParams.id + ' not Found', 'Error');
+                        toastr.error('Sales Order with id ' + $stateParams.id + ' not Found', 'Error');
                         $state.go('salesGroups');
                     });
             } else {
@@ -115,7 +115,7 @@
         vm.save = function () {
             SalesGroup.create(vm.salesGroup)
                 .then(function () {
-                    toastr.success('Sales Group successfully created', 'Success');
+                    toastr.success('Sales Order successfully created', 'Success');
                     $state.go('salesGroups')
 
                 })

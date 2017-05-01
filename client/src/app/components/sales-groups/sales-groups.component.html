@@ -125,7 +125,7 @@
                                   ng-class="{reverse: vm.sortFilters.order}"
                                   ng-show="vm.sortFilters.sort === '_customerName'"></span>
                         </th>
-                        <!--<th class="col-actions no-print">Actions</th>-->
+                        <th class="col-actions no-print" has-role="['admin']">Actions</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -134,13 +134,13 @@
                         <td>{{salesGroup.date | date: 'MM.dd.yyyy'}}</td>
                         <td>{{salesGroup._resellerName}}</td>
                         <td>{{salesGroup._customerName}}</td>
-                        <!--<td class="text-center">-->
-                            <!--<button type="button"-->
-                                    <!--ng-click="vm.delete(salesGroup)"-->
-                                    <!--class="btn btn-danger btn-sm">-->
-                                <!--<span class="glyphicon glyphicon-trash"></span>-->
-                            <!--</button>-->
-                        <!--</td>-->
+                        <td class="text-center no-print" has-role="['admin']">
+                            <button type="button"
+                                    ng-click="vm.delete(salesGroup)"
+                                    class="btn btn-danger btn-sm">
+                                <span class="glyphicon glyphicon-trash"></span>
+                            </button>
+                        </td>
                     </tr>
                     </tbody>
                 </table>

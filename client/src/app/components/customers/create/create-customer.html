@@ -154,8 +154,9 @@
   <table class="print-only table-bordered" cellpadding="5" cellspacing="0">
     <tbody>
     <tr>
-      <td>Type:</td>
-      <td>{{vm.customer.type}}</td>
+      <td><b>Type:</b></td>
+      <td ng-if="vm.customer.type === 'reseller'">Reseller</td>
+      <td ng-if="vm.customer.type === 'endUser'">End User</td>
     </tr>
     <tr ng-repeat="field in vm.fields">
       <td><b>{{field.label}}:</b></td>

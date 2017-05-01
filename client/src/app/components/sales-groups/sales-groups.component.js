@@ -70,26 +70,26 @@
             vm.loadSalesGroups();
         };
 
-        // vm.delete = function (salesGroup) {
-        //     $uibModal.open({
-        //         animation: true,
-        //         component: 'confirmComponent',
-        //         size: 'sm',
-        //         resolve: {
-        //             message: function () {
-        //                 return 'Are you sure to delete RMA ' + salesGroup.salesOrder + ' ?';
-        //             }
-        //         }
-        //     }).result.then(function () {
-        //         SalesGroup.delete(salesGroup)
-        //             .then(function () {
-        //                 vm.loadSalesGroups();
-        //             })
-        //             .catch(function () {
-        //                 toastr.error('Something went wrong', 'Error');
-        //             })
-        //     });
-        // };
+        vm.delete = function (salesGroup) {
+            $uibModal.open({
+                animation: true,
+                component: 'confirmComponent',
+                size: 'sm',
+                resolve: {
+                    message: function () {
+                        return 'Are you sure to delete Sales Order ' + salesGroup.salesOrder + ' ?';
+                    }
+                }
+            }).result.then(function () {
+                SalesGroup.delete(salesGroup)
+                    .then(function () {
+                        vm.loadSalesGroups();
+                    })
+                    .catch(function () {
+                        toastr.error('Something went wrong', 'Error');
+                    })
+            });
+        };
 
 
     }

@@ -107,7 +107,7 @@ function routesConfig($stateProvider, $urlRouterProvider, $locationProvider) {
             }
         })
         .state('salesGroups', {
-            url: '/sales-groups',
+            url: '/sales-orders',
             parent: 'main',
             component: 'salesGroupsComponent',
             data: {
@@ -115,7 +115,7 @@ function routesConfig($stateProvider, $urlRouterProvider, $locationProvider) {
             }
         })
         .state('salesGroupCreate', {
-            url: '/sales-groups-create',
+            url: '/sales-orders-create',
             parent: 'main',
             component: 'salesGroupCreateComponent',
             data: {
@@ -123,7 +123,7 @@ function routesConfig($stateProvider, $urlRouterProvider, $locationProvider) {
             }
         })
         .state('salesGroupDetail', {
-            url: '/sales-groups/:id',
+            url: '/sales-orders/:id',
             parent: 'main',
             component: 'salesGroupCreateComponent',
             data: {

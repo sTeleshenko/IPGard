@@ -10,11 +10,14 @@
         self.create = function (salesGroup) {
             return $http.post('/api/sales-group', salesGroup);
         };
-        self.getAll =function (query) {
+        self.getAll = function (query) {
             return $http.get('api/sales-group' + query);
         };
-        self.getOne =function (id) {
+        self.getOne = function (id) {
             return $http.get('api/sales-group/' + id);
+        };
+        self.delete = function (salesGroup) {
+            return $http.delete('api/sales-group/' + salesGroup._id);
         };
 
 
