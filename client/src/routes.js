@@ -106,10 +106,26 @@ function routesConfig($stateProvider, $urlRouterProvider, $locationProvider) {
                 roles: allRoles
             }
         })
-        .state('salesOrders', {
-            url: '/salesOrders',
+        .state('salesGroups', {
+            url: '/sales-groups',
             parent: 'main',
-            component: 'salesOrdersComponent',
+            component: 'salesGroupsComponent',
+            data: {
+                roles: sales
+            }
+        })
+        .state('salesGroupCreate', {
+            url: '/sales-groups-create',
+            parent: 'main',
+            component: 'salesGroupCreateComponent',
+            data: {
+                roles: sales
+            }
+        })
+        .state('salesGroupDetail', {
+            url: '/sales-groups/:id',
+            parent: 'main',
+            component: 'salesGroupCreateComponent',
             data: {
                 roles: sales
             }

@@ -175,10 +175,28 @@ legend{
   box-shadow: 0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12);
   overflow: auto;
 }
+.card{
+  border-radius: 2px;
+  padding: 20px 8px;
+  position: relative;
+  box-shadow: 0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12);
+}
+.card + .card{
+  margin-top: 20px;
+}
+.no-results{
+  margin-top: 10px;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #fafafa;
+  border-radius: 5px;
+}
 .rma-serial-card:hover .delete-serial-card, .rma-serial-card:hover .edit-serial-card, .rma-serial-card:hover .print-serial-card{
   opacity: 1;
 }
-.delete-serial-card{
+.delete-serial-card, .delete-card{
   position: absolute;
   top: 6px;
   right: 6px;
@@ -190,6 +208,9 @@ legend{
   opacity: 0;
   transition: .3s;
   color: #757575;
+}
+.card:hover .delete-card{
+  opacity: 1;
 }
 .rma-serial-card table{
   margin-bottom: 0;

@@ -8,12 +8,25 @@
         });
 
     /** @ngInject */
-    function salesGroupCreateComponent(Customers, Device, Sales, toastr, SalesGroup) {
+    function salesGroupCreateComponent(Customers, Device, Sales, toastr, SalesGroup, $state, $stateParams) {
         var vm = this;
         vm.$onInit = function () {
-            vm.salesGroup ={};
-            vm.salesGroup.items = [];
+            vm.editMode = !!$stateParams.id;
 
+            if(vm.editMode){
+                SalesGroup.getOne($stateParams.id)
+                    .then(function (response) {
+                        vm.salesGroup = response.data;
+                        vm.salesGroup.date = new Date(vm.salesGroup.date);
+                    })
+                    .catch(function () {
+                        toastr.error('Sales Group with id ' + $stateParams.id + ' not Found', 'Error');
+                        $state.go('salesGroups');
+                    });
+            } else {
+                vm.salesGroup = {};
+                vm.salesGroup.items = [];
+            }
         };
 
         vm.getCustomers = function (customerName) {
@@ -24,14 +37,14 @@
                 });
         };
         vm.onResellerChanged = function () {
-            if (!vm.salesGroup.endUser) {
-                vm.salesGroup.endUser = angular.copy(vm.salesGroup.reseller);
+            if (!vm.salesGroup.customer) {
+                vm.salesGroup.customer = angular.copy(vm.salesGroup.reseller);
             }
         };
 
         vm.onEndUserChanged = function () {
             if (!vm.salesGroup.reseller) {
-                vm.salesGroup.reseller = angular.copy(vm.salesGroup.endUser);
+                vm.salesGroup.reseller = angular.copy(vm.salesGroup.customer);
             }
         };
 
@@ -101,9 +114,14 @@
 
         vm.save = function () {
             SalesGroup.create(vm.salesGroup)
-                .then(function (response) {
-                    console.log(response.data)
+                .then(function () {
+                    toastr.success('Sales Group successfully created', 'Success');
+                    $state.go('salesGroups')
+
                 })
+                .catch(function () {
+                    toastr.error('Something went wrong', 'Error');
+                });
         }
 
     }
