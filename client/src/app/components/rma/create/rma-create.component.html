@@ -60,17 +60,17 @@
     </div>
     <div class="col-lg-3 col-md-6 col-lg-push-6">
       <fieldset name="customer">
-        <legend>Customer info</legend>
+        <legend>End User info</legend>
 
         <div class="form-group form-group-sm with-autocomplete">
           <a href="#" class="pull-right" ng-click="vm.openCustomerModal($event)">New</a>
-          <label for="clientName">Customer Name:</label>
+          <label for="clientName">End User:</label>
           <input type="text"
                  typeahead-editable="false"
                  id="clientName"
                  ng-model="vm.rma.customer"
                  ng-model-options="{debounce: 300}"
-                 placeholder="Customer Name"
+                 placeholder="End User"
                  uib-typeahead="customer as customer.name for customer in vm.getCustomers($viewValue)"
                  typeahead-loading="loadingCustomers"
                  typeahead-on-select="vm.onCustomerChanged()"
@@ -116,7 +116,7 @@
           </div>
         </div>
         <div class="alert-card" ng-if="vm.invalidCustomer">
-          <div class="alert-card-message">Selected customer and customers in devices don't match!</div>
+          <div class="alert-card-message">Selected End User and End Users in devices don't match!</div>
           <button type="button" class="btn btn-info" ng-click="vm.updateSerialsCustomer()">Update</button>
         </div>
         <div class="row">
@@ -181,8 +181,12 @@
                              required>
                     </td>
                   </tr>
+                    <tr class="max-two-columns">
+                      <td><b>Reseller:</b></td>
+                      <td>{{sn.sale.reseller.name}}</td>
+                    </tr>
                   <tr class="max-two-columns">
-                    <td><b>Customer:</b></td>
+                    <td><b>End User:</b></td>
                     <td ng-if="!sn.editable">{{sn.sale.customer.name}}</td>
                     <td class="form-group form-group-sm with-autocomplete" ng-if="sn.editable">
                       <input type="text"
@@ -190,13 +194,13 @@
                              id="snClientName"
                              ng-model="sn.sale.customer"
                              ng-model-options="{debounce: 300}"
-                             placeholder="Customer Name"
+                             placeholder="End User"
                              uib-typeahead="customer as customer.name for customer in vm.getCustomers($viewValue)"
                              typeahead-loading="loadingCustomers"
-                             typeahead-no-results="noResults"
+                             typeahead-no-results="noCustomersResults"
                              class="form-control">
                       <i ng-show="loadingCustomers" class="glyphicon glyphicon-refresh"></i>
-                      <div ng-show="noResults">
+                      <div ng-show="noCustomersResults">
                         <i class="glyphicon glyphicon-remove"></i> No Results Found
                       </div>
                     </td>
@@ -364,6 +368,7 @@
     Version: <span>{{match.model.version}}</span><br>
     Sales Order: <span>{{match.model.salesOrder}}</span><br>
     Date: <span>{{match.model.date | date: 'MM.dd.yyyy'}}</span><br>
-    Customer: <span>{{match.model.customer.name}}</span><br>
+    Reseller: <span>{{match.model.reseller.name}}</span><br>
+    End User: <span>{{match.model.customer.name}}</span><br>
   </a>
 </script>

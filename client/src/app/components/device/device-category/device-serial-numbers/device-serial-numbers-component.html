@@ -64,8 +64,19 @@
           </div>
 
           <div class="form-group form-group-sm">
-            <label for="customerName">Customer Name</label>
-            <input class="form-control" type="text" id="customerName" ng-model="vm.searchFilters.customerName">
+            <label for="resellerName">Reseller:</label>
+            <input class="form-control"
+                   type="text"
+                   id="resellerName"
+                   ng-model="vm.searchFilters.resellerName">
+          </div>
+
+          <div class="form-group form-group-sm">
+            <label for="customerName">End User:</label>
+            <input class="form-control"
+                   type="text"
+                   id="customerName"
+                   ng-model="vm.searchFilters.customerName">
           </div>
 
           <div class="text-right">
@@ -119,8 +130,15 @@
                       ng-show="vm.sortFilters.sort === 'date'"></span>
               </th>
               <th
+                      ng-click="vm.onSortFiltersChanged('resellerName')">
+                Reseller
+                <span class="glyphicon glyphicon-triangle-bottom"
+                      ng-class="{reverse: vm.sortFilters.order}"
+                      ng-show="vm.sortFilters.sort === 'resellerName'"></span>
+              </th>
+              <th
                 ng-click="vm.onSortFiltersChanged('customerName')">
-                Customer Name
+                End User
                 <span class="glyphicon glyphicon-triangle-bottom"
                       ng-class="{reverse: vm.sortFilters.order}"
                       ng-show="vm.sortFilters.sort === 'customerName'"></span>
@@ -134,6 +152,7 @@
                 <td>{{sale.version}}</td>
                 <td>{{sale.salesOrder}}</td>
                 <td>{{sale.date | date: 'MM.dd.yyyy'}}</td>
+                <td>{{sale.reseller.name}}</td>
                 <td>{{sale.customer.name}}</td>
                 <td ng-repeat="field in sale.fields | orderBy : 'field._id'">
                   <a href="/api/uploads/{{field.value.filename}}?name={{field.value.originalname}}"
