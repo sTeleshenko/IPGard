@@ -6,6 +6,7 @@ const user = require('./model/user/user-router');
 const product = require('./model/product/product-router');
 const customer = require('./model/customer/customer-router');
 const sale = require('./model/sale/sale-router');
+const saleGroup = require('./model/sale-group/sale-group-router');
 const category = require('./model/category/category-router');
 const field = require('./model/field/field-router');
 const staticField = require('./model/static-field/static-field-router');
@@ -40,6 +41,8 @@ router.use('/products', product);
 router.use('/customers', customer);
 
 router.use('/sales', sale);
+
+router.use('/salesGroup', saleGroup);
 
 router.use('/categories', category);
 
