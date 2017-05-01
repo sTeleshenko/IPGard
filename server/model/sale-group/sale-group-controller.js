@@ -7,6 +7,8 @@ var Sale = require('../sale/sale-facade');
 class SaleGroupController extends Controller {
     create(req, res, next) {
         let group = req.body;
+        group._resellerName = group.reseller.name;
+        group._customerName = group.customer.name;
         let conditions = {};
         conditions.salesOrder = group.salesOrder;
         conditions.date = group.date;
