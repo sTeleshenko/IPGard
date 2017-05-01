@@ -1,0 +1,150 @@
+<div class="row">
+    <div class="col-md-3 no-print sm-spacer">
+        <form name="vm.form"
+              ng-submit="vm.loadSalesGroups()">
+
+            <div class="form-group form-group-sm">
+                <label for="salesOrder">Sales Order:</label>
+                <input type="text"
+                       ng-model="vm.filters.salesOrder"
+                       id="salesOrder"
+                       name="salesOrder"
+                       class="form-control"
+                       placeholder="Sales Order">
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group form-group-sm">
+                        <label for="dateFrom">From Date:</label>
+                        <p class="input-group input-group-sm">
+                            <input type="text"
+                                   id="dateFrom"
+                                   class="form-control"
+                                   uib-datepicker-popup="MM.dd.yyyy"
+                                   ng-model="vm.filters.dateFrom"
+                                   popup-placement="auto"
+                                   placeholder="From Date"
+                                   is-open="openFrom"
+                                   datepicker-options="{maxDate: vm.filters.dateTo}"
+                                   close-text="Close"/>
+                            <span class="input-group-btn">
+                                <button type="button"
+                                        class="btn btn-default"
+                                        ng-click="openFrom = !openFrom">
+                                  <i class="glyphicon glyphicon-calendar"></i></button>
+                            </span>
+                        </p>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group form-group-sm">
+                        <label for="dateTo">To Date:</label>
+                        <p class="input-group input-group-sm">
+                            <input type="text"
+                                   id="dateTo"
+                                   class="form-control"
+                                   placeholder="To Date"
+                                   uib-datepicker-popup="MM.dd.yyyy"
+                                   ng-model="vm.filters.dateTo"
+                                   datepicker-options="{minDate: vm.filters.dateFrom}"
+                                   popup-placement="auto"
+                                   is-open="openTo"
+                                   close-text="Close"/>
+                            <span class="input-group-btn">
+                                <button type="button"
+                                        class="btn btn-default"
+                                        ng-click="openTo = !openTo">
+                                  <i class="glyphicon glyphicon-calendar"></i></button>
+                            </span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group form-group-sm">
+                <label for="reseller">Reseller:</label>
+                <input type="text"
+                       ng-model="vm.filters.reseller"
+                       id="reseller"
+                       name="reseller"
+                       class="form-control"
+                       placeholder="Reseller">
+            </div>
+            <div class="form-group form-group-sm">
+                <label for="endUser">End User:</label>
+                <input type="text"
+                       ng-model="vm.filters.endUser"
+                       id="endUser"
+                       name="endUser"
+                       class="form-control"
+                       placeholder="End User">
+            </div>
+
+            <div class="text-right">
+                <button class="btn btn-primary btn-sm"
+                        type="button"
+                        has-role="['admin']"
+                        ui-sref="salesGroupCreate">New
+                </button>
+                <button type="button"
+                        class="btn btn-warning btn-sm"
+                        ng-click="vm.reset()">Reset
+                </button>
+                <button type="submit"
+                        class="btn btn-success btn-sm">Search
+                </button>
+            </div>
+        </form>
+    </div>
+    <div class="col-md-9">
+        <div>
+            <div class="table-responsive scroled-table">
+                <table class="table table-bordered">
+                    <thead fix-head>
+                    <tr>
+                        <th ng-click="vm.onSortFiltersChanged('salesOrder')">
+                            Sales Order
+                            <span class="glyphicon glyphicon-triangle-bottom"
+                                  ng-class="{reverse: vm.sortFilters.order}"
+                                  ng-show="vm.sortFilters.sort === 'salesOrder'"></span>
+                        </th>
+                        <th ng-click="vm.onSortFiltersChanged('date')">
+                            Date
+                            <span class="glyphicon glyphicon-triangle-bottom"
+                                  ng-class="{reverse: vm.sortFilters.order}"
+                                  ng-show="vm.sortFilters.sort === 'date'"></span>
+                        </th>
+                        <th ng-click="vm.onSortFiltersChanged('reseller')">
+                            Reseller
+                            <span class="glyphicon glyphicon-triangle-bottom"
+                                  ng-class="{reverse: vm.sortFilters.order}"
+                                  ng-show="vm.sortFilters.sort === 'reseller'"></span>
+                        </th>
+                        <th ng-click="vm.onSortFiltersChanged('endUser')">
+                            End User
+                            <span class="glyphicon glyphicon-triangle-bottom"
+                                  ng-class="{reverse: vm.sortFilters.order}"
+                                  ng-show="vm.sortFilters.sort === 'endUser'"></span>
+                        </th>
+                        <th class="col-actions no-print">Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="salesGroup in vm.salesGroups">
+                        <td>{{salesGroup.salesOrder}}</td>
+                        <td>{{salesGroup.date | date: 'MM.dd.yyyy'}}</td>
+                        <td>{{salesGroup.reseller}}</td>
+                        <td>{{salesGroup.endUser}}</td>
+                        <td class="text-center">
+                            <button type="button"
+                                    ng-click="vm.delete(rma)"
+                                    class="btn btn-danger btn-sm">
+                                <span class="glyphicon glyphicon-trash"></span>
+                            </button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,201 @@
+<form name="vm.form"
+      ng-submit="vm.save()"
+      autocomplete="off">
+    <div class="row">
+        <div class="col-md-3">
+            <fieldset name="basic">
+                <legend>Group info</legend>
+                <div class="form-group form-group-sm">
+                    <label for="salesOrder">Sales Order:</label>
+                    <input type="text"
+                           ng-model="vm.salesGroup.salesOrder"
+                           class="form-control"
+                           id="salesOrder"
+                           name="salesOrder"
+                           required
+                           placeholder="Sales Order">
+                </div>
+                <div class="form-group form-group-sm with-autocomplete">
+                    <label for="reseller">Reseller:</label>
+                    <input type="text"
+                           typeahead-editable="false"
+                           id="reseller"
+                           ng-model="vm.salesGroup.reseller"
+                           ng-model-options="{debounce: 300}"
+                           placeholder="Reseller"
+                           uib-typeahead="customer as customer.name for customer in vm.getCustomers($viewValue)"
+                           typeahead-loading="loadingCustomers"
+                           typeahead-on-select="vm.onResellerChanged()"
+                           typeahead-no-results="noResellersResults"
+                           class="form-control">
+                    <i ng-show="loadingResellers" class="glyphicon glyphicon-refresh"></i>
+                    <div ng-show="noResellersResults">
+                        <i class="glyphicon glyphicon-remove"></i> No Results Found
+                    </div>
+                </div>
+                <div class="form-group form-group-sm with-autocomplete">
+                    <label for="endUser">End User:</label>
+                    <input type="text"
+                           typeahead-editable="false"
+                           id="endUser"
+                           ng-model="vm.salesGroup.endUser"
+                           ng-model-options="{debounce: 300}"
+                           placeholder="End User"
+                           uib-typeahead="customer as customer.name for customer in vm.getCustomers($viewValue)"
+                           typeahead-loading="loadingCustomers"
+                           typeahead-on-select="vm.onEndUserChanged()"
+                           typeahead-no-results="noEndUsersResults"
+                           class="form-control">
+                    <i ng-show="loadingEndUsers" class="glyphicon glyphicon-refresh"></i>
+                    <div ng-show="noEndUsersResults">
+                        <i class="glyphicon glyphicon-remove"></i> No Results Found
+                    </div>
+                </div>
+
+                <div class="form-group form-group-sm">
+                    <label for="date">Date:</label>
+                    <p class="input-group">
+                        <input type="text"
+                               id="date"
+                               class="form-control"
+                               uib-datepicker-popup="MM.dd.yyyy"
+                               ng-model="vm.salesGroup.date"
+                               popup-placement="auto"
+                               is-open="openDate"
+                               close-text="Close"
+                               placeholder="Date"/>
+                        <span class="input-group-btn">
+            <button type="button"
+                    class="btn btn-default btn-sm"
+                    ng-click="openDate = !openDate">
+              <i class="glyphicon glyphicon-calendar"></i></button>
+          </span>
+                    </p>
+                </div>
+            </fieldset>
+        </div>
+        <div class="col-md-9">
+
+            <fieldset name="products">
+                <legend>Group Devices</legend>
+
+                <div class="form-group form-group-sm with-autocomplete">
+                    <label for="products">Select Device:</label>
+                    <input type="text"
+                           typeahead-editable="false"
+                           id="products"
+                           ng-model="vm.product"
+                           ng-model-options="{debounce: 300}"
+                           placeholder="Select Device"
+                           uib-typeahead="product as product.model for product in vm.getProducts($viewValue)"
+                           typeahead-loading="loadingProducts"
+                           typeahead-template-url="product-template.html"
+                           typeahead-no-results="noProductsResults"
+                           typeahead-on-select="vm.onProductChanged()"
+                           class="form-control">
+                    <i ng-show="loadingProducts" class="glyphicon glyphicon-refresh"></i>
+                    <div ng-show="noProductsResults">
+                        <i class="glyphicon glyphicon-remove"></i> No Results Found
+                    </div>
+                </div>
+
+
+                <div class="card" ng-repeat="item in vm.salesGroup.items">
+                    <button class="delete-card"
+                            ng-click="vm.deleteProduct($index)"
+                            type="button">
+                        <span class="glyphicon glyphicon-remove">
+                        </span>
+                    </button>
+                    <div class="col-md-6">
+                        <h4>Device Info</h4>
+                        <table class="table table-bordered">
+                            <tbody>
+                            <tr>
+                                <td><b>Model Name:</b></td>
+                                <td>{{item.product.model}}</td>
+                            </tr>
+                            <tr>
+                                <td><b>Part Number:</b></td>
+                                <td>{{item.product.partNumber}}</td>
+                            </tr>
+                            <tr>
+                                <td><b>UPC:</b></td>
+                                <td>{{item.product.upc}}</td>
+                            </tr>
+                            <tr>
+                                <td><b>Description:</b></td>
+                                <td>{{item.product.description}}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-md-6">
+                        <h4>Serial Numbers</h4>
+                        <div class="form-group form-group-sm with-autocomplete">
+                            <input type="text"
+                                   typeahead-editable="true"
+                                   id="serialNumber"
+                                   ng-model="item.serialNumber"
+                                   ng-model-options="{debounce: 300}"
+                                   placeholder="Select Serial"
+                                   uib-typeahead="sn as sn.serialNumber for sn in vm.getSerials(item.product, $viewValue)"
+                                   typeahead-loading="loadingSerials"
+                                   typeahead-template-url="serial-template.html"
+                                   typeahead-no-results="item.noSerialsResults"
+                                   typeahead-on-select="vm.onSerialNumberChanged(item)"
+                                   class="form-control">
+                            <i ng-show="loadingSerials" class="glyphicon glyphicon-refresh"></i>
+                            <div ng-show="item.noSerialsResults && item.serialNumber" class="no-results">
+                                No Results Found
+                                <button type="button"
+                                        ng-click="vm.addSerial(item)"
+                                        class="btn btn-primary btn-sm">Add</button>
+                            </div>
+                        </div>
+                        <table class="table table-bordered" ng-if="item.serials.length">
+                            <thead>
+                            <tr>
+                                <th>Serial Number</th>
+                                <th class="col-actions">Actions</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="serial in item.serials">
+                                <td>{{serial.serialNumber}}</td>
+                                <td class="text-center">
+                                    <button type="button"
+                                            ng-click="vm.deleteSerial(item, $index)"
+                                            class="btn btn-danger btn-sm">
+                                        <span class="glyphicon glyphicon-trash"></span>
+                                    </button>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </fieldset>
+        </div>
+    </div>
+</form>
+
+<script type="text/ng-template" id="product-template.html">
+    <a>
+        Model name: <span ng-bind-html="match.model.model | uibTypeaheadHighlight:query"></span><br>
+        Part Number: <span>{{match.model.partNumber}}</span><br>
+        UPC: <span>{{match.model.upc}}</span><br>
+        Description: <span>{{match.model.description}}</span><br>
+    </a>
+</script>
+<script type="text/ng-template" id="serial-template.html">
+    <a>
+        Serial Number: <span ng-bind-html="match.model.serialNumber | uibTypeaheadHighlight:query"></span><br>
+        Version: <span>{{match.model.version}}</span><br>
+        Sales Order: <span>{{match.model.salesOrder}}</span><br>
+        Date: <span>{{match.model.date | date: 'MM.dd.yyyy'}}</span><br>
+        Reseller: <span>{{match.model.reseller.name}}</span><br>
+        End User: <span>{{match.model.customer.name}}</span><br>
+    </a>
+</script>

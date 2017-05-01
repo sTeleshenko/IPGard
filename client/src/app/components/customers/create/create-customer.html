@@ -153,6 +153,10 @@
 <div id="selected-customer">
   <table class="print-only table-bordered" cellpadding="5" cellspacing="0">
     <tbody>
+    <tr>
+      <td>Type:</td>
+      <td>{{vm.customer.type}}</td>
+    </tr>
     <tr ng-repeat="field in vm.fields">
       <td><b>{{field.label}}:</b></td>
       <td>{{vm.customer[field.key]}}</td>
