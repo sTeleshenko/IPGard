@@ -112,14 +112,14 @@ class SaleController extends Controller {
         }
         return this.model.paginate(query, options)
             .then(collection => {
-                return this.model.populate(collection.docs, { 
-                    path: 'fields.field.type', 
-                    model: 'Type' 
+                return this.model.populate(collection.docs, {
+                    path: 'fields.field.type',
+                    model: 'Type'
                 })
-                .then(docs => {
-                    collection.docs = docs;
-                    return collection;
-                });
+                    .then(docs => {
+                        collection.docs = docs;
+                        return collection;
+                    });
             })
             .then(collection => res.status(200).json(collection))
             .catch(err => next(err));
@@ -128,10 +128,10 @@ class SaleController extends Controller {
     update(req, res, next) {
         const conditions = { _id: req.params.id };
         let sale = req.body;
-        if(sale.customer) {
+        if (sale.customer) {
             sale._customerName = sale.customer.name;
         }
-        if(sale.reseller) {
+        if (sale.reseller) {
             sale._resellerName = sale.reseller.name;
         }
         this.model.update(conditions, sale)
