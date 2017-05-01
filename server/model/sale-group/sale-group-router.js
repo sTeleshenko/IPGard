@@ -1,4 +1,4 @@
-const controller = require('./sale-controller');
+const controller = require('./sale-group-controller');
 const Router = require('express').Router;
 const auth = require('../../auth/auth.service');
 const router = new Router();
