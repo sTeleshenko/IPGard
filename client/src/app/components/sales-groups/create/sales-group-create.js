@@ -8,7 +8,7 @@
         });
 
     /** @ngInject */
-    function salesGroupCreateComponent(Customers, Device, Sales) {
+    function salesGroupCreateComponent(Customers, Device, Sales, toastr, SalesGroup) {
         var vm = this;
         vm.$onInit = function () {
             vm.salesGroup ={};
@@ -85,15 +85,24 @@
         };
 
         vm.addSerial = function (item) {
-            Sales.createSale({
+            var serial = {
                 product: item.product,
                 serialNumber: item.serialNumber
-            })
+            };
+            item.serialNumber = '';
+            Sales.createSale(serial)
                 .then(function (response) {
-                    console.log(response.data)
+                    item.serials.push(response.data);
                 })
                 .catch(function () {
-                    console.log('err')
+                    toastr.error('Something went wrong', 'Error');
+                });
+        };
+
+        vm.save = function () {
+            SalesGroup.create(vm.salesGroup)
+                .then(function (response) {
+                    console.log(response.data)
                 })
         }
 

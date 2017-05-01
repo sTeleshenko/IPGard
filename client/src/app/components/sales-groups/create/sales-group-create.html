@@ -19,6 +19,7 @@
                     <label for="reseller">Reseller:</label>
                     <input type="text"
                            typeahead-editable="false"
+                           required
                            id="reseller"
                            ng-model="vm.salesGroup.reseller"
                            ng-model-options="{debounce: 300}"
@@ -38,6 +39,7 @@
                     <input type="text"
                            typeahead-editable="false"
                            id="endUser"
+                           required
                            ng-model="vm.salesGroup.endUser"
                            ng-model-options="{debounce: 300}"
                            placeholder="End User"
@@ -56,6 +58,7 @@
                     <label for="date">Date:</label>
                     <p class="input-group">
                         <input type="text"
+                               required
                                id="date"
                                class="form-control"
                                uib-datepicker-popup="MM.dd.yyyy"
@@ -71,6 +74,9 @@
               <i class="glyphicon glyphicon-calendar"></i></button>
           </span>
                     </p>
+                </div>
+                <div class="text-right">
+                    <button type="submit" class="btn btn-sm btn-primary">Save</button>
                 </div>
             </fieldset>
         </div>
@@ -150,7 +156,7 @@
                                 No Results Found
                                 <button type="button"
                                         ng-click="vm.addSerial(item)"
-                                        class="btn btn-primary btn-sm">Add</button>
+                                        class="btn btn-primary btn-sm">Create</button>
                             </div>
                         </div>
                         <table class="table table-bordered" ng-if="item.serials.length">
@@ -191,11 +197,21 @@
 </script>
 <script type="text/ng-template" id="serial-template.html">
     <a>
-        Serial Number: <span ng-bind-html="match.model.serialNumber | uibTypeaheadHighlight:query"></span><br>
-        Version: <span>{{match.model.version}}</span><br>
+        Serial Number: <span ng-bind-html="match.model.serialNumber | uibTypeaheadHighlight:query"><br></span>
+        <span ng-if="match.model.version">
+            Version: <span>{{match.model.version}}</span><br>
+        </span>
+        <span ng-if="match.model.salesOrder">
         Sales Order: <span>{{match.model.salesOrder}}</span><br>
+        </span>
+        <span ng-if="match.model.date">
         Date: <span>{{match.model.date | date: 'MM.dd.yyyy'}}</span><br>
+        </span>
+        <span ng-if="match.model.reseller">
         Reseller: <span>{{match.model.reseller.name}}</span><br>
+        </span>
+        <span ng-if="match.model.customer">
         End User: <span>{{match.model.customer.name}}</span><br>
+        </span>
     </a>
 </script>
