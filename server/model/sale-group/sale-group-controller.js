@@ -100,6 +100,8 @@ class SaleGroupController extends Controller {
                 } else if (key === 'dateTo') {
                     query.date = query.date || {};
                     query.date['$lte'] = req.query[key];
+                } else if(key === 'access_token') {
+                    delete req.query.access_token;
                 } else {
                     query[key] = new RegExp(escape(req.query[key]), 'i');
                 }
@@ -109,6 +111,7 @@ class SaleGroupController extends Controller {
             .then(collection => this.model.populate(collection, { path: 'items.product' }))
             .then(collection => this.model.populate(collection, { path: 'items.serials' }))
             .then(collection => {
+                console.log(JSON.stringify(query, null, 4))
                 //set the templateVariables
                 var dateFrom = req.query.dateFrom ? new Date(req.query.dateFrom) : new Date();
                 dateFrom = dateFrom.toISOString();
@@ -128,7 +131,17 @@ class SaleGroupController extends Controller {
 
                 try {
                     // render the document (replace all occurences of {first_name} by John, {last_name} by Doe, ...)
-                    doc.render()
+                    doc.render();
+                    var buf = doc.getZip()
+                        .generate({ type: 'nodebuffer' });
+
+                    // buf is a nodejs buffer, you can either write it to a file or do anything else with it.
+                    fs.writeFileSync(path.resolve(__dirname + '/../../lib/', `END OF DAY ${dateFrom}.docx`), buf);
+                    res.writeHead(200, {
+                        // 'Content-Type': 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+                        'Content-Disposition': `attachment; filename=END OF DAY ${dateFrom}.docx`
+                    });
+                    res.end(buf);
                 }
                 catch (error) {
                     var e = {
@@ -141,18 +154,6 @@ class SaleGroupController extends Controller {
                     // The error thrown here contains additional information when logged with JSON.stringify (it contains a property object).
                     throw error;
                 }
-
-                var buf = doc.getZip()
-                    .generate({ type: 'nodebuffer' });
-
-                // buf is a nodejs buffer, you can either write it to a file or do anything else with it.
-                // fs.writeFileSync(path.resolve(__dirname + '/../../lib/', `END OF DAY ${dateFrom}.docx`), buf);
-                res.writeHead(200, {
-                    'Content-Type': 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-                    'Content-Disposition': `attachment; filename=END OF DAY ${dateFrom}.docx`,
-                    'filename': `END OF DAY ${dateFrom}.docx`
-                });
-                res.end(buf);
             })
             .catch(err => next(err));
     }
