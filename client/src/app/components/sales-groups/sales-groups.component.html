@@ -80,6 +80,9 @@
             </div>
 
             <div class="text-right">
+                <button type="button"
+                        class="btn btn-info btn-sm"
+                        ng-click="vm.downloadReport()">Save</button>
                 <button class="btn btn-primary btn-sm"
                         type="button"
                         has-role="['admin']"
@@ -107,6 +110,7 @@
                                   ng-class="{reverse: vm.sortFilters.order}"
                                   ng-show="vm.sortFilters.sort === 'salesOrder'"></span>
                         </th>
+                        <th>Tracking</th>
                         <th ng-click="vm.onSortFiltersChanged('date')">
                             Date
                             <span class="glyphicon glyphicon-triangle-bottom"
@@ -131,6 +135,7 @@
                     <tbody>
                     <tr ng-repeat="salesGroup in vm.salesGroups">
                         <td><a ui-sref="salesGroupDetail({id: salesGroup._id})">{{salesGroup.salesOrder}}</a></td>
+                        <td><a target="_blank" href="http://www.google.com/search?q={{salesGroup.tracking}}">{{salesGroup.tracking}}</a></td>
                         <td>{{salesGroup.date | date: 'MM.dd.yyyy'}}</td>
                         <td>{{salesGroup._resellerName}}</td>
                         <td>{{salesGroup._customerName}}</td>

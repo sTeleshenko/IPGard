@@ -8,7 +8,7 @@
     });
 
   /** @ngInject */
-  function customersComponent(Customers, toastr, localStorageService, $uibModal, $scope, StaticFields) {
+  function customersComponent(Customers, toastr, localStorageService, $uibModal, $scope, StaticFields, $httpParamSerializer) {
     var vm = this;
     vm.$onInit = function () {
       vm.model = 'Customer';
@@ -41,11 +41,7 @@
 
     vm.loadCustomers = function () {
       var query = '?';
-      for(var key in vm.filters) {
-        if(vm.filters[key]){
-          query = query + key + '=' + vm.filters[key] + '&'
-        }
-      }
+      query += $httpParamSerializer(vm.filters) + '&';
       query = query + 'sort=' + (vm.sortFilters.order ? '' : '-') + vm.sortFilters.sort + '&';
       query = query + 'page=' + vm.pagination.page + '&';
       query = query + 'limit=' + vm.pagination.limit;

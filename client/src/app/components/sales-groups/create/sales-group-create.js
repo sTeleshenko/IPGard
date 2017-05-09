@@ -8,7 +8,15 @@
         });
 
     /** @ngInject */
-    function salesGroupCreateComponent(Customers, Device, Sales, toastr, SalesGroup, $state, $stateParams) {
+    function salesGroupCreateComponent(
+        Customers,
+        Device,
+        Sales,
+        toastr,
+        SalesGroup,
+        $state,
+        $stateParams,
+        $httpParamSerializer) {
         var vm = this;
         vm.$onInit = function () {
             vm.editMode = !!$stateParams.id;
@@ -30,7 +38,13 @@
         };
 
         vm.getCustomers = function (customerName) {
-            var query = '?page=1&limit=10&name=' + customerName;
+            var _query = {
+                page: 1,
+                limit: 10,
+                name: customerName
+            };
+            var query = '?' + $httpParamSerializer(_query);
+            // var query = '?page=1&limit=10&name=' + customerName;
             return Customers.getAll(query)
                 .then(function (response) {
                     return response.data.docs;
@@ -49,7 +63,13 @@
         };
 
         vm.getProducts = function (product) {
-            var query = '?page=1&limit=10&model=' + product;
+            var _query = {
+                page: 1,
+                limit: 10,
+                model: product
+            };
+            var query = '?' + $httpParamSerializer(_query);
+            // var query = '?page=1&limit=10&model=' + product;
             return Device.getAll(query)
                 .then(function (response) {
                     return response.data.docs;
@@ -75,7 +95,14 @@
         };
 
         vm.getSerials = function (product, sn) {
-            var query = '?page=1&limit=10&product=' + product._id +'&serialNumber=' + sn;
+            var _query = {
+                page: 1,
+                limit: 10,
+                product: product._id,
+                serialNumber: sn
+            };
+            var query = '?' + $httpParamSerializer(_query);
+            // var query = '?page=1&limit=10&product=' + product._id +'&serialNumber=' + sn;
             return Sales.getAll(query)
                 .then(function (response) {
                     return response.data.docs;

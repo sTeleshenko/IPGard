@@ -11,6 +11,7 @@
   function rmaCreateComponent(
     Customers,
     StaticFields,
+    $httpParamSerializer,
     toastr,
     $uibModal,
     Upload,
@@ -54,7 +55,13 @@
     };
 
     vm.getCustomers = function (customerName) {
-      var query = '?page=1&limit=10&name=' + customerName;
+      var _query = {
+          page: 1,
+          limit: 10,
+          name: customerName
+      };
+
+      query = '?' + $httpParamSerializer(_query);
       return Customers.getAll(query)
         .then(function (response) {
           return response.data.docs;
@@ -62,7 +69,12 @@
     };
 
     vm.getSerials = function (sn) {
-      var query = '?page=1&limit=10&serialNumber=' + sn;
+        var _query = {
+            page: 1,
+            limit: 10,
+            serialNumber: sn
+        };
+        query = '?' + $httpParamSerializer(_query);
       return Sales.getAll(query)
         .then(function (response) {
           return response.data.docs;

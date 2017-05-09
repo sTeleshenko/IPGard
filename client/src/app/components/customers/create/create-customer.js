@@ -74,7 +74,7 @@
             toastr.error(message, 'Error');
           });
       }
-    }
+    };
     vm.print = function (id) {
       printElement(id)
     }

@@ -13,7 +13,7 @@
         });
 
     /** @ngInject */
-    function createSalesComponent(Sales, toastr, Upload, Customers) {
+    function createSalesComponent(Sales, toastr, Upload, Customers, $httpParamSerializer) {
         var vm = this;
         vm.$onInit = function () {
             vm.sale = vm.resolve.sale;
@@ -57,7 +57,13 @@
         };
 
         vm.getCustomers = function (customerName) {
-            var query = '?page=1&limit=10&name=' + customerName;
+            var _query = {
+                page: 1,
+                limit: 10,
+                name: customerName
+            };
+            var query = '?' + $httpParamSerializer(_query);
+            // var query = '?page=1&limit=10&name=' + customerName;
             return Customers.getAll(query)
                 .then(function (response) {
                     return response.data.docs;

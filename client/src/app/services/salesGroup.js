@@ -19,6 +19,9 @@
         self.delete = function (salesGroup) {
             return $http.delete('api/sales-group/' + salesGroup._id);
         };
+        // self.loadReport = function (query) {
+        //     return $http.get('api/sales-group/export-report' + query);
+        // }
 
 
     }

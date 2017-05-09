@@ -53,19 +53,19 @@
         {
           key: 'phone',
           label: 'Phone',
-          required: true,
+          required: false,
           type: 'text'
         },
         {
           key: 'contactPerson',
           label: 'Contact Person',
-          required: true,
+          required: false,
           type: 'text'
         },
         {
           key: 'email',
           label: 'Email',
-          required: true,
+          required: false,
           type: 'email'
         },
         {
@@ -77,31 +77,31 @@
         {
           key: 'address',
           label: 'Address',
-          required: true,
+          required: false,
           type: 'text'
         },
         {
           key: 'city',
           label: 'City',
-          required: true,
+          required: false,
           type: 'text'
         },
         {
           key: 'zipCode',
           label: 'Zip Code',
-          required: true,
+          required: false,
           type: 'text'
         },
         {
           key: 'state',
           label: 'State',
-          required: true,
+          required: false,
           type: 'text'
         },
         {
           key: 'country',
           label: 'Country',
-          required: true,
+          required: false,
           type: 'text'
         }
       ],

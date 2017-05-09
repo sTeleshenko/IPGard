@@ -42,11 +42,6 @@
         filtersCopy.product = filtersCopy.product._id;
       }
       query += $httpParamSerializer(filtersCopy) + '&';
-      // for(var key in vm.filters) {
-      //   if(vm.filters[key]){
-      //     query = query + key + '=' + vm.filters[key] + '&'
-      //   }
-      // }
       query = query + 'sort=' + (vm.sortFilters.order ? '' : '-') + vm.sortFilters.sort + '&';
       query = query + 'page=' + vm.pagination.page + '&';
       query = query + 'limit=' + vm.pagination.limit;

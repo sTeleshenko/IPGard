@@ -72,7 +72,7 @@
             <!--<td ng-repeat="field in vm.fields">{{customer[field.key]}}-->
             <!--<a ng-if="field.key === 'name'" ui-sref="serials({id: customer._id})">{{customer.name}}</a>-->
             <!--</td>-->
-            <td>{{customer.type}}</td>
+            <td style="white-space: nowrap">{{customer.type === 'endUser' ? 'End User' : 'Reseller'}}</td>
             <td>{{customer.name}}</td>
             <td>{{customer.phone}}</td>
             <td>{{customer.contactPerson}}</td>

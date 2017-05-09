@@ -90,6 +90,14 @@
                     })
             });
         };
+        vm.downloadReport = function () {
+            var query = '?' + $httpParamSerializer(vm.filters);
+            var element = angular.element('<a/>');
+            element.attr({
+                href: '/api/sales-group/export-report' + query + '&access_token=' + localStorageService.get('token'),
+                target: '_blank'
+            })[0].click();
+        }
 
 
     }
