@@ -111,18 +111,18 @@ class SaleGroupController extends Controller {
             .then(collection => this.model.populate(collection, { path: 'items.product' }))
             .then(collection => this.model.populate(collection, { path: 'items.serials' }))
             .then(collection => {
-                console.log(JSON.stringify(query, null, 4))
                 //set the templateVariables
                 var dateFrom = req.query.dateFrom ? new Date(req.query.dateFrom) : new Date();
                 dateFrom = dateFrom.toISOString();
                 dateFrom = dateFrom.slice(0, 10);
                 dateFrom = dateFrom.split('-');
-                dateFrom = `${dateFrom[1]}-${dateFrom[2]}-${dateFrom[0]}`
+                dateFrom = `${dateFrom[1]}-${dateFrom[2]}-${dateFrom[0]}`;
                 doc.setData({
                     dateFrom: `${dateFrom}`,
                     salesOrders: collection.map(order => {
+                        order = order.toObject();
                         order.items = order.items.map(item => {
-                            item.productName = item.product.name;
+                            item.productName = item.product.model;
                             return item;
                         });
                         return order;
