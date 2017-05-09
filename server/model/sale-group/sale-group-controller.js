@@ -150,7 +150,7 @@ class SaleGroupController extends Controller {
                 res.writeHead(200, {
                     'Content-Type': 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
                     'Content-Disposition': `attachment; filename=END OF DAY ${dateFrom}.docx`,
-                    'filename': 'END OF DAY ${dateFrom}.docx'
+                    'filename': `END OF DAY ${dateFrom}.docx`
                 });
                 res.end(buf);
             })
