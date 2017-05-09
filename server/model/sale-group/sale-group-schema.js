@@ -19,6 +19,7 @@ const saleGroupSchema = new Schema({
     reseller: { type: mongoose.Schema.Types.ObjectId, ref: 'Customer' },
     _resellerName: {type: String, required: false, default: ''},
     salesOrder: {type: String, required: true, default: ''},
+    tracking: { type: String, required: false, default: '' },
     date: {type: Date, required: false},
     dateCreate: { type: Date, default: Date.now }
 });
