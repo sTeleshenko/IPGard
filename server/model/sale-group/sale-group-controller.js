@@ -134,9 +134,6 @@ class SaleGroupController extends Controller {
                     doc.render();
                     var buf = doc.getZip()
                         .generate({ type: 'nodebuffer' });
-
-                    // buf is a nodejs buffer, you can either write it to a file or do anything else with it.
-                    fs.writeFileSync(path.resolve(__dirname + '/../../lib/', `END OF DAY ${dateFrom}.docx`), buf);
                     res.writeHead(200, {
                         // 'Content-Type': 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
                         'Content-Disposition': `attachment; filename=END OF DAY ${dateFrom}.docx`
