@@ -1,4 +1,5 @@
 const Controller = require('../../lib/controller');
+const escape = require('../../lib/escape');
 const Customer = require('./customer-facade');
 const Sale = require('./../sale/sale-facade');
 
@@ -21,7 +22,7 @@ class CustomerController extends Controller {
         let query = {};
         if (req.query) {
             for (let key in req.query) {
-                query[key] = new RegExp(req.query[key], 'i');
+                query[key] = new RegExp(escape(req.query[key]), 'i');
             }
         }
         options.populate = [
