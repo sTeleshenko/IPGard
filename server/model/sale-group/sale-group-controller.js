@@ -149,7 +149,8 @@ class SaleGroupController extends Controller {
                 // fs.writeFileSync(path.resolve(__dirname + '/../../lib/', `END OF DAY ${dateFrom}.docx`), buf);
                 res.writeHead(200, {
                     'Content-Type': 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-                    'Content-Disposition': `attachment; filename=END OF DAY ${dateFrom}.docx`
+                    'Content-Disposition': `attachment; filename=END OF DAY ${dateFrom}.docx`,
+                    'filename': 'END OF DAY ${dateFrom}.docx'
                 });
                 res.end(buf);
             })
