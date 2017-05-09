@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
 
 var Controller = require('../../lib/controller');
+const escape = require('../../lib/escape');
 var SaleGroup = require('./sale-group-facade');
 var Sale = require('../sale/sale-facade');
 
@@ -55,7 +56,7 @@ class SaleGroupController extends Controller {
                     query.date = query.date || {};
                     query.date['$lte'] = req.query[key];
                 } else {
-                    query[key] = new RegExp(req.query[key], 'i');
+                    query[key] = new RegExp(escape(req.query[key]), 'i');
                 }
             }
         }

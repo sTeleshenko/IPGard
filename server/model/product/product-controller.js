@@ -1,4 +1,5 @@
 var Controller = require('../../lib/controller');
+const escape = require('../../lib/escape');
 var Product = require('./product-facade');
 var Document = require('./../document/document-facade');
 var Sale = require('./../sale/sale-facade');
@@ -23,7 +24,7 @@ class ProductController extends Controller {
         let query = {};
         if (req.query) {
             for (let key in req.query) {
-                query[key] = new RegExp(req.query[key], 'i');
+                query[key] = new RegExp(escape(req.query[key]), 'i');
             }
         }
         return this.model.paginate(query, options)

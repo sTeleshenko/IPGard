@@ -1,4 +1,5 @@
 const Controller = require('../../lib/controller');
+const escape = require('../../lib/escape');
 const Sale = require('./sale-facade');
 const Document = require('./../document/document-facade');
 const Product = require('./../product/product-facade');
@@ -88,17 +89,17 @@ class SaleController extends Controller {
                 if (key === 'product') {
                     query[key] = req.query[key];
                 } else if (key === 'model') {
-                    query['_productModel'] = new RegExp(req.query[key], 'i');
+                    query['_productModel'] = new RegExp(escape(req.query[key]), 'i');
                 } else if (key === 'partNumber') {
-                    query['_productPartNumber'] = new RegExp(req.query[key], 'i');
+                    query['_productPartNumber'] = new RegExp(escape(req.query[key]), 'i');
                 } else if (key === 'upc') {
-                    query['_productUpc'] = new RegExp(req.query[key], 'i');
+                    query['_productUpc'] = new RegExp(escape(req.query[key]), 'i');
                 } else if (key === 'description') {
-                    query['_productDescription'] = new RegExp(req.query[key], 'i');
+                    query['_productDescription'] = new RegExp(escape(req.query[key]), 'i');
                 } else if (key === 'customerName') {
-                    query['_customerName'] = new RegExp(req.query[key], 'i');
+                    query['_customerName'] = new RegExp(escape(req.query[key]), 'i');
                 } else if (key === 'resellerName') {
-                    query['_resellerName'] = new RegExp(req.query[key], 'i');
+                    query['_resellerName'] = new RegExp(escape(req.query[key]), 'i');
                 } else if (key === 'dateFrom') {
                     query.date = query.date || {};
                     query.date['$gte'] = req.query[key];
@@ -106,7 +107,7 @@ class SaleController extends Controller {
                     query.date = query.date || {};
                     query.date['$lte'] = req.query[key];
                 } else {
-                    query[key] = new RegExp(req.query[key], 'i');
+                    query[key] = new RegExp(escape(req.query[key]), 'i');
                 }
             }
         }

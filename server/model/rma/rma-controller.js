@@ -1,4 +1,5 @@
 const Controller = require('../../lib/controller');
+const escape = require('../../lib/escape');
 const Sale = require('../sale/sale-facade');
 const Rma = require('./rma-facade');
 const async = require('async');
@@ -58,7 +59,7 @@ class RmaController extends Controller {
                     date.setDate(date.getDate() + 1);
                     query.dateCreate['$lte'] = date;
                 } else {
-                    query[key] = new RegExp(req.query[key], 'i');
+                    query[key] = new RegExp(escape(req.query[key]), 'i');
                 }
             }
         }
