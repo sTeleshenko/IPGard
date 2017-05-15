@@ -411,11 +411,6 @@
 <script type="text/ng-template"
         id="serial-template.html">
   <a>
-    Serial Number: <span ng-bind-html="match.model.serialNumber | uibTypeaheadHighlight:query"></span><br>
-    Version: <span>{{match.model.version}}</span><br>
-    Sales Order: <span>{{match.model.salesOrder}}</span><br>
-    Date: <span>{{match.model.date | date: 'MM.dd.yyyy'}}</span><br>
-    Reseller: <span>{{match.model.reseller.name}}</span><br>
-    End User: <span>{{match.model.customer.name}}</span><br>
+    <span ng-bind-html="match.model.serialNumber | uibTypeaheadHighlight:query"></span>
   </a>
       </script>

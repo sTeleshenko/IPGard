@@ -230,10 +230,8 @@
 <script type="text/ng-template"
         id="product-template.html">
     <a>
-        Model name: <span ng-bind-html="match.model.model | uibTypeaheadHighlight:query"></span><br>
+        Model name: <span ng-bind-html="match.model.model | uibTypeaheadHighlight:query"></span> &nbsp;&nbsp;&nbsp;&nbsp;
         Part Number: <span>{{match.model.partNumber}}</span><br>
-        UPC: <span>{{match.model.upc}}</span><br>
-        Description: <span>{{match.model.description}}</span><br>
     </a>
 </script>
 <script type="text/ng-template"

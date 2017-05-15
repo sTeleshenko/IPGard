@@ -57,7 +57,7 @@
     vm.getCustomers = function (customerName) {
       var _query = {
           page: 1,
-          limit: 10,
+          limit: 10000000000,
           name: customerName
       };
 
@@ -71,7 +71,7 @@
     vm.getSerials = function (sn) {
         var _query = {
             page: 1,
-            limit: 10,
+            limit: 10000000000,
             serialNumber: sn
         };
         query = '?' + $httpParamSerializer(_query);

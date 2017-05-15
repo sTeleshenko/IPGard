@@ -89,7 +89,7 @@
         vm.getCustomers = function (customerName) {
             var _query = {
                 page: 1,
-                limit: 100000,
+                limit: 10000000000,
                 name: customerName
             };
             var query = '?' + $httpParamSerializer(_query);
@@ -114,7 +114,7 @@
         vm.getProducts = function (product) {
             var _query = {
                 page: 1,
-                limit: 100000,
+                limit: 10000000000,
                 model: product
             };
             var query = '?' + $httpParamSerializer(_query);
@@ -146,7 +146,7 @@
         vm.getSerials = function (product, sn) {
             var _query = {
                 page: 1,
-                limit: 10,
+                limit: 10000000000,
                 product: product._id,
                 serialNumber: sn
             };
@@ -174,6 +174,7 @@
         };
 
         vm.addProduct = function () {
+            if (!vm.product) return false;
             var product = {
                 model: vm.product
             };
