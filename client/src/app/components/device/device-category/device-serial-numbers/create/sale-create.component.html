@@ -63,6 +63,8 @@
              typeahead-loading="loadingResellers"
              typeahead-no-results="noResellerResults"
              typeahead-on-select="vm.onResellerChanged()"
+             typeahead-focus-on-select="false"
+             typeahead-min-length="0"
              class="form-control">
       <i ng-show="loadingResellers" class="glyphicon glyphicon-refresh"></i>
       <div ng-show="noResults">
@@ -81,6 +83,8 @@
              typeahead-loading="loadingCustomers"
              typeahead-no-results="noCustomerResults"
              typeahead-on-select="vm.onCustomerChanged()"
+             typeahead-focus-on-select="false"
+             typeahead-min-length="0"
              class="form-control">
       <i ng-show="loadingCustomers" class="glyphicon glyphicon-refresh"></i>
       <div ng-show="noResults">

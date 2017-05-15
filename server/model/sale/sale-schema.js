@@ -8,9 +8,9 @@ const Schema = mongoose.Schema;
 const saleSchema = new Schema({
     product: { type: mongoose.Schema.Types.ObjectId, ref: 'Product' },
     _productModel: { type: String, required: true },
-    _productPartNumber: { type: String, required: true },
-    _productUpc: { type: String, required: true },
-    _productDescription: { type: String, required: true },
+    _productPartNumber: { type: String, required: false },
+    _productUpc: { type: String, required: false },
+    _productDescription: { type: String, required: false },
     customer: { type: mongoose.Schema.Types.ObjectId, ref: 'Customer' },
     _customerName: {type: String, required: false, default: ''},
     reseller: { type: mongoose.Schema.Types.ObjectId, ref: 'Customer' },

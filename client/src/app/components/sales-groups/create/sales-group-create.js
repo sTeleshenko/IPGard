@@ -16,12 +16,14 @@
         SalesGroup,
         $state,
         $stateParams,
+        $uibModal,
+        StaticFields,
         $httpParamSerializer) {
         var vm = this;
         vm.$onInit = function () {
             vm.editMode = !!$stateParams.id;
 
-            if(vm.editMode){
+            if (vm.editMode) {
                 SalesGroup.getOne($stateParams.id)
                     .then(function (response) {
                         vm.salesGroup = response.data;
@@ -32,15 +34,62 @@
                         $state.go('salesGroups');
                     });
             } else {
-                vm.salesGroup = {};
+                vm.salesGroup = {
+                    date: new Date()
+                };
                 vm.salesGroup.items = [];
             }
+        };
+
+        vm.openCustomerModal = function (ev, modelKey) {
+            ev.preventDefault();
+            vm.loadCustomerFields()
+                .then(function (fields) {
+                    var customer = {};
+                    customer.fields = fields.map(function (item) {
+                        return {
+                            field: item
+                        }
+                    });
+                    return customer;
+                })
+                .then(function (customer) {
+                    return $uibModal.open({
+                        animation: true,
+                        component: 'createCustomerComponent',
+                        resolve: {
+                            customer: function () {
+                                return angular.copy(customer);
+                            }
+                        }
+                    });
+                })
+                .then(function (modalInstance) {
+                    modalInstance.result.then(function (customer) {
+                        vm.salesGroup[modelKey] = customer;
+                        if (modelKey === 'customer') {
+                            vm.onEndUserChanged();
+                        } else {
+                            vm.onResellerChanged();
+                        }
+                    });
+                });
+        };
+
+        vm.loadCustomerFields = function () {
+            return StaticFields.getFields('Customer')
+                .then(function (response) {
+                    return response.data;
+                })
+                .catch(function () {
+                    toastr.error('Something went wrong', 'Error');
+                });
         };
 
         vm.getCustomers = function (customerName) {
             var _query = {
                 page: 1,
-                limit: 10,
+                limit: 100000,
                 name: customerName
             };
             var query = '?' + $httpParamSerializer(_query);
@@ -65,7 +114,7 @@
         vm.getProducts = function (product) {
             var _query = {
                 page: 1,
-                limit: 10,
+                limit: 100000,
                 model: product
             };
             var query = '?' + $httpParamSerializer(_query);
@@ -77,11 +126,11 @@
         };
 
         vm.onProductChanged = function () {
-            if(!vm.product) return false;
+            if (!vm.product) return false;
             var selected = vm.salesGroup.items.some(function (item) {
                 return item.product._id === vm.product._id;
             });
-            if(!selected){
+            if (!selected) {
                 vm.salesGroup.items.push({
                     product: vm.product,
                     serials: []
@@ -110,11 +159,11 @@
         };
 
         vm.onSerialNumberChanged = function (item) {
-            if(!item.serialNumber) return false;
+            if (!item.serialNumber) return false;
             var selected = item.serials.some(function (serial) {
                 return serial._id === item.serialNumber._id;
             });
-            if(!selected) {
+            if (!selected) {
                 item.serials.push(item.serialNumber);
             }
             item.serialNumber = '';
@@ -122,6 +171,24 @@
 
         vm.deleteSerial = function (item, index) {
             item.serials.splice(index, 1);
+        };
+
+        vm.addProduct = function () {
+            var product = {
+                model: vm.product
+            };
+            Device.createDevice(product)
+                .then(function (response) {
+                    console.log(response)
+                    vm.salesGroup.items.push({
+                        product: response.data,
+                        serials: []
+                    });
+                    vm.product = '';
+                })
+                .catch(function () {
+                    toastr.error('Something went wrong', 'Error');
+                });
         };
 
         vm.addSerial = function (item) {

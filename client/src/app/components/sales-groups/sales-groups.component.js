@@ -8,7 +8,7 @@
         });
 
     /** @ngInject */
-    function salesGroupsComponent(SalesGroup, localStorageService, $httpParamSerializer, toastr, $uibModal) {
+    function salesGroupsComponent(SalesGroup, localStorageService, $httpParamSerializer, toastr, $uibModal, $filter) {
         var vm = this;
         vm.$onInit = function () {
             vm.salesGroups = [];
@@ -90,8 +90,17 @@
                     })
             });
         };
-        vm.downloadReport = function () {
-            var query = '?' + $httpParamSerializer(vm.filters);
+        vm.downloadReport = function (today) {
+            var query = '?'
+            if(today) {
+                var currentDate = new Date();
+                var filters = {
+                    dateFrom: new Date($filter('date')(currentDate, 'yyyy-MM-dd'))
+                };
+                query += $httpParamSerializer(filters);
+            } else {
+                query += $httpParamSerializer(vm.filters);
+            }
             var element = angular.element('<a/>');
             element.attr({
                 href: '/api/sales-group/export-report' + query + '&access_token=' + localStorageService.get('token'),

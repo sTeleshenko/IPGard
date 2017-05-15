@@ -26,6 +26,11 @@
                            placeholder="Tracking">
                 </div>
                 <div class="form-group form-group-sm with-autocomplete">
+
+                    <a href="#"
+                        ng-if="!vm.editMode"
+                       class="pull-right"
+                       ng-click="vm.openCustomerModal($event, 'reseller')">New</a>
                     <label for="reseller">Reseller:</label>
                     <input type="text"
                            typeahead-editable="false"
@@ -38,13 +43,20 @@
                            typeahead-loading="loadingCustomers"
                            typeahead-on-select="vm.onResellerChanged()"
                            typeahead-no-results="noResellersResults"
+                           typeahead-focus-on-select="false"
+                           typeahead-min-length="0"
                            class="form-control">
-                    <i ng-show="loadingResellers" class="glyphicon glyphicon-refresh"></i>
+                    <i ng-show="loadingResellers"
+                       class="glyphicon glyphicon-refresh"></i>
                     <div ng-show="noResellersResults">
                         <i class="glyphicon glyphicon-remove"></i> No Results Found
                     </div>
                 </div>
                 <div class="form-group form-group-sm with-autocomplete">
+                    <a href="#"
+                        ng-if="!vm.editMode"
+                       class="pull-right"
+                       ng-click="vm.openCustomerModal($event, 'customer')">New</a>
                     <label for="endUser">End User:</label>
                     <input type="text"
                            typeahead-editable="false"
@@ -57,8 +69,11 @@
                            typeahead-loading="loadingCustomers"
                            typeahead-on-select="vm.onEndUserChanged()"
                            typeahead-no-results="noEndUsersResults"
+                           typeahead-focus-on-select="false"
+                           typeahead-min-length="0"
                            class="form-control">
-                    <i ng-show="loadingEndUsers" class="glyphicon glyphicon-refresh"></i>
+                    <i ng-show="loadingEndUsers"
+                       class="glyphicon glyphicon-refresh"></i>
                     <div ng-show="noEndUsersResults">
                         <i class="glyphicon glyphicon-remove"></i> No Results Found
                     </div>
@@ -76,7 +91,7 @@
                                popup-placement="auto"
                                is-open="openDate"
                                close-text="Close"
-                               placeholder="Date"/>
+                               placeholder="Date" />
                         <span class="input-group-btn">
             <button type="button"
                     class="btn btn-default btn-sm"
@@ -85,8 +100,12 @@
           </span>
                     </p>
                 </div>
-                <div class="text-right" ng-if="!vm.editMode">
-                    <button type="submit" class="btn btn-sm btn-primary">Save</button>
+                <div class="text-right"
+                     ng-if="!vm.editMode">
+                    <button type="submit"
+                            class="btn btn-sm btn-primary">Save</button>
+                    <a ui-sref="salesGroups"
+                       class="btn btn-sm btn-warning">Cancel</button>
                 </div>
             </fieldset>
         </div>
@@ -99,7 +118,7 @@
                 <div class="form-group form-group-sm with-autocomplete" ng-if="!vm.editMode">
                     <label for="products">Select Device:</label>
                     <input type="text"
-                           typeahead-editable="false"
+                           typeahead-editable="true"
                            id="products"
                            ng-model="vm.product"
                            ng-model-options="{debounce: 300}"
@@ -109,10 +128,15 @@
                            typeahead-template-url="product-template.html"
                            typeahead-no-results="noProductsResults"
                            typeahead-on-select="vm.onProductChanged()"
+                           typeahead-focus-on-select="false"
+                           typeahead-min-length="0"
                            class="form-control">
                     <i ng-show="loadingProducts" class="glyphicon glyphicon-refresh"></i>
-                    <div ng-show="noProductsResults">
-                        <i class="glyphicon glyphicon-remove"></i> No Results Found
+                    <div ng-show="noProductsResults && vm.product" class="no-results">
+                        No Results Found
+                                <button type="button"
+                                        ng-click="vm.addProduct(vm.product)"
+                                        class="btn btn-primary btn-sm">Create</button>
                     </div>
                 </div>
 
@@ -162,6 +186,8 @@
                                    typeahead-template-url="serial-template.html"
                                    typeahead-no-results="item.noSerialsResults"
                                    typeahead-on-select="vm.onSerialNumberChanged(item)"
+                                   typeahead-focus-on-select="false"
+                                   typeahead-min-length="0"
                                    class="form-control">
                             <i ng-show="loadingSerials" class="glyphicon glyphicon-refresh"></i>
                             <div ng-show="item.noSerialsResults && item.serialNumber" class="no-results">
@@ -182,25 +208,27 @@
                             <tr ng-repeat="serial in item.serials">
                                 <td ng-if="!vm.editMode">{{serial.serialNumber}}</td>
                                 <td ng-if="vm.editMode"><a ui-sref="device.serialNumbers({id: item.product._id, serialNumber: serial.serialNumber})">{{serial.serialNumber}}</a></td>
-                                <td class="text-center" ng-if="!vm.editMode">
-                                    <button type="button"
-                                            ng-click="vm.deleteSerial(item, $index)"
-                                            class="btn btn-danger btn-sm">
+                    <td class="text-center"
+                        ng-if="!vm.editMode">
+                        <button type="button"
+                                ng-click="vm.deleteSerial(item, $index)"
+                                class="btn btn-danger btn-sm">
                                         <span class="glyphicon glyphicon-trash"></span>
                                     </button>
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="clearfix"></div>
+                    </td>
+                    </tr>
+                    </tbody>
+                    </table>
                 </div>
-            </fieldset>
+                <div class="clearfix"></div>
         </div>
+        </fieldset>
+    </div>
     </div>
 </form>
 
-<script type="text/ng-template" id="product-template.html">
+<script type="text/ng-template"
+        id="product-template.html">
     <a>
         Model name: <span ng-bind-html="match.model.model | uibTypeaheadHighlight:query"></span><br>
         Part Number: <span>{{match.model.partNumber}}</span><br>
@@ -208,7 +236,8 @@
         Description: <span>{{match.model.description}}</span><br>
     </a>
 </script>
-<script type="text/ng-template" id="serial-template.html">
+<script type="text/ng-template"
+        id="serial-template.html">
     <a>
         <span>
             Serial Number: <span ng-bind-html="match.model.serialNumber | uibTypeaheadHighlight:query"></span><br>
