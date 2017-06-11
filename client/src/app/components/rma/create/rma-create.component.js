@@ -58,7 +58,8 @@
       var _query = {
           page: 1,
           limit: 10000000000,
-          name: customerName
+          name: customerName,
+          sort: 'name'
       };
 
       query = '?' + $httpParamSerializer(_query);
@@ -72,7 +73,8 @@
         var _query = {
             page: 1,
             limit: 10000000000,
-            serialNumber: sn
+            serialNumber: sn,
+            sort: 'serialNumber'
         };
         query = '?' + $httpParamSerializer(_query);
       return Sales.getAll(query)

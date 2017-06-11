@@ -90,7 +90,8 @@
             var _query = {
                 page: 1,
                 limit: 10000000000,
-                name: customerName
+                name: customerName,
+                sort: 'name'
             };
             var query = '?' + $httpParamSerializer(_query);
             // var query = '?page=1&limit=10&name=' + customerName;
@@ -115,7 +116,8 @@
             var _query = {
                 page: 1,
                 limit: 10000000000,
-                model: product
+                model: product,
+                sort: 'model'
             };
             var query = '?' + $httpParamSerializer(_query);
             // var query = '?page=1&limit=10&model=' + product;
@@ -148,7 +150,8 @@
                 page: 1,
                 limit: 10000000000,
                 product: product._id,
-                serialNumber: sn
+                serialNumber: sn,
+                sort: 'serialNumber'
             };
             var query = '?' + $httpParamSerializer(_query);
             // var query = '?page=1&limit=10&product=' + product._id +'&serialNumber=' + sn;
@@ -180,7 +183,6 @@
             };
             Device.createDevice(product)
                 .then(function (response) {
-                    console.log(response)
                     vm.salesGroup.items.push({
                         product: response.data,
                         serials: []

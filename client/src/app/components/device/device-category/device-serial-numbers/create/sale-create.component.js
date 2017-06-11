@@ -59,8 +59,9 @@
         vm.getCustomers = function (customerName) {
             var _query = {
                 page: 1,
-                limit: 10,
-                name: customerName
+                limit: 10000000000,
+                name: customerName,
+                sort: 'name'
             };
             var query = '?' + $httpParamSerializer(_query);
             // var query = '?page=1&limit=10&name=' + customerName;
