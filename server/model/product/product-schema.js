@@ -7,6 +7,7 @@ const productSchema = new Schema({
     partNumber: String,
     upc: String,
     description: String,
+    inStock: { type: Number, default: 0 },
     dateCreate: { type: Date, default: Date.now }
 });
 
