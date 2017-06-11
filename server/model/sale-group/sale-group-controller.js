@@ -38,6 +38,32 @@ class SaleGroupController extends Controller {
             .catch(err => next(err));
     }
 
+    update(req, res, next) {
+        let group = req.body;
+        group._resellerName = group.reseller.name;
+        group._customerName = group.customer.name;
+        let conditions = {};
+        conditions.salesOrder = group.salesOrder;
+        conditions.date = group.date;
+        conditions.reseller = group.reseller;
+        conditions._resellerName = group.reseller.name;
+        conditions.customer = group.customer;
+        conditions._customerName = group.customer.name;
+        let serials = [];
+        group.items.forEach(item => {
+            item.serials.forEach(serial => {
+                serials.push(mongoose.Types.ObjectId(serial._id));
+            });
+        });
+        this.model.update({ _id: req.params.id}, group)
+            .then((result) => {
+                return Sale.update({ '_id': { $in: serials } }, conditions)
+                    .then(() => result)
+            })
+            .then((result) => res.status(201).json(result))
+            .catch(err => next(err));
+    }
+
     find(req, res, next) {
         let options = {};
         if (req.query.sort) {
