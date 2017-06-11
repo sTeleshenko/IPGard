@@ -20,6 +20,12 @@
             ng-show="vm.sortFilters.sort === 'upc'"></span>
     </th>
     <th ng-click="vm.onSortFiltersChanged({key: 'description'})">
+      Quantity in Stock
+      <span class="glyphicon glyphicon-triangle-bottom"
+            ng-class="{reverse: vm.sortFilters.order}"
+            ng-show="vm.sortFilters.sort === 'inStock'"></span>
+    </th>
+    <th ng-click="vm.onSortFiltersChanged({key: 'description'})">
       Description
       <span class="glyphicon glyphicon-triangle-bottom"
             ng-class="{reverse: vm.sortFilters.order}"
@@ -33,6 +39,7 @@
       <td><a ui-sref="device({id: device._id})">{{device.model}}</a></td>
       <td>{{device.partNumber}}</td>
       <td>{{device.upc}}</td>
+      <td>{{device.inStock}}</td>
       <td>{{device.description}}</td>
       <td class="col-actions no-print"
           has-role="['admin', 'productionAdmin']">

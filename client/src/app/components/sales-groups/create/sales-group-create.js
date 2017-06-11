@@ -167,12 +167,14 @@
                 return serial._id === item.serialNumber._id;
             });
             if (!selected) {
+                item.product.inStock--;
                 item.serials.push(item.serialNumber);
             }
             item.serialNumber = '';
         };
 
         vm.deleteSerial = function (item, index) {
+            item.product.inStock++;
             item.serials.splice(index, 1);
         };
 
@@ -202,23 +204,45 @@
             item.serialNumber = '';
             Sales.createSale(serial)
                 .then(function (response) {
+                    item.product.inStock--;
                     item.serials.push(response.data);
                 })
                 .catch(function () {
                     toastr.error('Something went wrong', 'Error');
                 });
         };
+        vm.changeQuantity = function (item) {
+            var modalInstance = $uibModal.open({
+                animation: true,
+                component: 'quantityChangeComponent'
+            });
+            modalInstance.result.then(function (result){
+                item.inStock = result;
+            })
+        };
 
         vm.save = function () {
-            SalesGroup.create(vm.salesGroup)
-                .then(function () {
-                    toastr.success('Sales Order successfully created', 'Success');
-                    $state.go('salesGroups')
+            if(!vm.editMode){
+                SalesGroup.create(vm.salesGroup)
+                    .then(function () {
+                        toastr.success('Sales Order successfully created', 'Success');
+                        $state.go('salesGroups')
 
-                })
-                .catch(function () {
-                    toastr.error('Something went wrong', 'Error');
-                });
+                    })
+                    .catch(function () {
+                        toastr.error('Something went wrong', 'Error');
+                    });
+            } else {
+                SalesGroup.update($stateParams.id, vm.salesGroup)
+                    .then(function () {
+                        toastr.success('Sales Order successfully updated', 'Success');
+                        $state.go('salesGroups')
+
+                    })
+                    .catch(function () {
+                        toastr.error('Something went wrong', 'Error');
+                    });
+            }
         }
 
     }

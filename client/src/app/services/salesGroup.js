@@ -10,6 +10,9 @@
         self.create = function (salesGroup) {
             return $http.post('/api/sales-group', salesGroup);
         };
+        self.update = function (id, salesGroup) {
+            return $http.put('/api/sales-group/' + id, salesGroup)
+        };
         self.getAll = function (query) {
             return $http.get('api/sales-group' + query);
         };

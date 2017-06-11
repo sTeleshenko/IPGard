@@ -3,8 +3,7 @@
       autocomplete="off">
     <div class="row">
         <div class="col-md-3">
-            <fieldset name="basic"
-                      ng-disabled="vm.editMode">
+            <fieldset name="basic">
                 <legend>Order Info</legend>
                 <div class="form-group form-group-sm">
                     <label for="salesOrder">Sales Order:</label>
@@ -28,7 +27,6 @@
                 <div class="form-group form-group-sm with-autocomplete">
 
                     <a href="#"
-                        ng-if="!vm.editMode"
                        class="pull-right"
                        ng-click="vm.openCustomerModal($event, 'reseller')">New</a>
                     <label for="reseller">Reseller:</label>
@@ -54,7 +52,6 @@
                 </div>
                 <div class="form-group form-group-sm with-autocomplete">
                     <a href="#"
-                        ng-if="!vm.editMode"
                        class="pull-right"
                        ng-click="vm.openCustomerModal($event, 'customer')">New</a>
                     <label for="endUser">End User:</label>
@@ -91,7 +88,7 @@
                                popup-placement="auto"
                                is-open="openDate"
                                close-text="Close"
-                               placeholder="Date" />
+                               placeholder="Date"/>
                         <span class="input-group-btn">
             <button type="button"
                     class="btn btn-default btn-sm"
@@ -100,10 +97,10 @@
           </span>
                     </p>
                 </div>
-                <div class="text-right"
-                     ng-if="!vm.editMode">
+                <div class="text-right">
                     <button type="submit"
-                            class="btn btn-sm btn-primary">Save</button>
+                            class="btn btn-sm btn-primary">Save
+                    </button>
                     <a ui-sref="salesGroups"
                        class="btn btn-sm btn-warning">Cancel</button>
                 </div>
@@ -111,11 +108,10 @@
         </div>
         <div class="col-md-9">
 
-            <fieldset name="products"
-                      ng-disabled="vm.editMode">
+            <fieldset name="products">
                 <legend>Devices</legend>
 
-                <div class="form-group form-group-sm with-autocomplete" ng-if="!vm.editMode">
+                <div class="form-group form-group-sm with-autocomplete">
                     <label for="products">Select Device:</label>
                     <input type="text"
                            typeahead-editable="true"
@@ -134,21 +130,30 @@
                     <i ng-show="loadingProducts" class="glyphicon glyphicon-refresh"></i>
                     <div ng-show="noProductsResults && vm.product" class="no-results">
                         No Results Found
-                                <button type="button"
-                                        ng-click="vm.addProduct(vm.product)"
-                                        class="btn btn-primary btn-sm">Create</button>
+                        <button type="button"
+                                ng-click="vm.addProduct(vm.product)"
+                                class="btn btn-primary btn-sm">Create
+                        </button>
                     </div>
                 </div>
 
 
                 <div class="card" ng-repeat="item in vm.salesGroup.items">
                     <button class="delete-card"
-                            ng-if="!vm.editMode"
                             ng-click="vm.deleteProduct($index)"
                             type="button">
                         <span class="glyphicon glyphicon-remove">
                         </span>
                     </button>
+                    <div class="col-md-12">
+                        <div ng-show="item.product.inStock === 0" class="no-results">
+                            Before adding serial numbers to the order, specify the quantity in stock
+                            <button type="button"
+                                    ng-click="vm.changeQuantity(item)"
+                                    class="btn btn-primary btn-sm">Add
+                            </button>
+                        </div>
+                    </div>
                     <div class="col-md-6">
                         <h4>Device Info</h4>
                         <table class="table table-bordered">
@@ -166,6 +171,10 @@
                                 <td>{{item.product.upc}}</td>
                             </tr>
                             <tr>
+                                <td><b>Quantity in Stock:</b></td>
+                                <td>{{item.product.inStock}}</td>
+                            </tr>
+                            <tr>
                                 <td><b>Description:</b></td>
                                 <td>{{item.product.description}}</td>
                             </tr>
@@ -174,9 +183,10 @@
                     </div>
                     <div class="col-md-6">
                         <h4>Serial Numbers</h4>
-                        <div class="form-group form-group-sm with-autocomplete" ng-if="!vm.editMode">
+                        <div class="form-group form-group-sm with-autocomplete">
                             <input type="text"
                                    typeahead-editable="true"
+                                   ng-disabled="item.product.inStock === 0"
                                    id="serialNumber"
                                    ng-model="item.serialNumber"
                                    ng-model-options="{debounce: 300}"
@@ -194,36 +204,39 @@
                                 No Results Found
                                 <button type="button"
                                         ng-click="vm.addSerial(item)"
-                                        class="btn btn-primary btn-sm">Create</button>
+                                        class="btn btn-primary btn-sm">Create
+                                </button>
                             </div>
                         </div>
                         <table class="table table-bordered" ng-if="item.serials.length">
                             <thead>
                             <tr>
                                 <th>Serial Number</th>
-                                <th class="col-actions" ng-if="!vm.editMode">Actions</th>
+                                <th class="col-actions">Actions</th>
                             </tr>
                             </thead>
                             <tbody>
                             <tr ng-repeat="serial in item.serials">
-                                <td ng-if="!vm.editMode">{{serial.serialNumber}}</td>
-                                <td ng-if="vm.editMode"><a ui-sref="device.serialNumbers({id: item.product._id, serialNumber: serial.serialNumber})">{{serial.serialNumber}}</a></td>
-                    <td class="text-center"
-                        ng-if="!vm.editMode">
-                        <button type="button"
-                                ng-click="vm.deleteSerial(item, $index)"
-                                class="btn btn-danger btn-sm">
+                                <!--<td ng-if="!vm.editMode">{{serial.serialNumber}}</td>-->
+                                <!--<td ng-if="vm.editMode"><a ui-sref="device.serialNumbers({id: item.product._id, serialNumber: serial.serialNumber})">{{serial.serialNumber}}</a></td>-->
+                                <td>
+                                    <a ui-sref="device.serialNumbers({id: item.product._id, serialNumber: serial.serialNumber})">{{serial.serialNumber}}</a>
+                                </td>
+                                <td class="text-center">
+                                    <button type="button"
+                                            ng-click="vm.deleteSerial(item, $index)"
+                                            class="btn btn-danger btn-sm">
                                         <span class="glyphicon glyphicon-trash"></span>
                                     </button>
-                    </td>
-                    </tr>
-                    </tbody>
-                    </table>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="clearfix"></div>
                 </div>
-                <div class="clearfix"></div>
+            </fieldset>
         </div>
-        </fieldset>
-    </div>
     </div>
 </form>
 

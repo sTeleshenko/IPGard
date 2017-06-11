@@ -1,0 +1,21 @@
+<form ng-submit="save()" name="vm.form">
+    <div class="modal-header">
+        <h4>Enter Value</h4>
+    </div>
+    <div class="modal-body">
+        <div class="form-group">
+            <label for="quantity">Quantity in Stock</label>
+            <input type="number"
+                   ng-model="vm.quantity"
+                   id="quantity"
+                   name="quantity"
+                   class="form-control"
+                   required
+                   placeholder="Quantity in Stock">
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-primary" ng-disabled="vm.form.$invalid">Save</button>
+        <button type="button" class="btn btn-warning" ng-click="vm.cancel()">Cancel</button>
+    </div>
+</form>

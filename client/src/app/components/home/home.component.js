@@ -12,7 +12,6 @@
     var vm = this;
 
     vm.$onInit = function () {
-      // Device.generate();
       vm.devices = [];
       vm.sortFilters = localStorageService.get('deviceSortFilters') || {
         sort: 'model',
