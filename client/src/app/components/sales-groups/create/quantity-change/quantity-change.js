@@ -15,5 +15,13 @@
     function quantityChangeComponent() {
         var vm = this;
 
+        vm.save = function () {
+            vm.close({$value: vm.quantity});
+        };
+
+        vm.cancel = function () {
+            vm.dismiss({$value: 'cancel'});
+        };
+
     }
 })();

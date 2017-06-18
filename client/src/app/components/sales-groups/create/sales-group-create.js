@@ -211,13 +211,13 @@
                     toastr.error('Something went wrong', 'Error');
                 });
         };
-        vm.changeQuantity = function (item) {
+        vm.changeQuantity = function (device) {
             var modalInstance = $uibModal.open({
                 animation: true,
                 component: 'quantityChangeComponent'
             });
             modalInstance.result.then(function (result){
-                item.inStock = result;
+                device.product.inStock = result;
             })
         };
 

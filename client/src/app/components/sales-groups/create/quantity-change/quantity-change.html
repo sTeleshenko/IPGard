@@ -1,4 +1,4 @@
-<form ng-submit="save()" name="vm.form">
+<form ng-submit="vm.save()" name="vm.form">
     <div class="modal-header">
         <h4>Enter Value</h4>
     </div>
@@ -6,6 +6,7 @@
         <div class="form-group">
             <label for="quantity">Quantity in Stock</label>
             <input type="number"
+                   min="0"
                    ng-model="vm.quantity"
                    id="quantity"
                    name="quantity"
