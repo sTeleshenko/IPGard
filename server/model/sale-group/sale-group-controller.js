@@ -4,6 +4,7 @@ var Controller = require('../../lib/controller');
 const escape = require('../../lib/escape');
 var SaleGroup = require('./sale-group-facade');
 var Sale = require('../sale/sale-facade');
+const Product = require('./../product/product-facade');
 
 var JSZip = require('jszip');
 var Docxtemplater = require('docxtemplater');
@@ -34,6 +35,21 @@ class SaleGroupController extends Controller {
                 return Sale.update({ '_id': { $in: serials } }, conditions)
                     .then(() => result)
             })
+            .then((result) => {
+                return new Promise((resolve, reject) => {
+                    let updatedCount = 0;
+                    group.items.forEach(item => {
+                        Product.update({ '_id': item.product._id }, { inStock: item.product.inStock })
+                            .then(() => {
+                                updatedCount++;
+                                if(updatedCount === group.items.length) {
+                                    resolve();
+                                }
+                            });
+                    });
+                })
+                .then(() => result);
+            })
             .then((result) => res.status(201).json(result))
             .catch(err => next(err));
     }
@@ -59,6 +75,21 @@ class SaleGroupController extends Controller {
             .then((result) => {
                 return Sale.update({ '_id': { $in: serials } }, conditions)
                     .then(() => result)
+            })
+            .then((result) => {
+                return new Promise((resolve, reject) => {
+                    let updatedCount = 0;
+                    group.items.forEach(item => {
+                        Product.update({ '_id': item.product._id }, { inStock: item.product.inStock })
+                            .then(() => {
+                                updatedCount++;
+                                if(updatedCount === group.items.length) {
+                                    resolve();
+                                }
+                            });
+                    });
+                })
+                .then(() => result);
             })
             .then((result) => res.status(201).json(result))
             .catch(err => next(err));
