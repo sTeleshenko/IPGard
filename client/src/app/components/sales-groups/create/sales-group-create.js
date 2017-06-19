@@ -137,6 +137,7 @@
                     product: vm.product,
                     serials: []
                 });
+                vm.chekProductsValidity();
             }
             vm.product = '';
         };
@@ -171,11 +172,19 @@
                 item.serials.push(item.serialNumber);
             }
             item.serialNumber = '';
+            vm.chekProductsValidity();
         };
+
+        vm.chekProductsValidity = function () {
+            vm.hasInvalidItem = vm.salesGroup.items.filter(function (item) {
+                return item.serials.length === 0;
+            }).length !== 0;
+        }
 
         vm.deleteSerial = function (item, index) {
             item.product.inStock++;
             item.serials.splice(index, 1);
+            vm.chekProductsValidity();
         };
 
         vm.addProduct = function () {
@@ -190,6 +199,7 @@
                         serials: []
                     });
                     vm.product = '';
+                    vm.chekProductsValidity();
                 })
                 .catch(function () {
                     toastr.error('Something went wrong', 'Error');
@@ -206,6 +216,7 @@
                 .then(function (response) {
                     item.product.inStock--;
                     item.serials.push(response.data);
+                    vm.chekProductsValidity();
                 })
                 .catch(function () {
                     toastr.error('Something went wrong', 'Error');
@@ -216,13 +227,13 @@
                 animation: true,
                 component: 'quantityChangeComponent'
             });
-            modalInstance.result.then(function (result){
+            modalInstance.result.then(function (result) {
                 device.product.inStock = result;
             })
         };
 
         vm.save = function () {
-            if(!vm.editMode){
+            if (!vm.editMode) {
                 SalesGroup.create(vm.salesGroup)
                     .then(function () {
                         toastr.success('Sales Order successfully created', 'Success');
